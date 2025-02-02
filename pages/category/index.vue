@@ -1,5 +1,5 @@
 <template>
-  <div class="q-gutter-sm">
+  <div>
     <!-- Page Title -->
     <q-card>
       <q-card-section class="q-pa-none">
