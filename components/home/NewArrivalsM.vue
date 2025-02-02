@@ -3,7 +3,7 @@
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
         <NuxtLink to="/new-arrivals" aria-label="New Arrivals" title="New Arrivals" style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize  text-weight-medium q-my-sm">
+          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             New Arrivals
           </h3>
         </NuxtLink>
@@ -38,7 +38,7 @@
           :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
           <div v-for="(item, index) in response.data" :key="index" class="col-2">
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
-              class="">
+              class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
                 <q-card-section class="row q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif"
@@ -51,8 +51,11 @@
                 <div v-if="item.fg_view > 0" size="xs"
                   class="absolute row justify-center items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
-                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                  <p class=" text-caption q-ma-none">
+                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs"/>
+                    <!-- <q-chip dense square size="lg" icon="trending_up" icon-color="primary" class="bg-white text-primary">
+                    {{ viewCount(item.fg_view) }}
+                  </q-chip> -->
+                  <p class="text-caption q-ma-none text-primary">
                     {{ viewCount(item.fg_view) }}
                   </p>
                 </div>

@@ -4,7 +4,7 @@
     <q-card>
       <q-card-section class="q-pa-none">
         <div class="q-pa-xs gradient-h">
-          <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center">
+          <h1 class="text-h5 text-uppercase text-weight-medium text-center">
             Categories of Womanish
           </h1>
         </div>
@@ -12,21 +12,24 @@
       <q-card-section class="q-pa-none">
         <div v-if="status === 'pending'">
           <q-card flat square class="gradient q-pa-none">
-            <div class="row q-pa-sm q-gutter-sm flex-center">
-              <div v-for="item in 6" :key="item" class="col-3">
-                <q-card class="shadow-5 q-pa-none overflow-hidden">
-                  <NuxtImg loading="lazy" rounded width="96" height="96" class="fit" src="/placeholder.gif" />
+            <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
+            <div v-for="item in 6" :key="item" class="col-4">
+              <NuxtLink  class="text-black" style="text-decoration: none">
+                <q-card class="shadow-5 q-pa-none">
+                  <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
+                    src="/placeholder.gif" />
                   <p
-                    class="text-body2 text-weight-regular text-primary text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
-                    <q-skeleton type="text" width="100px"></q-skeleton>
+                    class="text-body2 text-weight-regular text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
+                    <q-skeleton type="text"></q-skeleton>
                   </p>
                 </q-card>
-              </div>
+              </NuxtLink>
             </div>
+          </div>
           </q-card>
           <div v-for="child in 1" :key="child">
             <q-card flat square class="q-mt-sm gradient">
-              <div class="items-center justify-evenly row q-pt-sm q-pb-xs">
+              <div class="row justify-evenly row q-pt-sm q-pb-xs">
                 <div class="text-primary text-h6 text-weight-medium text-capitalize">
                   <q-skeleton type="text" width="100px"></q-skeleton>
                 </div>
@@ -64,7 +67,7 @@
                     :src="item.fg_category_icon ? item.fg_category_icon : `https://dummyimage.com/96x96/d4d4d4/000.jpg&text=${item.fg_category_name}`"
                     :title="item.fg_category_name" :alt="item.fg_category_name" />
                   <p
-                    class="text-body2 text-weight-regular text-primary text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
+                    class="text-body2 text-weight-regular text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
                     {{ item.fg_category_name }}
                   </p>
                 </q-card>
@@ -76,7 +79,7 @@
               <q-card-section class="row justify-between gradient-h q-py-none">
                 <NuxtLink :to="`/category/${child.fg_category_url}`" :aria-label="child.fg_category_name"
                   :title="child.fg_category_name" style="text-decoration: none">
-                  <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+                  <h3 class="text-h5 text-capitalize text-weight-medium q-my-sm">
                     {{ child.fg_category_name }}
                   </h3>
                 </NuxtLink>
@@ -84,10 +87,10 @@
                   icon="more_vert" :aria-label="child.fg_category_name" />
               </q-card-section>
               <q-separator />
-              <div class="row q-px-sm q-pt-sm q-col-gutter-sm justify-center">
+              <div class="row justify-center q-px-sm q-pt-sm q-col-gutter-sm">
                 <div v-for="(item, index) in child.products
                   .slice(0, 6)" :key="item" class="col-6">
-                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
+                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none">
                     <q-card class="shadow-5 overflow-hidden q-pb-none">
                       <q-card-section class="q-pa-none border-bottom row">
                         <NuxtImg loading="lazy" placeholder="/placeholder.gif" class="fit" width="150" height="200"
@@ -100,31 +103,36 @@
                         class="absolute row items-center bg-transparent text-caption text-weight-medium"
                         style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                        <span class="text-primary text-caption">
+                        <p class=" text-caption q-ma-none">
                           {{ viewCount(item.fg_view) }}
-                        </span>
+                        </p>
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
-                        <div class="ellipsis-2-lines" style="height: 48px">
-                          <h4 class="text-subtitle2 q-ma-none">
-                            {{ item.acc_ledger_name }}
+                        <div style="height: 48px">
+                          <h4 class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-ma-none">
+                            <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
+                            <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
+                              {{ item.acc_ledger_name }}
+                            </span>
                           </h4>
                         </div>
-                        <div class="items-baseline justify-between row">
+                        <div class="row justify-between items-baseline">
                           <div v-if="
                             item.fg_discount > 0 &&
                             inDateRange(
                               item.fg_discount_start_date,
                               item.fg_discount_end_date
                             )
-                          " class="text-caption text-bold text-uppercase">
-                            -{{ item.fg_discount }}%
+                          " class="text-caption text-bold  text-uppercase">
+                            <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                           </div>
                           <q-space />
-                          <div class="text-subtitle2 text-weight-medium">
-                            {{ config.public.currencyBefore }}
-                            {{ formatMoney(item.fg_up_final * 1.0) }}
-                            {{ config.public.currencyAfter }}
+                          <div class="text-body2 text-weight-medium">
+                            <p class="q-ma-none">
+                              {{ config.public.currencyBefore }}
+                              {{ formatMoney(item.fg_up_final * 1.0) }}
+                              {{ config.public.currencyAfter }}
+                            </p>
                           </div>
                         </div>
                       </q-card-section>
