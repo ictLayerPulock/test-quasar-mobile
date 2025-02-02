@@ -75,7 +75,7 @@
                         item.fg_discount_start_date,
                         item.fg_discount_end_date
                       )
-                    " class="text-caption text-bold  text-uppercase">
+                    " class="text-caption text-bold text-primary text-uppercase">
                       <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                     </div>
                     <q-space />

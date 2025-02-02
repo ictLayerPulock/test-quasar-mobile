@@ -3,7 +3,7 @@
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/most-popular" aria-label="Most Popular" title="Most Popular" style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize  text-weight-medium q-my-sm">
+          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             Most Popular
           </h3>
         </NuxtLink>
@@ -37,7 +37,7 @@
           :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
           <div v-for="(item, index) in response.data" :key="index" class="col-2">
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
-              class="">
+              class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
                 <q-card-section class="row q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif"
@@ -50,32 +50,32 @@
                 <div v-if="item.fg_view > 0" size="xs"
                   class="absolute row items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
-                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                  <span class=" text-caption">
+                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs"/>
+                  <p class="text-caption q-ma-none text-primary">
                     {{ viewCount(item.fg_view) }}
-                  </span>
+                  </p>
                 </div>
                 <q-card-section class="q-pa-sm q-gutter-xs">
                   <div style="height: 48px">
                     <h4 class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-ma-none">
                       <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
+                      <span v-else class="text-subtitle2">
                         {{ item.acc_ledger_name }}
                       </span>
                     </h4>
                   </div>
-                  <div class="row justify-between items-baseline">
+                  <div class="items-baseline justify-between row">
                     <div v-if="
                       item.fg_discount > 0 &&
                       inDateRange(
                         item.fg_discount_start_date,
                         item.fg_discount_end_date
                       )
-                    " class="text-caption text-bold  text-uppercase">
-                      -{{ item.fg_discount }}%
+                    " class="text-caption text-bold text-primary text-uppercase">
+                       <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                     </div>
                     <q-space />
-                    <div class="text-body2 text-weight-medium">
+                    <div class="text-subtitle2 text-weight-medium">
                       {{ config.public.currencyBefore }}
                       {{ formatMoney(item.fg_up_final * 1.0) }}
                       {{ config.public.currencyAfter }}

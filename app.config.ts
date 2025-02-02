@@ -6,8 +6,8 @@ export default defineAppConfig({
     nuxtQuasar: {
         sassVariables: true,
         brand: {
-            primary: "#d60000",
-            secondary: "#00a3a3",
+            primary: "#e30000",
+            secondary: "#ff3d3d",
             accent: "#00a300",
             dark: "#000000",
             positive: "#21ba45",

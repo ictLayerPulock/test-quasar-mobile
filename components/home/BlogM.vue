@@ -3,15 +3,15 @@
         <q-card v-if="status != 'pending'" flat square class="bg-grey-2">
             <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
                 <NuxtLink to="/blog" aria-label="Blog" title="Blog" style="text-decoration: none">
-                    <h3 class="text-h5 text-capitalize  text-weight-medium q-my-sm">
+                    <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
                         Blog
-                    </h3>
+                    </h5>
                 </NuxtLink>
                 <q-btn to="/blog" color="primary" flat padding="sm" dense size="md" icon="more_vert"
                     aria-label="Blog" />
             </q-card-section>
             <q-separator />
-            <q-scroll-area style="height: 273px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+            <q-scroll-area style="height: 280px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
                 <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm" style="width: 890px">
                     <div v-for="item in 6" :key="item" class="col-2">
                         <q-card class="shadow-5 bg-grey-1">
@@ -34,12 +34,12 @@
                         </q-card>
                     </div>
                 </q-card-section>
-                <q-card-section v-else class="row q-px-sm q-pt-sm q-pb-none q-col-gutter-sm" style="width: 890px">
+                <q-card-section v-else class="row q-pa-sm q-col-gutter-sm" style="width: 890px">
                     <div v-for="blog in response.data" :key="blog">
                         <NuxtLink :to="`/blog/${blog.blog_url}`" :aria-label="blog.blog_title"
-                            style="text-decoration: none" class="">
+                            style="text-decoration: none" class=" text-secondary">
                             <q-card class="shadow-5 overflow-hidden" style="width:165px">
-                                <q-card-section class="q-pa-none border-bottom row">
+                                <q-card-section class="q-pa-none border-bottom">
                                     <NuxtImg loading="lazy" width="165" height="165" format="webp" quality="50"
                                         :draggable="false" placeholder="/placeholder.gif" :src="blog.blog_image"
                                         :alt="blog.blog_title" :title="blog.blog_title" />
@@ -47,21 +47,22 @@
                                 <q-card-section class="q-pa-sm">
                                     <div class="text-body2 text-weight-regular ellipsis-2-lines text-capitalize"
                                         style="height: 38px">
-                                        {{ blog.blog_title }}
+                                        <p class="q-ma-none">{{ blog.blog_title }}</p>
                                     </div>
                                 </q-card-section>
                                 <q-card-section class="q-pa-sm">
-                                    <div class="items-center justify-between row">
-                                        <div class="items-center justify-start row ">
+                                    <div class="row items-center justify-between">
+                                        <div class="row items-center justify-start">
                                             <q-icon name="schedule" class="q-mr-xs" left />
                                             <div class="text-caption">
-                                                <span class=" text-capitalize">
+                                                <span class="text-primary text-capitalize">
                                                     {{ useTimeAgo(blog.blog_date) }}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div v-if="blog.blog_view > 0" class="items-center row text-caption">
-                                            <q-icon name="trending_up" class="q-mr-xs" left />
+                                        <div v-if="blog.blog_view > 0"
+                                            class="row items-center text-primary text-caption">
+                                            <q-icon name="trending_up" color="primary" class="q-mr-xs" left />
                                             <span>
                                                 {{ blog.blog_view }}
                                             </span>
