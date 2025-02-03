@@ -129,13 +129,13 @@ const { data: response, status }: any = useAsyncData(
             <q-tab-panel v-if="category.featured.length !== 0" :name="`featured_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
                 <div v-for="item in category.featured" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
-                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
+                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="q-pa-none border-bottom row">
                         <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
                         <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
-                      <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
+                      <q-icon v-if="item.fg_featured > 0 && status === 'success'" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
                       <div v-if="item.fg_view > 0" size="xs" class="absolute row items-center bg-transparent text-caption text-weight-medium" style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                         <span class="text-primary text-caption">
@@ -144,7 +144,10 @@ const { data: response, status }: any = useAsyncData(
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
                         <div class="text-subtitle2 ellipsis-2-lines" style="height: 44px">
-                          {{ item.acc_ledger_name }}
+                          <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
+                          <span v-else>
+                            {{ item.acc_ledger_name }}
+                          </span>
                         </div>
                         <div class="items-baseline justify-between row">
                           <div v-if="
@@ -152,15 +155,19 @@ const { data: response, status }: any = useAsyncData(
                             inDateRange(
                               item.fg_discount_start_date,
                               item.fg_discount_end_date
-                            )
+                            ) &&
+                            status === 'success'
                           " class="text-caption text-bold text-primary text-uppercase">
                             -{{ item.fg_discount }}%
                           </div>
                           <q-space />
                           <div class="text-subtitle2 text-weight-medium">
-                            {{ config.public.currencyBefore }}
-                            {{ formatMoney(item.fg_up_final * 1.0) }}
-                            {{ config.public.currencyAfter }}
+                            <q-skeleton v-if="status === 'pending'" type="text" width="60px" />
+                            <span v-else>
+                              {{ config.public.currencyBefore }}
+                              {{ formatMoney(item.fg_up_final * 1.0) }}
+                              {{ config.public.currencyAfter }}
+                            </span>
                           </div>
                         </div>
                       </q-card-section>
@@ -172,7 +179,7 @@ const { data: response, status }: any = useAsyncData(
             <q-tab-panel v-if="category.discounted.length !== 0" :name="`discounted_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
                 <div v-for="item in category.discounted" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
-                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
+                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="q-pa-none border-bottom row">
                         <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />

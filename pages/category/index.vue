@@ -29,16 +29,16 @@
           </q-card>
           <div v-for="child in 1" :key="child">
             <q-card flat square class="q-mt-sm gradient">
-              <div class="row justify-evenly row q-pt-sm q-pb-xs">
+              <div class="row justify-start row q-pt-sm q-pb-xs">
                 <div class="text-primary text-h6 text-weight-medium text-capitalize">
                   <q-skeleton type="text" width="100px"></q-skeleton>
                 </div>
               </div>
               <div class="row q-pa-sm q-col-gutter-sm justify-center">
-                <div v-for="item in 4" :key="item" class="col-6">
+                <div v-for="item in 10" :key="item" :class="isMobileSize <= 450 ? 'col-3' : 'col-2'">
                   <q-card class="shadow-5 overflow-hidden">
                     <q-card-section class="q-pa-none border-bottom row">
-                      <NuxtImg loading="lazy" src="/placeholder.gif" sizes="100vw sm:50vw md:170px" width="170"
+                      <NuxtImg loading="lazy" src="/placeholder.gif" sizes="100vw sm:50vw md:170px"
                         height="170" format="webp" quality="50" class="fit" :draggable="false" />
                     </q-card-section>
                     <q-card-section class="q-pa-sm q-gutter-xs">
