@@ -1,25 +1,22 @@
 <template>
   <!-- Mobile -->
-  <q-layout view="hHh LpR lff" class="orientation-portrait no-rotation">
+  <q-layout view="hHh LpR lff">
     <!-- Header -->
     <q-header elevated class="gradient" height-hint="60">
       <q-toolbar class="justify-between items-center" style="height: 60px">
         <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="dark" round icon="menu" />
         <q-toolbar-title class="row justify-center">
-          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40" alt="BFL"
-            title="BFL" />
+          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40" alt="BFL" title="BFL" />
         </q-toolbar-title>
-
         <q-btn id="checkout" color="dark" :class="router.currentRoute.value.path == '/checkout' ? 'dark' : ''" to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
-        <span v-show="cartCount > 0" class="absolute-top-right text-bold text-dark text-caption" style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
-        {{ cartCount }}
-        </span>
-      </q-btn>
+          <span v-show="cartCount > 0" class="absolute-top-right text-bold text-dark text-caption" style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
+            {{ cartCount }}
+          </span>
+        </q-btn>
       </q-toolbar>
     </q-header>
     <!-- Left Drawer (Category List) -->
-    <q-drawer v-model="leftDrawerOpen" side="left" :width="300" :breakpoint="500" overlay elevated
-      class="gradient-left text-body2">
+    <q-drawer v-model="leftDrawerOpen" side="left" :width="300" :breakpoint="500" overlay elevated class="gradient-left text-body2">
       <q-scroll-area :style="customerIsAuth
         ? 'height: calc(100% - 120px); margin-top: 120px'
         : 'height: calc(100% - 64px); margin-top: 64px'
@@ -41,8 +38,7 @@
               Categories
             </q-item-section>
           </q-item>
-          <q-item v-ripple :class="allDiscountMenu > 0 ? `` : `hidden`" active-class="bg-grey-4" to="/all-discounted"
-            clickable>
+          <q-item v-ripple :class="allDiscountMenu > 0 ? `` : `hidden`" active-class="bg-grey-4" to="/all-discounted" clickable>
             <q-item-section avatar>
               <q-icon size="25px" name="percent" />
             </q-item-section>
@@ -139,7 +135,7 @@
       <q-img class="absolute-top bg-primary" :style="customerIsAuth ? 'height: 120px' : 'height: 64px'">
         <div v-if="customerIsAuth" class="absolute-bottom">
           <div class="column q-gutter-md">
-            <NuxtLink to="/customer/accounts"  style="text-decoration: none" aria-label="Accounts">
+            <NuxtLink to="/customer/accounts" style="text-decoration: none" aria-label="Accounts">
               <div class="text-weight-bold text-capitalize">
                 Customer Name
               </div>
@@ -166,24 +162,22 @@
     <!-- page-container -->
     <q-page-container class="bg-red-9" v-touch-swipe.mouse.right="toggleLeftDrawer" v-touch-swipe.mouse.left="toggleRightDrawer">
       <q-page class="q-pa-sm">
-        <div style="min-width: 300px; max-width: 3840px; width: 100%;" class="bg-green-10">
+        <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">
           <slot />
         </div>
       </q-page>
     </q-page-container>
-
     <q-footer dense reveal elevated class="row justify-center items-center gradient-bottom text-grey-10">
       <q-tabs v-model="tab" no-caps active-color="primary" indicator-color="primary" switch-indicator>
         <q-route-tab to="/tracking" icon="location_searching" aria-label="Tracking" class="q-pa-sm text-dark" />
         <q-route-tab to="/showroom" icon="place" aria-label="Showroom" class="q-pa-sm text-dark" />
-        <q-route-tab to="/" icon="home" aria-label="Home" class="q-pa-sm text-dark"  />
+        <q-route-tab to="/" icon="home" aria-label="Home" class="q-pa-sm text-dark" />
         <q-route-tab to="/search/na" icon="search" aria-label="Search" class="q-pa-sm text-dark" />
         <q-route-tab flat round icon="history" aria-label="History" @click="toggleRightDrawer" class="q-pa-sm text-dark" />
       </q-tabs>
     </q-footer>
   </q-layout>
 </template>
-
 <script setup lang="ts">
 const appConfig = useAppConfig();
 const customerDeliveryLocation = useCustomerDeliveryLocation();
