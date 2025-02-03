@@ -40,7 +40,7 @@
                             <NuxtLink :to="`/brand/${brands.fg_brand_url}`" :aria-label="brands.fg_brand_name"
                             style="text-decoration: none" class="text-secondary">
                             <q-card class="shadow-5 shadow-on-hover zoom-on-hover cursor-pointer rounded">
-                                <q-card-section class="q-pa-none" style="width:100px; height:75px;">
+                                <q-card-section class="q-pa-none rounded" style="width:100px; height:75px;">
                                     <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50" 
                                         :src="brands.fg_brand_logo ? brands.fg_brand_logo : `https://dummyimage.com/100x75/d4d4d4/ffffff.jpg&text=${brands.fg_brand_name}`"
                                         :title="brands.fg_brand_name" :alt="brands.fg_brand_name" />

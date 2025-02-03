@@ -144,10 +144,10 @@
                 Customer Name
               </div>
             </NuxtLink>
-            <q-btn dense outline @click="confirmLogout()" aria-label="Logout">
+            <!-- <q-btn dense outline @click="confirmLogout()" aria-label="Logout">
               <q-icon name="logout" class="q-pr-sm" />
               Logout
-            </q-btn>
+            </q-btn> -->
           </div>
         </div>
         <div v-else class="absolute-bottom">
@@ -166,7 +166,7 @@
     <!-- page-container -->
     <q-page-container class="bg-red-9" v-touch-swipe.mouse.right="toggleLeftDrawer" v-touch-swipe.mouse.left="toggleRightDrawer">
       <q-page class="q-pa-sm">
-        <div style="min-width: 300px; max-width: 800px; width: 100%;" class="bg-green-10">
+        <div style="min-width: 300px; max-width: 3840px; width: 100%;" class="bg-green-10">
           <slot />
         </div>
       </q-page>
@@ -191,7 +191,6 @@ const cartCount = useCartCount();
 const router = useRouter();
 const nuxtApp = useNuxtApp();
 const config = useRuntimeConfig();
-const logout_confirm_modal = ref(false);
 const tab = ref("home");
 const { $pwa }: any = useNuxtApp();
 const install = ref();
@@ -256,9 +255,7 @@ if (typeof window !== "undefined") {
     cartCount.value = 0;
   }
 }
-const confirmLogout = async () => {
-  logout_confirm_modal.value = true;
-};
+
 
 const logoutCustomer = async () => {
   localStorage.removeItem("auth_customer_data");

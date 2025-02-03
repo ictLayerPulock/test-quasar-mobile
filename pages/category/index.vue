@@ -13,7 +13,7 @@
         <div v-if="status === 'pending'">
           <q-card flat square class="gradient q-pa-none">
             <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
-            <div v-for="item in 6" :key="item" class="col-4">
+            <div v-for="item in 12" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
               <NuxtLink  class="text-black" style="text-decoration: none">
                 <q-card class="shadow-5 q-pa-none">
                   <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
@@ -60,7 +60,7 @@
         </div>
         <div v-else>
           <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
-            <div v-for="item in response.categoryParent" :key="item" class="col-4">
+            <div v-for="item in response.categoryParent" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
               <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-secondary" style="text-decoration: none">
                 <q-card class="shadow-5 q-pa-none">
                   <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
@@ -89,7 +89,7 @@
               <q-separator />
               <div class="row justify-center q-px-sm q-pt-sm q-col-gutter-sm">
                 <div v-for="(item, index) in child.products
-                  .slice(0, 6)" :key="item" class="col-6">
+                  .slice(0, 6)" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden q-pb-none">
                       <q-card-section class="q-pa-none border-bottom row">
@@ -151,6 +151,7 @@
 const config = useRuntimeConfig();
 const $q = useQuasar();
 const nuxtApp = useNuxtApp();
+const isMobileSize = computed(() => $q.screen.width);
 
 const { data: response, status }: any = useAsyncData(
   "category-parent-list",
