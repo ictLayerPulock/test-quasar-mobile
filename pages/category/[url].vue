@@ -31,7 +31,7 @@
           ? 'height: 72px'
           : 'height: 34px'
           " :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
-          <div class="items-center justify-start row q-ml-xs q-pt-sm q-col-gutter-sm" :style="responseCat.sub_category.length > 23
+          <div class="row justify-start items-center q-ml-xs q-pt-sm q-col-gutter-sm" :style="responseCat.sub_category.length > 23
             ? 'width: 300px'
             : 'width: 400px'
             ">
@@ -47,9 +47,8 @@
       <LazyCategoryTrendingProductsM :url="(url as any)" />
       <div v-if="show" class="q-gutter-xs q-pt-none">
         <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
-          <q-card v-if="status === 'pending'" flat square class="q-pa-sm q-gutter-y-sm gradient"
-            :class="$q.screen.sm ? 'row' : ''">
-            <div v-for="item in 3" :key="item" :class="$q.screen.sm ? 'col-6 q-px-xs' : ''">
+          <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
+            <div v-for="item in 3" :key="item"  :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
               <q-card>
                 <q-card-section horizontal class="overflow-hidden">
                   <q-card-section class="col q-pa-none border-right">
@@ -57,17 +56,17 @@
                       class="fit" :draggable="false" />
                   </q-card-section>
                   <q-card-section class="col-7 q-pa-sm column q-col-gutter-sm justify-between text-primary no-wrap">
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row justify-between items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="120px" />
                     </div>
-                    <div class="items-center justify-between q-gutter-x-md row q-my-xs no-wrap">
+                    <div class="row justify-between items-center q-gutter-x-md q-my-xs no-wrap">
                       <div class="items-center row text-grey-6 no-wrap ellipsis">
                         <div class="text-caption ellipsis" style="width: 100px">
                           <q-skeleton type="text" width="120px" />
                         </div>
                       </div>
                     </div>
-                    <div class="items-baseline justify-between row">
+                    <div class="row justify-between items-baseline">
                       <q-space />
                       <div class="col items-baseline row text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
                         <q-skeleton type="text" width="80px" />
@@ -78,94 +77,51 @@
               </q-card>
             </div>
           </q-card>
-          <q-card v-else flat square class="q-px-sm q-py-xs q-gutter-y-sm gradient">
-            <div v-for="item in product" :key="item">
-              <q-card class="q-pa-none">
-                <q-card-section horizontal class="overflow-hidden">
-                  <q-card-section class="col q-pa-none border-right">
-                    <NuxtLink :to="`/product/${item.fg_url}`">
-                      <NuxtImg loading="lazy" placeholder="/placeholder.gif" width="114" height="152" format="webp"
-                        class="fit" quality="50" :src="item.fg_image" :alt="item.acc_ledger_name"
-                        :title="item.acc_ledger_name" :draggable="false" />
-                    </NuxtLink>
+          <q-card v-else flat square class="row q-px-sm q-py-xs q-gutter-y-sm gradient">
+            <div v-for="item in product" :key="item" class="q-px-xs" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
+              <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" :title="item.acc_ledger_name"
+                style="text-decoration: none" class="text-secondary">
+                <q-card class="shadow-5 q-pa-none overflow-hidden">
+                  <q-card-section class="q-pa-none border-bottom">
+                    <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" class="fit" format="webp"
+                      quality="50" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                   </q-card-section>
                   <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                     style="top: 5px; left: 5px" />
-                  <q-card-section class="col-8 q-pa-sm column justify-between no-wrap">
-                    <q-card flat class="q-pa-none q-gutter-y-sm">
-                      <q-card-section class="q-pa-none">
-                        <div class="ellipsis-2-lines q-py-none" style="height: 40px">
-                          <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none">
-                            <h4 class="text-subtitle2 text-left text-weight-regular q-ma-none">
-                              <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                              <span v-else class="text-subtitle2">
-                                {{ item.acc_ledger_name }}
-                              </span>
-                            </h4>
-                          </NuxtLink>
-                        </div>
-                      </q-card-section>
-                      <q-card-section class="q-pa-none">
-                        <div class="row items-center justify-between wrap q-my-none">
-                          <div class="col-5 items-center row text-grey-10 no-wrap ellipsis">
-                            <q-icon name="qr_code" class="q-mr-xs" left />
-                            <p class="text-caption ellipsis q-ma-none">
-                              {{ item.fg_sku }}
-                            </p>
-                          </div>
-                          <NuxtLink :to="`/category/${item.fg_category_url}`" :aria-label="item.acc_ledger_name"
-                           style="text-decoration: none">
-                           <p class="text-caption ellipsis q-ma-none"> {{ item.fg_category_name }}</p>
-                          </NuxtLink>
-                        </div>
-                      </q-card-section>
-                      <q-card-section class="q-pa-none">
-                        <div class="row items-center justify-between">
-                          <NuxtLink v-if="item.fg_rating > 0" :to="`/product/review/${item.fg_url}`"
-                            class="row items-center no-wrap" style="text-decoration: none">
-                            <q-rating v-model="item.fg_rating" class="q-mr-xs" size="12px" :max="5" color="primary"
-                              readonly />
-                            <span v-if="item.fg_reviews > 0" class="text-caption text-grey-10">
-                              ({{ item.fg_reviews }})
-                            </span>
-                          </NuxtLink>
-                          <q-space />&nbsp;
-                          <div class="row items-center justify-start text-caption">
-                            <q-icon v-if="item.fg_view > 0" name="trending_up" class="q-mr-xs" left />
-                            <span v-if="item.fg_view > 0">
-                              <p class="text-caption q-ma-none">
-                                {{ viewCount(item.fg_view) }}
-                              </p>
-                            </span>
-                          </div>
-                        </div>
-                      </q-card-section>
-                      <q-card-section class="q-pa-none">
-                        <div class="row items-baseline justify-between">
-                          <div v-if="
-                            item.fg_discount > 0 &&
-                            inDateRange(
-                              item.fg_discount_start_date,
-                              item.fg_discount_end_date
-                            )
-                          " class="text-caption text-bold text-uppercase">
-                            <p class="q-ma-none">-{{ item.fg_discount }}%</p>
-                          </div>
-                          <q-space />
-                          <div
-                            class="col row items-baseline text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
-                            <p class="q-ma-none">
-                              {{ config.public.currencyBefore }}
-                              {{ formatMoney(item.fg_up_final * 1.0) }}
-                              {{ config.public.currencyAfter }}
-                            </p>
-                          </div>
-                        </div>
-                      </q-card-section>
-                    </q-card>
+                  <div v-if="item.fg_view > 0" size="xs"
+                    class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                    style="top: 5px; right: 8px">
+                    <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
+                    <span class="text-primary text-caption">
+                      {{ viewCount(item.fg_view) }}
+                    </span>
+                  </div>
+                  <q-card-section class="q-pa-sm q-gutter-xs">
+                    <div class="ellipsis-2-lines" style="height: 48px">
+                      <p class="text-subtitle2 q-ma-none">
+                        {{ item.acc_ledger_name }}
+                      </p>
+                    </div>
+                    <div class="row justify-between items-baseline">
+                      <div v-if="
+                        item.fg_discount > 0 &&
+                        inDateRange(
+                          item.fg_discount_start_date,
+                          item.fg_discount_end_date
+                        )
+                      " class="text-caption text-bold text-primary text-uppercase">
+                        -{{ item.fg_discount }}%
+                      </div>
+                      <q-space />
+                      <div class="text-subtitle2 text-weight-medium">
+                        {{ config.public.currencyBefore }}
+                        {{ formatMoney(item.fg_up_final * 1.0) }}
+                        {{ config.public.currencyAfter }}
+                      </div>
+                    </div>
                   </q-card-section>
-                </q-card-section>
-              </q-card>
+                </q-card>
+              </NuxtLink>
             </div>
           </q-card>
           <template #loading>
@@ -249,6 +205,7 @@
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
 const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 const show = ref(true);
 
 const clearCache = (done: any) => {

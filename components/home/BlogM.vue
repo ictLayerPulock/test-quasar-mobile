@@ -24,9 +24,9 @@
                                 </div>
                             </q-card-section>
                             <q-card-section class="q-pa-sm">
-                                <div class="items-center justify-between row">
+                                <div class="row justify-between items-center">
                                     <q-space />
-                                    <div class="items-center row text-caption text-secondary">
+                                    <div class="row items-center text-caption text-secondary">
                                         <q-skeleton type="text" width="40px" />
                                     </div>
                                 </div>

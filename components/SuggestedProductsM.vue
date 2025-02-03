@@ -38,7 +38,7 @@
                         {{ item.acc_ledger_name }}
                       </p>
                     </div>
-                    <div class="items-baseline justify-between row">
+                    <div class="row justify-between items-baseline">
                       <div v-if="
                         item.fg_discount > 0 &&
                         inDateRange(

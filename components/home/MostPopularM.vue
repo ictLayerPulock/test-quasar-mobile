@@ -15,7 +15,7 @@
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
-              <q-card-section class="q-pa-none border-bottom row">
+              <q-card-section class="q-pa-none border-bottom">
                 <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit"
                   format="webp" src="/placeholder.gif" :draggable="false" />
               </q-card-section>
@@ -64,7 +64,7 @@
                       </span>
                     </h4>
                   </div>
-                  <div class="items-baseline justify-between row">
+                  <div class="row justify-between items-baseline">
                     <div v-if="
                       item.fg_discount > 0 &&
                       inDateRange(

@@ -24,7 +24,7 @@
                 </div>
               </q-card-section>
               <q-card-section class="q-pa-sm">
-                <div class="items-center justify-between row">
+                <div class="row justify-between items-center">
                   <q-space />
                   <div class="items-center row text-caption text-secondary">
                     <q-skeleton type="text" width="40px" />
@@ -38,7 +38,7 @@
           <div v-for="item in response.data" :key="item">
             <NuxtLink :to="`/news/${item.news_url}`" :aria-label="item.news_title" style="text-decoration: none" class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" style="width:165px">
-                <q-card-section class="q-pa-none border-bottom row">
+                <q-card-section class="q-pa-none border-bottom">
                   <NuxtImg loading="lazy" width="165" height="165" format="webp" quality="50" :draggable="false"
                     placeholder="/placeholder.gif" :src="item.news_image" :alt="item.news_title"
                     :title="item.news_title" />

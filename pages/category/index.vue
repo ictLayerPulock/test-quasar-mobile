@@ -29,7 +29,7 @@
           </q-card>
           <div v-for="child in 1" :key="child">
             <q-card flat square class="q-mt-sm gradient">
-              <div class="row justify-start row q-pt-sm q-pb-xs">
+              <div class="row justify-start q-pt-sm q-pb-xs">
                 <div class="text-primary text-h6 text-weight-medium text-capitalize">
                   <q-skeleton type="text" width="100px"></q-skeleton>
                 </div>
@@ -37,7 +37,7 @@
               <div class="row q-pa-sm q-col-gutter-sm justify-center">
                 <div v-for="item in 10" :key="item" :class="isMobileSize <= 450 ? 'col-3' : 'col-2'">
                   <q-card class="shadow-5 overflow-hidden">
-                    <q-card-section class="q-pa-none border-bottom row">
+                    <q-card-section class="row q-pa-none border-bottom">
                       <NuxtImg loading="lazy" src="/placeholder.gif" sizes="100vw sm:50vw md:170px"
                         height="170" format="webp" quality="50" class="fit" :draggable="false" />
                     </q-card-section>
@@ -45,7 +45,7 @@
                       <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                         <q-skeleton type="text" width="100px"></q-skeleton>
                       </div>
-                      <div class="items-baseline justify-between row">
+                      <div class="row justify-between items-baseline">
                         <q-space />
                         <div class="text-subtitle1 flex flex-right text-weight-medium">
                           <q-skeleton type="text" width="60px"></q-skeleton>
@@ -92,7 +92,7 @@
                   .slice(0, 6)" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden q-pb-none">
-                      <q-card-section class="q-pa-none border-bottom row">
+                      <q-card-section class="row q-pa-none border-bottom">
                         <NuxtImg loading="lazy" placeholder="/placeholder.gif" class="fit" width="150" height="200"
                           :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name"
                           :draggable="false" />

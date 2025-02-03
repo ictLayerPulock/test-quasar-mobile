@@ -33,7 +33,7 @@ export default defineNuxtConfig({
       viewLimit: 0,
       currency: "BDT", // Primary Currency (For Post Method)
       currencyBefore: "৳",
-      currencyAfter: "",
+      currencyAfter: "Tk.",
       imgRatio: "1",
       //__ For Height
       scrollAreaHeightMobile: "310px",

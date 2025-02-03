@@ -80,7 +80,7 @@ const { data: response, status }: any = useAsyncData(
                 <div v-for="item in category.trending" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
-                      <q-card-section class="q-pa-none border-bottom row">
+                      <q-card-section class="row q-pa-none border-bottom">
                         <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
                         <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
@@ -98,7 +98,7 @@ const { data: response, status }: any = useAsyncData(
                             {{ item.acc_ledger_name }}
                           </span>
                         </div>
-                        <div class="items-baseline justify-between row">
+                        <div class="row justify-between items-baseline">
                           <div v-if="
                             item.fg_discount > 0 &&
                             inDateRange(
@@ -131,7 +131,7 @@ const { data: response, status }: any = useAsyncData(
                 <div v-for="item in category.featured" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
-                      <q-card-section class="q-pa-none border-bottom row">
+                      <q-card-section class="row q-pa-none border-bottom">
                         <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
                         <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
@@ -149,7 +149,7 @@ const { data: response, status }: any = useAsyncData(
                             {{ item.acc_ledger_name }}
                           </span>
                         </div>
-                        <div class="items-baseline justify-between row">
+                        <div class="row justify-between items-baseline">
                           <div v-if="
                             item.fg_discount > 0 &&
                             inDateRange(
@@ -181,7 +181,7 @@ const { data: response, status }: any = useAsyncData(
                 <div v-for="item in category.discounted" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
-                      <q-card-section class="q-pa-none border-bottom row">
+                      <q-card-section class="row q-pa-none border-bottom">
                         <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
                         <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
@@ -196,7 +196,7 @@ const { data: response, status }: any = useAsyncData(
                         <div class="text-subtitle2 ellipsis-2-lines" style="height: 44px">
                           {{ item.acc_ledger_name }}
                         </div>
-                        <div class="items-baseline justify-between row">
+                        <div class="row justify-between items-baseline">
                           <div v-if="
                             item.fg_discount > 0 &&
                             inDateRange(
