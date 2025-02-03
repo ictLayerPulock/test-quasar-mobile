@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const $q = useQuasar();
 const config = useRuntimeConfig();
-const img = useImage();
 const tab = ref<TabType>([]);
 const nuxtApp = useNuxtApp();
 const limit = ref(4);
@@ -9,10 +7,8 @@ const limit = ref(4);
 interface TabType {
   [x: string]: any;
 }
-
-if ($q.screen.gt.sm && $q.screen.lt.md) {
-  limit.value = 4;
-}
+const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 
 const { data: response, status }: any = useAsyncData(
   'home-category-product',
@@ -81,7 +77,7 @@ const { data: response, status }: any = useAsyncData(
           <q-tab-panels v-model="response.tab[index]" swipeable infinite transition-prev="fade" transition-next="fade" animated @touchstart.stop @mousedown.stop>
             <q-tab-panel v-if="category.trending.length !== 0" :name="`trending_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
-                <div v-for="item in category.trending" :key="item" :class="$q.screen.lt.sm ? 'col-6' : 'col-3'">
+                <div v-for="item in category.trending" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="q-pa-none border-bottom row">
@@ -129,9 +125,10 @@ const { data: response, status }: any = useAsyncData(
                 </div>
               </div>
             </q-tab-panel>
+           
             <q-tab-panel v-if="category.featured.length !== 0" :name="`featured_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
-                <div v-for="item in category.featured" :key="item" :class="$q.screen.lt.sm ? 'col-6' : 'col-3'">
+                <div v-for="item in category.featured" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="q-pa-none border-bottom row">
@@ -174,7 +171,7 @@ const { data: response, status }: any = useAsyncData(
             </q-tab-panel>
             <q-tab-panel v-if="category.discounted.length !== 0" :name="`discounted_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
-                <div v-for="item in category.discounted" :key="item" :class="$q.screen.lt.sm ? 'col-6' : 'col-3'">
+                <div v-for="item in category.discounted" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="q-pa-none border-bottom row">

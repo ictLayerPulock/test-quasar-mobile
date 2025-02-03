@@ -2,9 +2,9 @@
     <section>
         <q-card v-show="show" flat square class="gradient">
             <div class="gradient-h q-pa-sm">
-                <h3 class="text-h5 text-capitalize text-weight-medium q-my-sm">
+                <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-xs">
                     Trending Products
-                </h3>
+                </h2>
             </div>
             <q-scroll-area style="height:308px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
                 <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient"
@@ -37,7 +37,7 @@
                         'col-3': response.data.length === 4
                     }">
                         <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name"
-                            style="text-decoration: none">
+                            style="text-decoration: none" class="text-secondary">
                             <q-card class="shadow-5 overflow-hidden"
                                 :style="`width: ${config.public.imageGridMediumWidthMobile}`">
                                 <q-card-section class="row q-pa-none border-bottom">
@@ -53,7 +53,7 @@
                                     class="absolute row justify-center items-center bg-transparent text-caption text-weight-medium"
                                     style="top: 5px; right: 8px">
                                     <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                                    <p class=" text-caption q-ma-none">
+                                    <p class=" text-caption text-primary q-ma-none">
                                         {{ viewCount(item.fg_view) }}
                                     </p>
                                 </div>
@@ -74,7 +74,7 @@
                                                 item.fg_discount_start_date,
                                                 item.fg_discount_end_date
                                             )
-                                        " class="text-caption text-bold  text-uppercase">
+                                        " class="text-caption text-bold text-primary text-uppercase">
                                             <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                                         </div>
                                         <q-space />

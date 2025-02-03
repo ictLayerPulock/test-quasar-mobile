@@ -14,9 +14,9 @@
       <q-card-section class="q-px-xs q-py-sm">
         <q-infinite-scroll :offset="100" @load="onLoad">
           <div class="row q-col-gutter-sm gradient justify-center">
-            <div v-for="item in product" :key="item" class="col-6">
+            <div v-for="item in product" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
               <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" :title="item.acc_ledger_name"
-                style="text-decoration: none">
+                style="text-decoration: none" class="text-secondary">
                 <q-card class="shadow-5 q-pa-none overflow-hidden">
                   <q-card-section class="q-pa-none border-bottom">
                     <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" class="fit" format="webp"
@@ -34,9 +34,9 @@
                   </div>
                   <q-card-section class="q-pa-sm q-gutter-xs">
                     <div class="ellipsis-2-lines" style="height: 48px">
-                      <h4 class="text-subtitle2 q-ma-none">
+                      <p class="text-subtitle2 q-ma-none">
                         {{ item.acc_ledger_name }}
-                      </h4>
+                      </p>
                     </div>
                     <div class="items-baseline justify-between row">
                       <div v-if="
@@ -71,11 +71,16 @@
   </section>
 </template>
 <script setup lang="ts">
+import { useQuasar } from "quasar";
+import { ref, computed, onMounted } from "vue";
 const config = useRuntimeConfig();
 const show = ref(true)
 interface DataType {
   [x: string]: any;
 }
+const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width); 
+
 const loading = ref(false);
 const no_more_data = ref(false);
 const start = ref(0);

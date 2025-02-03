@@ -11,17 +11,25 @@
                     aria-label="Brands" />
             </q-card-section>
             <q-separator />
-            <q-card-section class="q-px-none q-pt-xs q-pb-none" style="height:108px">
+            <q-card-section class="q-px-none q-pt-xs q-pb-none" style="height:115px">
                 <div v-if="status === 'pending'">
-                    <div class="row justify-center items-center">
-                        <div v-for="item in 4" :key="item" class="col-4 q-pa-xs">
-                            <q-card class="shadow-5 shadow-on-hover rounded q-pa-none">
-                                <q-card-section class="q-pa-none" style="width:90px;">
+                    <div v-if="isMobileSize <= 450" class="row justify-center items-center">
+                        <div v-for="item in 3" :key="item" class="col-4 q-pa-xs">
+                            <q-card class="shadow-5 shadow-on-hover rounded q-pa-none" style="width: 100px; height: 100px;">
                                     <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50"
                                         class="fit"
                                         src="/placeholder.gif" />
                                     <q-skeleton type="text" width="40px" class="q-mt-xs"></q-skeleton>
-                                </q-card-section>
+                            </q-card>
+                        </div>
+                    </div>
+                    <div v-else class="row justify-center items-center">
+                        <div v-for="item in 6" :key="item" class="col-2 q-pa-xs">
+                            <q-card class="shadow-5 shadow-on-hover rounded q-pa-none" style="width: 100px; height: 75px;">
+                                    <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50"
+                                        class="fit"
+                                        src="/placeholder.gif" />
+                                    <q-skeleton type="text" width="40px" class="q-mt-xs"></q-skeleton>
                             </q-card>
                         </div>
                     </div>
@@ -29,18 +37,20 @@
                 <div v-else>
                     <Vue3Marquee :pause-on-hover="true" animateOnOverflowOnly>
                         <div v-for="brands in response.brandList" :key="brands" class="col q-pa-xs items-center">
+                            <NuxtLink :to="`/brand/${brands.fg_brand_url}`" :aria-label="brands.fg_brand_name"
+                            style="text-decoration: none" class="text-secondary">
                             <q-card class="shadow-5 shadow-on-hover zoom-on-hover cursor-pointer rounded">
-                                <q-card-section class="q-pa-none" style="width:100px;">
-                                    <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50"
-                                        class="fit"
+                                <q-card-section class="q-pa-none" style="width:100px; height:75px;">
+                                    <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50" 
                                         :src="brands.fg_brand_logo ? brands.fg_brand_logo : `https://dummyimage.com/100x75/d4d4d4/ffffff.jpg&text=${brands.fg_brand_name}`"
                                         :title="brands.fg_brand_name" :alt="brands.fg_brand_name" />
+                                    </q-card-section>
                                     <p
-                                        class="text-negative text-subtitle2 text-center q-px-sm q-pb-xs text-capitalize ellipsis">
+                                        class="text-subtitle2 text-center q-ma-none text-capitalize ellipsis">
                                         {{ brands.fg_brand_name }}
                                     </p>
-                                </q-card-section>
                             </q-card>
+                        </NuxtLink>
                         </div>
                     </Vue3Marquee>
                 </div>
@@ -52,6 +62,8 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
+const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 
 const { data: response, status }: any = useAsyncData(
     "home-brand-list",

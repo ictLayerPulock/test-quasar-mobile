@@ -29,4 +29,11 @@ export default defineAppConfig({
             }
         },
     }
-})
+});
+// Setup screen sizes globally
+if (process.client) {
+    import("quasar").then(({ useQuasar }) => {
+        const $q = useQuasar();
+        $q.screen.setSizes({ sm: 300, md: 440, lg: 690, xl: 800 });
+    });
+}

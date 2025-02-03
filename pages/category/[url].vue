@@ -10,7 +10,7 @@
             responseCat.category.fg_category_banner != ''
           )
         " class="row items-center flex-center">
-          <h1 class="text-h6 text-uppercase text-weight-medium text-center q-ma-sm">
+          <h1 class="text-h6 text-uppercase text-primary text-weight-medium text-center q-ma-sm">
             {{ responseCat.category.fg_category_name }}
           </h1>
         </div>
@@ -37,7 +37,7 @@
             ">
             <q-chip v-for="item in responseCat.sub_category" :key="item" square outline clickable class="bg-white"
               color="primary" text-color="white">
-              <NuxtLink :to="`/category/${item.fg_category_url}`" style="text-decoration: none">
+              <NuxtLink :to="`/category/${item.fg_category_url}`" style="text-decoration: none" class="text-secondary">
                <p class="q-ma-none text-subtitle2">{{ item.fg_category_name }} ({{ item.fg_count }})</p> 
               </NuxtLink>
             </q-chip>

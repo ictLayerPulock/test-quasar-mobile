@@ -95,7 +95,6 @@
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
 const show = ref(false);
-console.log(show.value)
 // const img = useImage();
 
 

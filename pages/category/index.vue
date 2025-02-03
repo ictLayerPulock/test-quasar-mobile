@@ -4,7 +4,7 @@
     <q-card>
       <q-card-section class="q-pa-none">
         <div class="q-pa-xs gradient-h">
-          <h1 class="text-h5 text-uppercase text-weight-medium text-center">
+          <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center">
             Categories of Womanish
           </h1>
         </div>
@@ -61,7 +61,7 @@
         <div v-else>
           <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
             <div v-for="item in response.categoryParent" :key="item" class="col-4">
-              <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-black" style="text-decoration: none">
+              <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-secondary" style="text-decoration: none">
                 <q-card class="shadow-5 q-pa-none">
                   <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
                     :src="item.fg_category_icon ? item.fg_category_icon : `https://dummyimage.com/96x96/d4d4d4/000.jpg&text=${item.fg_category_name}`"
@@ -79,7 +79,7 @@
               <q-card-section class="row justify-between gradient-h q-py-none">
                 <NuxtLink :to="`/category/${child.fg_category_url}`" :aria-label="child.fg_category_name"
                   :title="child.fg_category_name" style="text-decoration: none">
-                  <h3 class="text-h5 text-capitalize text-weight-medium q-my-sm">
+                  <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
                     {{ child.fg_category_name }}
                   </h3>
                 </NuxtLink>
@@ -90,7 +90,7 @@
               <div class="row justify-center q-px-sm q-pt-sm q-col-gutter-sm">
                 <div v-for="(item, index) in child.products
                   .slice(0, 6)" :key="item" class="col-6">
-                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none">
+                  <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden q-pb-none">
                       <q-card-section class="q-pa-none border-bottom row">
                         <NuxtImg loading="lazy" placeholder="/placeholder.gif" class="fit" width="150" height="200"
@@ -103,7 +103,7 @@
                         class="absolute row items-center bg-transparent text-caption text-weight-medium"
                         style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                        <p class=" text-caption q-ma-none">
+                        <p class=" text-caption text-primary q-ma-none">
                           {{ viewCount(item.fg_view) }}
                         </p>
                       </div>
@@ -123,7 +123,7 @@
                               item.fg_discount_start_date,
                               item.fg_discount_end_date
                             )
-                          " class="text-caption text-bold  text-uppercase">
+                          " class="text-caption text-bold  text-primary text-uppercase">
                             <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                           </div>
                           <q-space />
