@@ -3,5 +3,6 @@
         "Highto",
         "Lowto",
         "vueuse"
-    ]
+    ],
+    "nuxt.isNuxtApp": false
 }
