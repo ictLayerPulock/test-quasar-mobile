@@ -4,7 +4,7 @@
       <!-- Two Rows -->
       <q-scroll-area style="height:175px" :thumb-style="{ opacity: '0' }" draggable="false" @touchstart.stop
         @mousedown.stop>
-        <div class="row justify-start items-center q-pa-sm q-gutter-sm" style="width:720px">
+        <div class="row justify-start items-center q-pa-sm q-gutter-sm" :style="isMobileSize ? 'width:720px' : 'width:1500px'">
           <NuxtLink v-for="item in response.data" :key="item" :to="`/category/${item.fg_category_url}`"
             style="text-decoration: none" :aria-label="item.fg_category_name">
             <q-card style="width:80px" class="shadow-3 q-pa-none">
@@ -22,13 +22,15 @@
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
 const show = ref(false);
+const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 
 const { data: response, status }: any = useAsyncData(
   "home-category-icon",
   async () =>
     $fetch("/api/home-category-icon", {
       query: {
-        limit: "16",
+        limit: "30",
         start: "0",
       },
     }),

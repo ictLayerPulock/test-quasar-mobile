@@ -19,7 +19,7 @@
                                     <NuxtImg loading="lazy" rounded width="100" height="75" format="webp" quality="50"
                                         class="fit"
                                         src="/placeholder.gif" />
-                                    <q-skeleton type="text" width="40px" class="q-mt-xs"></q-skeleton>
+                                    <q-skeleton type="text" width="40px"></q-skeleton>
                             </q-card>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <Vue3Marquee :pause-on-hover="true" animateOnOverflowOnly>
+                    <Vue3Marquee :pause-on-hover="true" animateOnOverflowOnly :duration="50">
                         <div v-for="brands in response.brandList" :key="brands" class="col q-pa-xs items-center">
                             <NuxtLink :to="`/brand/${brands.fg_brand_url}`" :aria-label="brands.fg_brand_name"
                             style="text-decoration: none" class="text-secondary">
@@ -70,7 +70,7 @@ const { data: response, status }: any = useAsyncData(
     async () =>
         $fetch("/api/home-brand-list", {
             query: {
-                limit: "4",
+                limit: "20",
                 start: "0",
             },
         }),

@@ -164,11 +164,11 @@
     </q-page-container>
     <q-footer dense reveal elevated class="row justify-center items-center gradient-bottom text-grey-10">
       <q-tabs v-model="tab" no-caps active-color="primary" indicator-color="primary" switch-indicator>
-        <q-route-tab to="/tracking" icon="location_searching" aria-label="Tracking" class="q-pa-sm text-dark" />
-        <q-route-tab to="/showroom" icon="place" aria-label="Showroom" class="q-pa-sm text-dark" />
-        <q-route-tab to="/" icon="home" aria-label="Home" class="q-pa-sm text-dark" />
-        <q-route-tab to="/search/na" icon="search" aria-label="Search" class="q-pa-sm text-dark" />
-        <q-route-tab flat round icon="history" aria-label="History" @click="toggleRightDrawer" class="q-pa-sm text-dark" />
+        <q-route-tab to="/tracking" icon="location_searching" aria-label="Tracking" class="q-pa-sm" />
+        <q-route-tab to="/showroom" icon="place" aria-label="Showroom" class="q-pa-sm" />
+        <q-route-tab to="/" icon="home" aria-label="Home" class="q-pa-sm text-primary" />
+        <q-route-tab to="/search/na" icon="search" aria-label="Search" class="q-pa-sm" />
+        <q-route-tab flat round icon="history" aria-label="History" @click="toggleRightDrawer" class="q-pa-sm" />
       </q-tabs>
     </q-footer>
   </q-layout>
