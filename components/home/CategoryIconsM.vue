@@ -30,7 +30,7 @@ const { data: response, status }: any = useAsyncData(
   async () =>
     $fetch("/api/home-category-icon", {
       query: {
-        limit: "30",
+        limit: "16",
         start: "0",
       },
     }),

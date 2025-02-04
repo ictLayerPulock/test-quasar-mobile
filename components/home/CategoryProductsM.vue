@@ -60,43 +60,73 @@ const { data: response, status }: any = useAsyncData(
       ">
         <q-card flat square>
           <NuxtLink :to="`/category/${category.fg_category_url}`">
-            <NuxtImg v-if="category.fg_category_component_img" loading="lazy" class="fit" :src="category.fg_category_component_img" :alt="category.fg_category_name" :title="category.fg_category_name">
+            <NuxtImg v-if="category.fg_category_component_img" loading="lazy" class="fit"
+              :src="category.fg_category_component_img" :alt="category.fg_category_name"
+              :title="category.fg_category_name">
             </NuxtImg>
           </NuxtLink>
           <q-toolbar class="bg-primary q-px-none">
-            <q-tabs v-model="response.tab[index]" class="bg-primary text-white q-px-none" inline-label active-color="white" no-caps dense indicator-color="white" shrink stretch size="xs">
-              <q-tab v-if="category.trending.length !== 0" icon="trending_up" :name="`trending_${index}`" label="Trending" />
-              <q-tab v-if="category.featured.length !== 0" icon="bookmark" :name="`featured_${index}`" label="Featured" />
-              <q-tab v-if="category.discounted.length !== 0" icon="percent" :name="`discounted_${index}`" label="Deals" />
+            <q-tabs v-model="response.tab[index]" class="bg-primary text-white q-px-none" inline-label
+              active-color="white" no-caps dense indicator-color="white" shrink stretch size="xs">
+              <q-tab v-if="category.trending.length !== 0" icon="trending_up" :name="`trending_${index}`"
+                label="Trending" />
+              <q-tab v-if="category.featured.length !== 0" icon="bookmark" :name="`featured_${index}`"
+                label="Featured" />
+              <q-tab v-if="category.discounted.length !== 0" icon="percent" :name="`discounted_${index}`"
+                label="Deals" />
             </q-tabs>
             <q-space />
-            <q-btn id="More" round flat outline :to="`/category/${category.fg_category_url}`" color="grey-4" aria-label="More">
+            <q-btn id="More" round flat outline :to="`/category/${category.fg_category_url}`" color="grey-4"
+              aria-label="More">
               <q-icon size="sm" name="more_vert" />
             </q-btn>
           </q-toolbar>
-          <q-tab-panels v-model="response.tab[index]" swipeable infinite transition-prev="fade" transition-next="fade" animated @touchstart.stop @mousedown.stop>
+          <q-tab-panels v-model="response.tab[index]" swipeable infinite transition-prev="fade" transition-next="fade"
+            animated @touchstart.stop @mousedown.stop>
             <q-tab-panel v-if="category.trending.length !== 0" :name="`trending_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
                 <div v-for="item in category.trending" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="row q-pa-none border-bottom">
-                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
-                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
+                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171"
+                          format="webp" quality="50" class="fit" :draggable="false" />
+                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171"
+                          height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image"
+                          :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
-                      <q-icon v-if="item.fg_featured > 0 && status === 'success'" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
-                      <div v-if="item.fg_view > 0" size="xs" class="absolute row items-center bg-transparent text-caption text-weight-medium" style="top: 5px; right: 8px">
+                      <q-icon v-if="item.fg_featured > 0 && status === 'success'" name="bookmark" color="primary"
+                        size="xs" class="absolute" style="top: 5px; left: 5px" />
+                      <div v-if="item.fg_view > 0" size="xs"
+                        class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                        style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                         <span class="text-primary text-caption">
                           {{ viewCount(item.fg_view) }}
                         </span>
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
-                        <div class="text-subtitle2 ellipsis-2-lines" style="height: 44px">
-                          <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                          <span v-else>
-                            {{ item.acc_ledger_name }}
-                          </span>
+                        <q-chip v-if="
+                          item.fg_discount > 0 &&
+                          inDateRange(
+                            item.fg_discount_start_date,
+                            item.fg_discount_end_date
+                          )
+                        " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                          class="absolute row justify-center text-weight-bold bg-white"
+                          style="top: 0; right: 4px; transform: translateY(-50%)">
+                          <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                          <div class="text-primary text-capitalize q-pr-sm"
+                            :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                            Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                          </div>
+                        </q-chip>
+                        <div style="height: 48px">
+                          <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
+                            <span class="text-subtitle2" :title="item.acc_ledger_name">
+                              {{ item.acc_ledger_name }}
+                            </span>
+                          </p>
                         </div>
                         <div class="row justify-between items-baseline">
                           <div v-if="
@@ -125,29 +155,51 @@ const { data: response, status }: any = useAsyncData(
                 </div>
               </div>
             </q-tab-panel>
-           
+
             <q-tab-panel v-if="category.featured.length !== 0" :name="`featured_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
-                <div v-for="item in category.featured" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
+                <div v-for="item in category.featured" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="row q-pa-none border-bottom">
-                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
-                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
+                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171"
+                          format="webp" quality="50" class="fit" :draggable="false" />
+                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171"
+                          height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image"
+                          :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
-                      <q-icon v-if="item.fg_featured > 0 && status === 'success'" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
-                      <div v-if="item.fg_view > 0" size="xs" class="absolute row items-center bg-transparent text-caption text-weight-medium" style="top: 5px; right: 8px">
+                      <q-icon v-if="item.fg_featured > 0 && status === 'success'" name="bookmark" color="primary"
+                        size="xs" class="absolute" style="top: 5px; left: 5px" />
+                      <div v-if="item.fg_view > 0" size="xs"
+                        class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                        style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                         <span class="text-primary text-caption">
                           {{ viewCount(item.fg_view) }}
                         </span>
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
-                        <div class="text-subtitle2 ellipsis-2-lines" style="height: 44px">
-                          <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                          <span v-else>
-                            {{ item.acc_ledger_name }}
-                          </span>
+                        <q-chip v-if="
+                          item.fg_discount > 0 &&
+                          inDateRange(
+                            item.fg_discount_start_date,
+                            item.fg_discount_end_date
+                          )
+                        " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                          class="absolute row justify-center text-weight-bold bg-white"
+                          style="top: 0; right: 4px; transform: translateY(-50%)">
+                          <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                          <div class="text-primary text-capitalize q-pr-sm"
+                            :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                            Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                          </div>
+                        </q-chip>
+                        <div style="height: 48px">
+                          <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
+                            <span class="text-subtitle2" :title="item.acc_ledger_name">
+                              {{ item.acc_ledger_name }}
+                            </span>
+                          </p>
                         </div>
                         <div class="row justify-between items-baseline">
                           <div v-if="
@@ -178,23 +230,48 @@ const { data: response, status }: any = useAsyncData(
             </q-tab-panel>
             <q-tab-panel v-if="category.discounted.length !== 0" :name="`discounted_${index}`" class="q-pa-sm gradient">
               <div class="row q-col-gutter-sm justify-center">
-                <div v-for="item in category.discounted" :key="item" :class="isMobileSize <= 450  ? 'col-6' : 'col-3'">
+                <div v-for="item in category.discounted" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden">
                       <q-card-section class="row q-pa-none border-bottom">
-                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171" format="webp" quality="50" class="fit" :draggable="false" />
-                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171" height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
+                        <NuxtImg v-if="status === 'pending'" loading="lazy" src="/placeholder.gif" width="171"
+                          format="webp" quality="50" class="fit" :draggable="false" />
+                        <NuxtImg v-else loading="lazy" placeholder="/placeholder.gif" class="fit" width="171"
+                          height="228" format="webp" quality="50" :draggable="false" :src="item.fg_image"
+                          :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
                       </q-card-section>
-                      <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
-                      <div v-if="item.fg_view > 0" size="xs" class="absolute row items-center bg-transparent text-caption text-weight-medium" style="top: 5px; right: 8px">
+                      <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
+                        style="top: 5px; left: 5px" />
+                      <div v-if="item.fg_view > 0" size="xs"
+                        class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                        style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                         <span class="text-primary text-caption">
                           {{ viewCount(item.fg_view) }}
                         </span>
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
-                        <div class="text-subtitle2 ellipsis-2-lines" style="height: 44px">
-                          {{ item.acc_ledger_name }}
+                        <q-chip v-if="
+                          item.fg_discount > 0 &&
+                          inDateRange(
+                            item.fg_discount_start_date,
+                            item.fg_discount_end_date
+                          )
+                        " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                          class="absolute row justify-center text-weight-bold bg-white"
+                          style="top: 0; right: 4px; transform: translateY(-50%)">
+                          <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                          <div class="text-primary text-capitalize q-pr-sm"
+                            :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                            Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                          </div>
+                        </q-chip>
+                        <div style="height: 48px">
+                          <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
+                            <span class="text-subtitle2" :title="item.acc_ledger_name">
+                              {{ item.acc_ledger_name }}
+                            </span>
+                          </p>
                         </div>
                         <div class="row justify-between items-baseline">
                           <div v-if="
