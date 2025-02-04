@@ -32,7 +32,7 @@ export default defineNuxtConfig({
       cacheMaxAge: 30 * 60 * 1000, // 1 hr
       viewLimit: 0,
       currency: "BDT", // Primary Currency (For Post Method)
-      currencyBefore: "৳",
+      currencyBefore: "",
       currencyAfter: "Tk.",
       imgRatio: "1",
       //__ For Height
