@@ -6,7 +6,7 @@
             <template #header>
               <q-item-section avatar>
                 <q-avatar size="25px" square>
-                  <q-img v-if="grandchild.fg_category_icon != null && grandchild.fg_category_icon != ''" class="category-icon" :src="grandchild.fg_category_icon" loading="lazy" :alt="grandchild.fg_category_name" :title="grandchild.fg_category_name" />
+                  <NuxtImg v-if="grandchild.fg_category_icon != null && grandchild.fg_category_icon != ''" loading="lazy" format="webp" class="category-icon" :src="grandchild.fg_category_icon" :alt="grandchild.fg_category_name" :title="grandchild.fg_category_name" />
                   <q-icon v-else name="category" size="xs" />
                 </q-avatar>
               </q-item-section>
@@ -18,7 +18,7 @@
           <template #header>
             <q-item-section avatar>
               <q-avatar size="25px" square>
-                <q-img v-if="child.fg_category_icon != null && child.fg_category_icon != ''" class="category-icon" :src="child.fg_category_icon" loading="lazy" :alt="child.fg_category_name" :title="child.fg_category_name" />
+                <NuxtImg v-if="child.fg_category_icon != null && child.fg_category_icon != ''" loading="lazy" format="webp" class="category-icon" :src="child.fg_category_icon" :alt="child.fg_category_name" :title="child.fg_category_name" />
                 <q-icon v-else name="category" size="xs" />
               </q-avatar>
             </q-item-section>
@@ -30,7 +30,7 @@
         <template #header>
           <q-item-section avatar>
             <q-avatar size="25px" square>
-              <q-img v-if="parent.fg_category_icon != null && parent.fg_category_icon != ''" class="category-icon" :src="parent.fg_category_icon" loading="lazy" :alt="parent.fg_category_name" :title="parent.fg_category_name" />
+              <NuxtImg v-if="parent.fg_category_icon != null && parent.fg_category_icon != ''" loading="lazy" format="webp" class="category-icon" :src="parent.fg_category_icon" :alt="parent.fg_category_name" :title="parent.fg_category_name" />
               <q-icon v-else name="category" size="xs" />
             </q-avatar>
           </q-item-section>

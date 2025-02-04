@@ -1,15 +1,14 @@
 <template>
-  <!-- Mobile -->
   <q-layout view="hHh LpR lff">
     <!-- Header -->
     <q-header elevated class="gradient" height-hint="60">
       <q-toolbar class="justify-between items-center" style="height: 60px">
-        <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="dark" round icon="menu" />
+        <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="primary" round icon="menu" />
         <q-toolbar-title class="row justify-center">
-          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40" alt="BFL" title="BFL" />
+          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40" alt="Logo-name" title="Logo-name" />
         </q-toolbar-title>
-        <q-btn id="checkout" color="dark" :class="router.currentRoute.value.path == '/checkout' ? 'dark' : ''" to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
-          <span v-show="cartCount > 0" class="absolute-top-right text-bold text-dark text-caption" style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
+        <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''" to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
+          <span v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption" style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
             {{ cartCount }}
           </span>
         </q-btn>
@@ -83,33 +82,33 @@
         <LayoutsCategoryMenu />
         <q-separator spaced inset />
         <q-list>
-          <q-item v-ripple active-class="bg-grey-4" to="/policy/terms-and-conditions" clickable>
+          <q-item v-ripple active-class="bg-primary" to="/policy/terms-and-conditions" clickable>
             <q-item-section avatar>
-              <q-icon size="25px" color="primary" name="policy" />
+              <q-icon size="25px" name="policy" />
             </q-item-section>
             <q-item-section>
               Term & Conditions
             </q-item-section>
           </q-item>
-          <q-item v-ripple active-class="bg-grey-4" to="/policy/affiliate-earning" clickable>
+          <q-item v-ripple active-class="bg-primary" to="/policy/affiliate-earning" clickable>
             <q-item-section avatar>
-              <q-icon size="25px" color="green-9" name="monetization_on" />
+              <q-icon size="25px" name="monetization_on" />
             </q-item-section>
             <q-item-section>
               Affiliate Earning
             </q-item-section>
           </q-item>
-          <q-item v-ripple active-class="bg-grey-4" href="tel:+8809611777000" clickable>
+          <q-item v-ripple active-class="bg-primary" href="tel:+880170000000" clickable>
             <q-item-section avatar>
-              <q-icon size="25px" color="blue-9" name="call" />
+              <q-icon size="25px" name="call" />
             </q-item-section>
             <q-item-section>
-              +880&#8209;9611&#8209;777000
+              +880&#8209;0175&#8209;00000
             </q-item-section>
           </q-item>
-          <q-item v-ripple active-class="bg-grey-4" clickable>
+          <q-item v-ripple active-class="bg-primary" clickable>
             <q-item-section avatar>
-              <q-icon size="25px" color="blue-9" name="restart_alt" />
+              <q-icon size="25px" name="restart_alt" />
             </q-item-section>
             <q-item-section @click="clearCache()">
               Clean Cache
@@ -118,49 +117,45 @@
         </q-list>
         <q-separator spaced inset />
         <div class="q-gutter-xs row justify-center">
-          <q-btn href="mailto:info@womanish.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="green-9" icon="email" />
+          <q-btn href="mailto:info@womanish.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="email" />
           <q-btn href="https://wa.me/+8801926680888" size="md" class="q-pa-sm" flat title="Whatsapp" role="button" target="_blank">
             <q-avatar size="36px">
               <q-img src="/service-icons/whatsapp.svg" />
             </q-avatar>
           </q-btn>
-          <q-btn href="https://www.facebook.com/womanishltd" target="_blank" size="md" class="q-pa-sm" flat color="blue-9" icon="facebook" />
-          <q-btn href="https://www.youtube.com/@womanishLtd-official" target="_blank" size="md" class="q-pa-sm" flat color="red-9" icon="smart_display" />
+          <q-btn href="https://www.facebook.com/womanishltd" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="facebook" />
+          <q-btn href="https://www.youtube.com/@womanishLtd-official" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="smart_display" />
         </div>
         <q-separator spaced inset />
         <div class="row justify-center q-pb-xs">
           <q-btn flat icon="code" dense size="11px" label="Created By ICT Layer" no-caps href="https://www.ictlayer.com/" />
         </div>
       </q-scroll-area>
-      <q-img class="absolute-top bg-primary" :style="customerIsAuth ? 'height: 120px' : 'height: 64px'">
-        <div v-if="customerIsAuth" class="absolute-bottom">
+      <div class="absolute-top bg-grey-5" style="height: 64px">
+        <div v-if="customerIsAuth" class="q-pa-md">
           <div class="column q-gutter-md">
-            <NuxtLink to="/customer/accounts" style="text-decoration: none" aria-label="Accounts">
-              <div class="text-weight-bold text-capitalize">
-                Customer Name
-              </div>
+            <NuxtLink to="/customer/accounts" style="text-decoration: none" aria-label="Accounts" class="text-secondary" >
+              <p class="text-weight-bold text-capitalize">
+                Customer Name 
+              </p>
             </NuxtLink>
-            <!-- <q-btn dense outline @click="confirmLogout()" aria-label="Logout">
-              <q-icon name="logout" class="q-pr-sm" />
-              Logout
-            </q-btn> -->
           </div>
         </div>
-        <div v-else class="absolute-bottom">
+        <div v-else class="q-pa-md">
           <div class="column q-gutter-md">
-            <q-btn dense outline to="/login" aria-label="Login">
+            <q-btn dense outline to="/login" color="primary" aria-label="Login">
               <q-icon name="login" class="q-pr-sm" />
               Login / Signup
             </q-btn>
           </div>
         </div>
-      </q-img>
+      </div>
     </q-drawer>
-    <q-drawer v-model="rightDrawerOpen" side="right" elevated :width="330" class="bg-grey-2">
+    <q-drawer v-model="rightDrawerOpen" side="right" elevated :width="320" class="bg-grey-2">
       <LayoutsRightDrawerM />
     </q-drawer>
     <!-- page-container -->
-    <q-page-container class="bg-red-9" v-touch-swipe.mouse.right="toggleLeftDrawer" v-touch-swipe.mouse.left="toggleRightDrawer">
+    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer" v-touch-swipe.mouse.left="toggleRightDrawer">
       <q-page class="q-pa-sm">
         <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">
           <slot />
