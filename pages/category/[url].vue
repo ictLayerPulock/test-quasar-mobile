@@ -10,7 +10,7 @@
             responseCat.category.fg_category_banner != ''
           )
         " class="row items-center flex-center">
-          <h1 class="text-h6 text-uppercase text-primary text-weight-medium text-center q-ma-sm">
+          <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm">
             {{ responseCat.category.fg_category_name }}
           </h1>
         </div>
@@ -38,7 +38,7 @@
             <q-chip v-for="item in responseCat.sub_category" :key="item" square outline clickable class="bg-white"
               color="primary" text-color="white">
               <NuxtLink :to="`/category/${item.fg_category_url}`" style="text-decoration: none" class="text-secondary">
-               <p class="q-ma-none text-subtitle2">{{ item.fg_category_name }} ({{ item.fg_count }})</p> 
+                <p class="q-ma-none text-subtitle2">{{ item.fg_category_name }} ({{ item.fg_count }})</p>
               </NuxtLink>
             </q-chip>
           </div>
@@ -48,7 +48,7 @@
       <div v-if="show" class="q-gutter-xs q-pt-none">
         <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
           <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
-            <div v-for="item in 3" :key="item"  :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
+            <div v-for="item in 3" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
               <q-card>
                 <q-card-section horizontal class="overflow-hidden">
                   <q-card-section class="col q-pa-none border-right">
@@ -77,7 +77,7 @@
               </q-card>
             </div>
           </q-card>
-          <q-card v-else flat square class="row q-px-sm q-py-xs q-gutter-y-sm gradient">
+          <q-card v-else flat square class="row justify-center q-px-sm q-py-xs q-gutter-y-sm gradient">
             <div v-for="item in product" :key="item" class="q-px-xs" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
               <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" :title="item.acc_ledger_name"
                 style="text-decoration: none" class="text-secondary">
@@ -97,9 +97,26 @@
                     </span>
                   </div>
                   <q-card-section class="q-pa-sm q-gutter-xs">
-                    <div class="ellipsis-2-lines" style="height: 48px">
-                      <p class="text-subtitle2 q-ma-none">
-                        {{ item.acc_ledger_name }}
+                    <q-chip v-if="
+                      item.fg_discount > 0 &&
+                      inDateRange(
+                        item.fg_discount_start_date,
+                        item.fg_discount_end_date
+                      )
+                    " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                      class="absolute row justify-center text-weight-bold bg-white"
+                      style="top: 0; right: 4px; transform: translateY(-50%)">
+                      <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                      <div class="text-primary text-capitalize q-pr-sm"
+                        :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                        Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                      </div>
+                    </q-chip>
+                    <div style="height: 48px">
+                      <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
+                        <span class="text-subtitle2" :title="item.acc_ledger_name">
+                          {{ item.acc_ledger_name }}
+                        </span>
                       </p>
                     </div>
                     <div class="row justify-between items-baseline">

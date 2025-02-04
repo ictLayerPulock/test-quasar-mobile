@@ -13,19 +13,18 @@
         <div v-if="status === 'pending'">
           <q-card flat square class="gradient q-pa-none">
             <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
-            <div v-for="item in 12" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
-              <NuxtLink  class="text-black" style="text-decoration: none">
-                <q-card class="shadow-5 q-pa-none">
-                  <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
-                    src="/placeholder.gif" />
-                  <p
-                    class="text-body2 text-weight-regular text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
-                    <q-skeleton type="text"></q-skeleton>
-                  </p>
-                </q-card>
-              </NuxtLink>
+              <div v-for="item in 12" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
+                <NuxtLink class="text-black" style="text-decoration: none">
+                  <q-card class="shadow-5 q-pa-none">
+                    <NuxtImg loading="lazy" rounded width="96" height="96" class="fit" src="/placeholder.gif" />
+                    <p
+                      class="text-body2 text-weight-regular text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
+                      <q-skeleton type="text"></q-skeleton>
+                    </p>
+                  </q-card>
+                </NuxtLink>
+              </div>
             </div>
-          </div>
           </q-card>
           <div v-for="child in 1" :key="child">
             <q-card flat square class="q-mt-sm gradient">
@@ -38,8 +37,8 @@
                 <div v-for="item in 10" :key="item" :class="isMobileSize <= 450 ? 'col-3' : 'col-2'">
                   <q-card class="shadow-5 overflow-hidden">
                     <q-card-section class="row q-pa-none border-bottom">
-                      <NuxtImg loading="lazy" src="/placeholder.gif" sizes="100vw sm:50vw md:170px"
-                        height="170" format="webp" quality="50" class="fit" :draggable="false" />
+                      <NuxtImg loading="lazy" src="/placeholder.gif" sizes="100vw sm:50vw md:170px" height="170"
+                        format="webp" quality="50" class="fit" :draggable="false" />
                     </q-card-section>
                     <q-card-section class="q-pa-sm q-gutter-xs">
                       <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
@@ -108,13 +107,27 @@
                         </p>
                       </div>
                       <q-card-section class="q-pa-sm q-gutter-xs">
+                        <q-chip v-if="
+                          item.fg_discount > 0 &&
+                          inDateRange(
+                            item.fg_discount_start_date,
+                            item.fg_discount_end_date
+                          )
+                        " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                          class="absolute row justify-center text-weight-bold bg-white"
+                          style="top: 0; right: 4px; transform: translateY(-50%)">
+                          <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                          <div class="text-primary text-capitalize q-pr-sm"
+                            :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                            Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                          </div>
+                        </q-chip>
                         <div style="height: 48px">
-                          <h4 class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-ma-none">
-                            <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                            <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
+                          <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
+                            <span class="text-subtitle2" :title="item.acc_ledger_name">
                               {{ item.acc_ledger_name }}
                             </span>
-                          </h4>
+                          </p>
                         </div>
                         <div class="row justify-between items-baseline">
                           <div v-if="

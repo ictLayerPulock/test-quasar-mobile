@@ -1,4 +1,5 @@
 <template>
+
   <div class="q-gutter-y-md" style="margin-top: 56px">
     <div v-if="page_banner" class="row justify-around items-center bg-grey-2">
       <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm" :title="title">
@@ -10,7 +11,7 @@
         placeholder="/placeholder.gif" :src="page_banner" alt="page-banner" title="page-banner" />
     </q-card>
     <!-- Product List -->
-    <div v-if="show" class="q-gutter-xs">
+    <div v-if="show" class="q-gutter-xs q-mt-md">
       <q-infinite-scroll :offset="100" @load="onLoad">
         <q-card v-if="status === 'pending'" flat square class="q-pa-sm q-gutter-y-sm gradient"
           >
@@ -108,7 +109,8 @@
   <q-page-sticky expand position="top">
     <q-toolbar class="text-white bg-grey-3 q-pa-xs shadow-4">
       <q-toolbar-title>
-        <q-scroll-area class="q-pt-xs" style="height: 44px" :thumb-style="{ opacity: '0' }"
+        <!-- Sort Filter -->
+        <q-scroll-area class="q-py-xs q-pr-xs flex flex-center" style="height: 44px" :thumb-style="{ opacity: '0' }"
           @touchstart.stop @mousedown.stop>
           <div class="row" style="width: 490px">
             <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export"
@@ -174,7 +176,7 @@ const config = useRuntimeConfig();
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
 const show = ref(true);
-const title = ref("New Arrivals");
+const title = ref("Featured Products");
 
 const clearCache = (done: any) => {
   clearNuxtData();
@@ -204,14 +206,13 @@ const {
   data: response,
   refresh,
   status,
-  clear
 } = await useAsyncData(
-  "page-new-arrivals",
+  "page-featured-product",
   async () =>
-    $fetch("/api/page-new-arrivals", {
+    $fetch("/api/page-featured-product", {
       query: {
-        start: start.value,
         limit: limit.value,
+        start: start.value,
         gender: genderFilter.value,
         tag: config.public.tagFiltering,
         rating:
@@ -295,7 +296,7 @@ async function onLoad(index: any, done: any) {
   if (!no_more_data.value) {
     const { data } = await useAsyncData(
       () =>
-        $fetch("/api/page-new-arrivals", {
+        $fetch("/api/page-featured-product", {
           query: {
             limit: limit.value,
             start: start.value,
@@ -398,8 +399,8 @@ function resetAllFilter() {
   recentHigh.value = 0;
   trendingHigh.value = 0;
   ratingHigh.value = 0;
-  start.value = 0;
   limit.value = 12;
+  start.value = 0;
 }
 
 async function orderByRatingLowtoHigh() {

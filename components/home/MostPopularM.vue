@@ -56,13 +56,27 @@
                   </p>
                 </div>
                 <q-card-section class="q-pa-sm q-gutter-xs">
+                  <q-chip v-if="
+                    item.fg_discount > 0 &&
+                    inDateRange(
+                      item.fg_discount_start_date,
+                      item.fg_discount_end_date
+                    )
+                  " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                    class="absolute row justify-center text-weight-bold bg-white"
+                    style="top: 0; right: 4px; transform: translateY(-50%)">
+                    <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                    <div class="text-primary text-capitalize q-pr-sm" :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                      Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                    </div>
+                  </q-chip>
                   <div style="height: 48px">
-                    <h4 class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-ma-none">
+                    <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
                       <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2">
+                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
                         {{ item.acc_ledger_name }}
                       </span>
-                    </h4>
+                    </p>
                   </div>
                   <div class="row justify-between items-baseline">
                     <div v-if="

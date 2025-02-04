@@ -3,8 +3,8 @@
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
         <NuxtLink to="/flashsale" aria-label="Flash Sale" title="Flash Sale" style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize  text-weight-medium q-my-sm">
-            Flash Sale {{ show }}
+          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+            Flash Sale
           </h3>
         </NuxtLink>
         <q-btn to="/flashsale" color="primary" flat padding="sm" dense size="md" icon="more_vert"
@@ -16,7 +16,7 @@
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
-              <q-card-section class="row q-pa-none border-bottom">
+              <q-card-section class="q-pa-none border-bottom">
                 <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit"
                   format="webp" src="/placeholder.gif" :draggable="false" />
               </q-card-section>
@@ -38,7 +38,7 @@
           :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
           <div v-for="(item, index) in response.data" :key="index" class="col-2">
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
-              class="">
+              class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
                 <q-card-section class="row q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif"
@@ -49,21 +49,35 @@
                 <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                   style="top: 5px; left: 5px" />
                 <div v-if="item.fg_view > 0" size="xs"
-                  class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                  class="absolute row justify-center items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
-                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-                  <span class=" text-caption">
+                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs"/>
+                  <p class="text-caption q-ma-none text-primary">
                     {{ viewCount(item.fg_view) }}
-                  </span>
+                  </p>
                 </div>
                 <q-card-section class="q-pa-sm q-gutter-xs">
+                  <q-chip v-if="
+                    item.fg_discount > 0 &&
+                    inDateRange(
+                      item.fg_discount_start_date,
+                      item.fg_discount_end_date
+                    )
+                  " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
+                    class="absolute row justify-center text-weight-bold bg-white"
+                    style="top: 0; right: 4px; transform: translateY(-50%)">
+                    <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
+                    <div class="text-primary text-capitalize q-pr-sm" :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                      Ends {{ useTimeAgo(item.fg_discount_end_date) }}
+                    </div>
+                  </q-chip>
                   <div style="height: 48px">
-                    <h4 class="text-subtitle2 ellipsis-2-lines text-left text-weight-regular q-ma-none">
+                    <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
                       <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2">
+                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
                         {{ item.acc_ledger_name }}
                       </span>
-                    </h4>
+                    </p>
                   </div>
                   <div class="row justify-between items-baseline">
                     <div v-if="
@@ -72,14 +86,16 @@
                         item.fg_discount_start_date,
                         item.fg_discount_end_date
                       )
-                    " class="text-caption text-bold text-uppercase">
-                      -{{ item.fg_discount }}%
+                    " class="text-caption text-bold text-primary text-uppercase">
+                      <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                     </div>
                     <q-space />
-                    <div class="text-subtitle2 text-weight-medium">
-                      {{ config.public.currencyBefore }}
-                      {{ formatMoney(item.fg_up_final * 1.0) }}
-                      {{ config.public.currencyAfter }}
+                    <div class="text-body2 text-weight-medium">
+                      <p class="q-ma-none">
+                        {{ config.public.currencyBefore }}
+                        {{ formatMoney(item.fg_up_final * 1.0) }}
+                        {{ config.public.currencyAfter }}
+                      </p>
                     </div>
                   </div>
                 </q-card-section>
@@ -145,7 +161,7 @@ const { data: response, status }: any = useAsyncData(
         .splice(0, 6);
         console.log(responseData.data.length);
         console.log("Some")
-        if (responseData.data.length > 2){
+        if (responseData.data.length > 0){
           show.value = true;
         }
         return {
@@ -164,7 +180,7 @@ const { data: response, status }: any = useAsyncData(
       if (isExpired) {
         return;
       }
-      if (data.data.length > 2) show.value = true;
+      if (data.data.length > 0) show.value = true;
       return data;
     },
   }
