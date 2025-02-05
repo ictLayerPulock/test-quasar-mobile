@@ -166,7 +166,7 @@ const styledHtml = computed(() => {
     <q-card  flat>
       <div class="q-pa-sm">
         <div class="text-justify q-pa-xs">
-          <p class="text-body2 text-grey-7 q-my-xs" v-html="styledHtml" />
+          <p class="text-body2 q-my-xs" v-html="styledHtml" />
         </div>
       </div>
     </q-card>

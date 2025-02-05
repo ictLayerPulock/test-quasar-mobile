@@ -27,7 +27,7 @@
                   </span>
                 </q-chip>
                 <q-card-section class="q-pa-sm">
-                  <p class="text-subtitle1 text-weight-regular text-capitalize  ellipsis-2-lines" style="height: 50px;">
+                  <p class="text-subtitle1 text-weight-regular text-capitalize ellipsis-2-lines" style="height: 50px;">
                     {{ item.news_title }}
                   </p>
                 </q-card-section>

@@ -29,7 +29,7 @@
               </span>
             </q-chip>
             <q-card-section class="q-pa-none">
-              <p class="text-body1 q-ma-sm text-weight-regular text-capitalize" style="height: 50px;">
+              <p class="text-body1 q-ma-sm text-weight-regular text-capitalize ellipsis-2-lines" style="height: 50px;">
                 {{ item.blog_title }}
               </p>
             </q-card-section>
