@@ -207,7 +207,9 @@ const styledHtml = computed(() => {
     .replace(/<h3>/g, '<h3 style="font-size: 16px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
     .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
     .replace(/<ul>/g, '<ul style="font-size: 14px; line-height: 1.5; margin: 0 0 5px 0;">')
-    .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">');
+    .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
+    .replace(/<img/g, '<img style="width:100%; height:400px;"')
+    .replace(/<iframe/g, '<iframe style="width:100%; height:400px;"');
 });
 const styledHtmlGlance = computed(() => {
   return rawVHtmlGlance.value
@@ -248,9 +250,6 @@ const styledHtmlGlance = computed(() => {
           </div>
         </div>
       </q-card-section>
-    </q-card>
-
-    <q-card v-if="product.fg_view > 0 || product.fg_rating > 0" flat square class="q-pa-none">
       <q-card-section class="q-pa-sm">
         <div class="row justify-between items-center">
           <div v-if="product.fg_view > 0" class="row items-center bg-transparent text-caption text-weight-medium"
@@ -278,6 +277,7 @@ const styledHtmlGlance = computed(() => {
         </div>
       </q-card-section>
     </q-card>
+
     <q-card v-if="product.fg_id" flat square class="bg-grey-3 q-py-none">
       <q-card-section class="q-pa-sm">
           <div v-if="

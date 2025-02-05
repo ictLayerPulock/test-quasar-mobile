@@ -162,6 +162,11 @@
         </div>
       </q-page>
     </q-page-container>
+    <!-- Page Scroller Start -->
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+        <q-btn id="scroll_to_top" fab-mini icon="keyboard_arrow_up" color="primary" aria-label="Scroll To Top" />
+      </q-page-scroller>
+      <!-- Page Scroller End -->
     <q-footer dense reveal elevated class="row justify-center items-center gradient-bottom text-grey-10">
       <q-tabs v-model="tab" no-caps active-color="primary" indicator-color="primary" switch-indicator>
         <q-route-tab to="/tracking" icon="location_searching" aria-label="Tracking" class="q-pa-sm" />
