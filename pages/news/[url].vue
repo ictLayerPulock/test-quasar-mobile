@@ -1,3 +1,76 @@
+<script setup lang="ts">
+const config = useRuntimeConfig();
+const baseURL = config.public.baseURL;
+const route = useRoute();
+const $q = useQuasar();
+const url = route.params.url;
+const videoModal = useVideoModal();
+const slide = ref(1);
+
+interface NewsType {
+  [x: string]: any;
+}
+
+const nuxtApp = useNuxtApp();
+const addImgUrl: any = ref([]);
+const news: any = ref();
+
+const { data: response }: any = await useAsyncData(
+  `news-details: ${url}`,
+  async () =>
+    $fetch("/api/news-details/" + url, {
+      query: {
+        news_url: url,
+      },
+    }),
+  {
+    // default: () => [],
+    // lazy: true,
+    // deep: false,
+    transform(input: any) {
+      return {
+        ...input.data[0],
+        fetchedAt: new Date(),
+      };
+    },
+    getCachedData(key) {
+      const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      if (!data) {
+        return;
+      }
+      const expDate = new Date(data.fetchedAt);
+      expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
+      const isExpired = expDate.getTime() < Date.now();
+      if (isExpired) {
+        return;
+      }
+      return data;
+    },
+  }
+);
+
+for (let i = 0; i <= response.value.add_img_url.length; i++) {
+  if (response.value.add_img_url[i] != null) {
+    addImgUrl.value.push(response.value.add_img_url[i]);
+  }
+}
+news.value = response.value;
+
+console.log(news.value.news_article )
+console.log(news.news_article)
+// Modify the HTML content by adding inline styles to specific tags
+const rawVHtml = ref(news.value.news_article );
+const styledHtml = computed(() => {
+  return rawVHtml.value
+    .replace(/<h1>/g, '<h1 style="font-size: 18px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
+    .replace(/<h2>/g, '<h2 style="font-size: 17px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
+    .replace(/<h3>/g, '<h3 style="font-size: 16px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
+    .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
+    .replace(/<ul>/g, '<ul style="font-size: 14px; line-height: 1.5; margin: 0 0 5px 0;">')
+    .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">');
+});
+</script>
+
 <template>
   <div class="bg-grey-2">
     <q-card flat>
@@ -97,83 +170,8 @@
         </div>
       </div>
     </q-card>
-    <NewsRelatedProductsM :news-url="news.news_url" />
-    <ClientOnly>
       <NewsLatestNewsM />
-      <NewsSuggestedNewsM />
-    </ClientOnly>
+      <LazySuggestedProductsM />
   </div>
 </template>
-<script setup lang="ts">
-const config = useRuntimeConfig();
-const baseURL = config.public.baseURL;
-const route = useRoute();
-const $q = useQuasar();
-const url = route.params.url;
-const videoModal = useVideoModal();
-const slide = ref(1);
 
-interface NewsType {
-  [x: string]: any;
-}
-
-const nuxtApp = useNuxtApp();
-const addImgUrl: any = ref([]);
-const news: any = ref();
-
-const { data: response }: any = await useAsyncData(
-  `news-details: ${url}`,
-  async () =>
-    $fetch("/api/news-details/" + url, {
-      query: {
-        news_url: url,
-      },
-    }),
-  {
-    // default: () => [],
-    // lazy: true,
-    // deep: false,
-    transform(input: any) {
-      return {
-        ...input.data[0],
-        fetchedAt: new Date(),
-      };
-    },
-    getCachedData(key) {
-      const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-      if (!data) {
-        return;
-      }
-      const expDate = new Date(data.fetchedAt);
-      expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
-      const isExpired = expDate.getTime() < Date.now();
-      if (isExpired) {
-        return;
-      }
-      return data;
-    },
-  }
-);
-
-for (let i = 0; i <= response.value.add_img_url.length; i++) {
-  if (response.value.add_img_url[i] != null) {
-    addImgUrl.value.push(response.value.add_img_url[i]);
-  }
-}
-news.value = response.value;
-
-console.log(news.value.news_article )
-console.log(news.news_article)
-// Modify the HTML content by adding inline styles to specific tags
-const rawVHtml = ref(news.value.news_article );
-const styledHtml = computed(() => {
-  return rawVHtml.value
-    .replace(/<h1>/g, '<h1 style="font-size: 18px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<h2>/g, '<h2 style="font-size: 17px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<h3>/g, '<h3 style="font-size: 16px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-    .replace(/<ul>/g, '<ul style="font-size: 14px; line-height: 1.5; margin: 0 0 5px 0;">')
-    .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-    .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">');
-});
-</script>

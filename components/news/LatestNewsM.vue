@@ -1,14 +1,10 @@
 <template>
   <section v-show="show">
-    <q-card v-if="status != 'pending'" flat square class="bg-grey-2">
-      <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
-        <NuxtLink to="/news" aria-label="News & Updates" title="News & Updates" style="text-decoration: none">
-          <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
-            News & Updates
-          </h5>
-        </NuxtLink>
-        <q-btn to="/news" color="primary" flat padding="sm" dense size="md" icon="more_vert"
-          aria-label="News & Updates" />
+    <q-card v-if="status != 'pending'" flat square class="gradient">
+      <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
+        <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          Latest News
+        </h3>
       </q-card-section>
       <q-separator />
       <q-scroll-area style="height: 273px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
@@ -74,15 +70,22 @@
     </q-card>
   </section>
 </template>
+
 <script setup lang="ts">
-const nuxtApp = useNuxtApp();
 const config = useRuntimeConfig();
-const show = ref(false);
+const nuxtApp = useNuxtApp();
+const show = ref(true);
+// const img = useImage();
+
+interface DataType {
+  [x: string]: any;
+}
+const news = ref<DataType>([]);
 
 const { data: response, status }: any = useAsyncData(
-  "home-news",
+  "news-latest",
   async () =>
-    $fetch("/api/home-news", {
+    $fetch("/api/news-latest", {
       query: {
         limit: "6",
         start: "0",
@@ -92,10 +95,19 @@ const { data: response, status }: any = useAsyncData(
     default: () => [],
     lazy: true,
     deep: false,
-    transform(responseData: any) {
-      if (responseData.data.length > 2) show.value = true;
+    transform(input: any) {
+      input.data = input.data
+        .map((item: any) => ({
+          news_date: item.news_date,
+          news_image: item.news_image,
+          news_title: item.news_title,
+          news_url: item.news_url,
+          news_view: item.news_view,
+        }))
+        .splice(0, 6);
+      if (input.data.length == 0) show.value = false;
       return {
-        ...responseData,
+        ...input,
         fetchedAt: new Date(),
       };
     },
@@ -110,7 +122,7 @@ const { data: response, status }: any = useAsyncData(
       if (isExpired) {
         return;
       }
-      if (data.data.length > 2) show.value = true;
+      if (data.data.length == 0) show.value = false;
       return data;
     },
   }

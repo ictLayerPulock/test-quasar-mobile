@@ -6,30 +6,14 @@
           </h1>
       </div>
       <q-card square flat class="q-pa-sm bg-grey-2">
-        <div v-if="status == 'pending'">
-          <div v-for="item in 6" :key="item">
-              <q-card class="shadow-5 overflow-hidden">
-                <NuxtImg loading="lazy" class="fit border-bottom"  sizes="170px" width="170" height="170" src="/placeholder.gif" alt="image" title="image" />
-                <q-chip color="primary" class="absolute bg-grey-3 text-primary" style="top: 5px; left: 5px">
-                  <q-skeleton type="text" width="60px" />
-                </q-chip>
-                <q-chip color="primary" class="absolute bg-grey-3 text-primary" style="top: 5px; right: 5px" square flat>
-                  <q-skeleton type="text" width="120px" />
-                </q-chip>
-                <q-card-section class="q-py-sm">
-                  <div class="text-body1 text-secondary text-weight-regular text-capitalize">
-                    <q-skeleton type="text" width="120px" />
-                  </div>
-                </q-card-section>
-              </q-card>
-          </div>
-        </div>
-        <div v-else>
           <q-infinite-scroll :offset="50" @load="onLoad">
-          <div v-for="item in news" :key="item">
-            <NuxtLink v-if="item.news_image != null" :aria-label="item.news_title" :to="`/news/${item.news_url}`" style="text-decoration: none" class="text-secondary q-gutter-y-sm">
-              <q-card class="shadow-5 overflow-hidden">
-                <NuxtImg loading="lazy" class="fit border-bottom" sizes="170px" width="170" height="170" :src="item.news_image" :alt="item.news_title" :title="item.news_title" />
+          <div class="row q-col-gutter-sm">
+            <NuxtLink v-for="item in news" :key="item" 
+            :aria-label="item.news_title" :to="`/news/${item.news_url}`" 
+            style="text-decoration: none" class="text-secondary" 
+            :class="isMobileSize < 450 ? 'col-12' : isMobileSize < 790 ? 'col-6' : isMobileSize < 1600 ? 'col-4' : 'col-3'">
+              <q-card class="shadow-5 q-pa-none">
+                <NuxtImg loading="lazy" class="fit border-bottom" width="170" height="170" :src="item.news_image" :alt="item.news_title" :title="item.news_title" />
                 <q-chip v-if="item.news_view > 0" color="primary" class="absolute bg-grey-3" style="top: 5px; left: 5px">
                   <q-icon color="primary" name="trending_up" class="q-mr-xs" left />
                   <span class="text-primary">
@@ -42,8 +26,8 @@
                     {{ useTimeAgo(item.news_date) }}
                   </span>
                 </q-chip>
-                <q-card-section class="q-py-sm">
-                  <p class="text-body1 text-weight-regular text-capitalize">
+                <q-card-section class="q-pa-sm">
+                  <p class="text-subtitle1 text-weight-regular text-capitalize  ellipsis-2-lines" style="height: 50px;">
                     {{ item.news_title }}
                   </p>
                 </q-card-section>
@@ -56,12 +40,12 @@
             </div>
           </template>
         </q-infinite-scroll>
-        </div>
       </q-card>
   </div>
 </template>
 <script setup lang="ts">
 const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 const config = useRuntimeConfig()
 const baseURL = config.public.baseURL;
 
