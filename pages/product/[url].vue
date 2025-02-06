@@ -215,18 +215,31 @@ const styledHtmlGlance = computed(() => {
   return rawVHtmlGlance.value
     .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
 });
+
+// Add to card
+const quantity = ref(1)
+async function removeQty() {
+  if (quantity.value > 1) {
+    quantity.value--
+  } else {
+    quantity.value == 1
+  }
+}
+async function addQty() {
+  quantity.value++
+}
+
+const addToCart = ref()
 </script>
 
 <template>
   <div>
     <q-card v-if="product.fg_id">
-      <q-card-section class="no-padding q-gutter-y-sm">
+      <q-card-section class="q-pa-none">
         <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth"
           :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
       </q-card-section>
-    </q-card>
-    <q-card v-if="product.fg_id" flat square>
-      <q-card-section class="q-pa-xs text-center">
+      <q-card-section v-if="product.fg_id" class="q-pa-sm">
         <h2 class="text-subtitle1 text-primary text-weight-medium q-ma-none text-capitalize">
           {{ product.acc_ledger_name }}
         </h2>
@@ -241,61 +254,33 @@ const styledHtmlGlance = computed(() => {
           </div>
           <div class="row justify-start items-center">
             <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name"
-              :aria-label="product.fg_category_name" style="text-decoration: none" class="row justify-center items-center text-secondary">
-            <q-icon name="category" class="q-mr-xs" left />
-                <p class="q-ma-none">
-                  {{ product.fg_category_name }}
-                </p>
-              </NuxtLink>
+              :aria-label="product.fg_category_name" style="text-decoration: none"
+              class="row justify-center items-center text-secondary">
+              <q-icon name="category" class="q-mr-xs" left />
+              <p class="q-ma-none">
+                {{ product.fg_category_name }}
+              </p>
+            </NuxtLink>
           </div>
         </div>
       </q-card-section>
-      <q-card-section class="q-pa-sm">
-        <div class="row justify-between items-center">
-          <div v-if="product.fg_view > 0" class="row items-center bg-transparent text-caption text-weight-medium"
-            style="top: 5px; right: 8px">
-            <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
-            <span class="text-primary text-caption">
-              {{ viewCount(product.fg_view) }}
-            </span>
+      <q-separator />
+      <q-card-section v-if="product.fg_id" class="q-pa-sm bg-grey-3">
+        <div v-if="
+          product.fg_discount > 0 &&
+          inDateRange(product.fg_discount_start_date, product.fg_discount_end_date)
+        " class="row justify-center items-center q-gutter-x-lg text-primary">
+          <div>
+            <p class="q-mr-md text-bold text-uppercase q-ma-none">
+              {{ product.fg_discount }}% Off
+            </p>
           </div>
-          <q-space />
-          <NuxtLink v-if="product.fg_review_count > 0" :to="`/product/review/${product.fg_url}`" class="text-primary"
-            title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
-            <span v-if="product.fg_review_count > 0" class="text-caption text-primary" style="padding-top: 2px">
-              ({{ product.fg_review_count }})
-            </span>
-            <q-rating v-model="product.fg_rating" class="q-ml-xs text-primary" size="16px" :max="5" color="primary" />
-          </NuxtLink>
-          <NuxtLink v-else :to="`/product/review/${product.fg_url}`" class="text-secondary q-pa-none" title="Review/Rating"
-            aria-label="Review/Rating" style="text-decoration: none">
-            <q-icon v-if="product.fg_id" name="star" style="margin-bottom: 2px" />
-            <span v-if="product.fg_id" class="text-caption text-capitalize">
-              Give First Rating!
-            </span>
-          </NuxtLink>
+          <div>
+            <p v-if="product.fg_discount_end_date" class="text-overline text-bold q-ma-none text-capitalize">
+              (Ends {{ useTimeAgo(product.fg_discount_end_date) }})
+            </p>
+          </div>
         </div>
-      </q-card-section>
-    </q-card>
-
-    <q-card v-if="product.fg_id" flat square class="bg-grey-3 q-py-none">
-      <q-card-section class="q-pa-sm">
-          <div v-if="
-            product.fg_discount > 0 &&
-            inDateRange(product.fg_discount_start_date, product.fg_discount_end_date)
-          " class="row justify-center items-center q-gutter-x-lg text-primary">
-            <div>
-              <p class="q-mr-md text-bold text-uppercase q-ma-none">
-                {{ product.fg_discount }}% Off
-              </p>
-            </div>
-            <div>
-              <p v-if="product.fg_discount_end_date" class="text-overline text-bold q-ma-none text-capitalize">
-                (Ends {{ useTimeAgo(product.fg_discount_end_date) }})
-              </p>
-            </div>
-          </div>
-
         <div class="row justify-center q-gutter-x-lg">
           <div>
             <p v-if="
@@ -316,18 +301,32 @@ const styledHtmlGlance = computed(() => {
           </div>
         </div>
       </q-card-section>
+      <q-card-section>
+        <div class="row items-center justify-center q-gutter-sm">
+          <q-card class="row q-pa-none">
+              <q-btn color="primary" size="md" class="q-px-sm" icon="remove" flat @click="removeQty" />
+              <q-input v-model.number="quantity" dense filled square type="number" color="primary"
+                style="max-width:40px;" input-class="text-right" disable class="cursor-pointer" />
+              <q-btn color="primary" size="md" icon="add" class="q-px-sm" flat @click="addQty" />
+           
+          </q-card>
+          <q-btn color="primary" label="Add To Cart" style="height:41px ;width:120px" @click="addToCart" />
+        </div>
+      </q-card-section>
+      <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
+        <div class="q-px-sm">
+          <div class="text-justify q-pa-xs text-body2 text-capitalize" v-html="styledHtmlGlance" />
+        </div>
+      </q-card-section>
+      <q-card-section v-if="product.fg_detail_content_editor" flat square class="bg-grey-1 q-py-none">
+        <div class="q-px-sm">
+          <div class="text-justify q-pa-xs text-body2" v-html="styledHtml" />
+        </div>
+      </q-card-section>
     </q-card>
-
-    <q-card v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pt-sm" square>
-      <div class="q-px-sm">
-        <div class="text-justify q-pa-xs text-body2 text-capitalize" v-html="styledHtmlGlance" />
-      </div>
-    </q-card>
-    <q-card v-if="product.fg_detail_content_editor" flat square class="bg-grey-1 q-py-none">
-      <div class="q-px-sm">
-        <div class="text-justify q-pa-xs text-body2" v-html="styledHtml" />
-      </div>
-    </q-card>
+    
+    <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
+    
     <LazySuggestedProductsM />
   </div>
 </template>
