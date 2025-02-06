@@ -2,9 +2,9 @@
   <div>
     <!-- Page Title -->
     <q-card>
-      <q-card-section class="q-pa-sm gradient-h">
+      <q-card-section class="q-pa-xs gradient-h">
           <h1 class="text-h5 text-uppercase text-primary q-ma-none text-weight-medium text-center">
-            Categories of Womanish
+            Brands
           </h1>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -57,31 +57,31 @@
         </div>
         <div v-else>
           <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
-            <div v-for="item in response.categoryParent" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
-              <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-secondary" style="text-decoration: none">
+            <div v-for="item in response.brandList" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
+              <NuxtLink :to="`/brand/${item.fg_brand_url}`" class="text-secondary" style="text-decoration: none">
                 <q-card class="shadow-5 q-pa-none">
                   <NuxtImg loading="lazy" rounded width="96" height="96" class="fit"
-                    :src="item.fg_category_icon ? item.fg_category_icon : `https://dummyimage.com/96x96/d4d4d4/000.jpg&text=${item.fg_category_name}`"
-                    :title="item.fg_category_name" :alt="item.fg_category_name" />
+                    :src="item.fg_brand_logo ? item.fg_brand_logo : `https://dummyimage.com/96x96/d4d4d4/000.jpg&text=${item.fg_brand_name}`"
+                    :title="item.fg_brand_name" :alt="item.fg_brand_name" />
                   <p
                     class="text-body2 text-weight-regular text-weight-medium text-center q-px-sm q-my-xs text-capitalize ellipsis">
-                    {{ item.fg_category_name }}
+                    {{ item.fg_brand_name }}
                   </p>
                 </q-card>
               </NuxtLink>
             </div>
           </div>
-          <div v-for="child in response.categoryParent" :key="child">
+          <div v-for="child in response.brandList" :key="child">
             <q-card flat square class="q-mt-sm gradient">
               <q-card-section class="row justify-between gradient-h q-py-none">
-                <NuxtLink :to="`/category/${child.fg_category_url}`" :aria-label="child.fg_category_name"
-                  :title="child.fg_category_name" style="text-decoration: none">
+                <NuxtLink :to="`/brand/${child.fg_brand_url}`" :aria-label="child.fg_brand_name"
+                  :title="child.fg_brand_name" style="text-decoration: none">
                   <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
-                    {{ child.fg_category_name }}
+                    {{ child.fg_brand_name }}
                   </h3>
                 </NuxtLink>
-                <q-btn :to="`/category/${child.fg_category_url}`" color="primary" flat padding="sm" dense size="md"
-                  icon="more_vert" :aria-label="child.fg_category_name" />
+                <q-btn :to="`/brand/${child.fg_brand_url}`" color="primary" flat padding="sm" dense size="md"
+                  icon="more_vert" :aria-label="child.fg_brand_name" />
               </q-card-section>
               <q-separator />
               <div class="row justify-center q-px-sm q-pt-sm q-col-gutter-sm">
@@ -165,20 +165,21 @@ const nuxtApp = useNuxtApp();
 const isMobileSize = computed(() => $q.screen.width);
 
 const { data: response, status }: any = useAsyncData(
-  "category-parent-list",
+  "brand-parent-list",
   async () =>
-    $fetch("/api/category-parent-list", {
+    $fetch("/api/brand-list", {
       query: {
-        limit: "20",
+        limit: "8",
         start: "0",
+        loop_count: "8",
       },
     }),
   {
     default: () => [],
     lazy: true,
-    transform(input: any) {
+    transform(responseData: any) {
       return {
-        categoryParent: input.category,
+        brandList: responseData.data,
         fetchedAt: new Date(),
       };
     },

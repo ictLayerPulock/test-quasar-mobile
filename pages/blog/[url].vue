@@ -3,9 +3,6 @@
     <div>
       <q-carousel ref="carousel" v-model="slide" swipeable :autoplay="60000" animated height="240px">
         <q-carousel-slide v-for="(item, index) in addImgUrl" :key="item" class="no-padding" :name="index + 1">
-          <!-- <q-img :ratio="16 / 9" class="cursor-pointer fit" :src="blog.add_img_url[index]" :alt="blog.blog_title"
-            :title="blog.blog_title">
-          </q-img> -->
           <div style="width:100%; height:230px">
             <NuxtImg loading="lazy" width="356" height="230" format="webp"  class="cursor-pointer fit" quality="50" :draggable="false"
                       placeholder="/placeholder.gif" :src="blog.add_img_url[index]" :alt="blog.blog_title"

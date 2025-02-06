@@ -12,7 +12,7 @@
             </q-card-section>
             <q-separator />
             <q-scroll-area style="height: 280px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
-                <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm" style="width: 890px">
+                <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm" style="width: 1060px">
                     <div v-for="item in 6" :key="item" class="col-2">
                         <q-card class="shadow-5 bg-grey-1">
                             <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit"
@@ -34,7 +34,7 @@
                         </q-card>
                     </div>
                 </q-card-section>
-                <q-card-section v-else class="row q-pa-sm q-col-gutter-sm" style="width: 890px">
+                <q-card-section v-else class="row q-pa-sm q-col-gutter-sm" style="width: 1060px">
                     <div v-for="blog in response.data" :key="blog">
                         <NuxtLink :to="`/blog/${blog.blog_url}`" :aria-label="blog.blog_title"
                             style="text-decoration: none" class=" text-secondary">

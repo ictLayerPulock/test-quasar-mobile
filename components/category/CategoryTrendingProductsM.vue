@@ -11,7 +11,7 @@
                     style="width: 1070px">
                     <div v-for="item in 6" :key="item" class="col-2">
                         <q-card class="shadow-5 overflow-hidden">
-                            <q-card-section class="q-pa-none border-bottom row">
+                            <q-card-section class="q-pa-none border-bottom">
                                 <NuxtImg loading="lazy" width="150" height="200" quality="50" class="fit" format="webp"
                                     src="/placeholder.gif" :draggable="false" />
                             </q-card-section>
@@ -19,7 +19,7 @@
                                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                                     <q-skeleton type="text" width="200px"></q-skeleton>
                                 </div>
-                                <div class="items-baseline justify-between row">
+                                <div class="row justify-between items-baseline">
                                     <q-space />
                                     <div class="text-subtitle2 text-weight-medium">
                                         <q-skeleton type="text" width="40px"></q-skeleton>
@@ -31,7 +31,7 @@
                 </q-card-section>
                 <q-card-section v-else class="row q-pa-sm"
                     :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
-                    <div v-for="(item, index) in response.data" :key="index" class="col-2" :class="{
+                    <div v-for="(item, index) in response.data" :key="index" :class="{
                         'col-6': response.data.length === 2,
                         'col-4': response.data.length === 3,
                         'col-3': response.data.length === 4
