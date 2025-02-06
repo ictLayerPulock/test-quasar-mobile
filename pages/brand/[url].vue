@@ -16,7 +16,7 @@
         </q-card>
       </div>
     <BrandTrendingProductsM :url="url" />
-    <div v-if="show" class="q-gutter-xs q-pt-none">
+    <div v-if="show" class="q-gutter-xs">
         <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
           <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
             <div v-for="item in 3" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
@@ -48,7 +48,7 @@
               </q-card>
             </div>
           </q-card>
-          <q-card v-else flat square class="row justify-center q-px-sm q-py-xs q-gutter-y-sm gradient">
+          <q-card v-else flat square class="row justify-center q-pa-xs q-gutter-y-sm gradient">
             <div v-for="item in product" :key="item" class="q-px-xs" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
               <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" :title="item.acc_ledger_name"
                 style="text-decoration: none" class="text-secondary">

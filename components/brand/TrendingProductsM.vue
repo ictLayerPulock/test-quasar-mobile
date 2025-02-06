@@ -33,7 +33,8 @@
           <div v-for="(item, index) in response.data" :key="index" class="col-2" :class="{
             'col-6': response.data.length === 2,
             'col-4': response.data.length === 3,
-            'col-3': response.data.length === 4
+            'col-3': response.data.length === 4,
+            'col-2': response.data.length === 6
           }">
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
               class="text-secondary">

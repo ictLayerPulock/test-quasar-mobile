@@ -29,12 +29,13 @@
                         </q-card>
                     </div>
                 </q-card-section>
-                <q-card-section v-else class="row q-pa-sm"
+                <q-card-section v-else class="row q-pa-sm q-col-gutter-sm"
                     :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
                     <div v-for="(item, index) in response.data" :key="index" :class="{
                         'col-6': response.data.length === 2,
                         'col-4': response.data.length === 3,
-                        'col-3': response.data.length === 4
+                        'col-3': response.data.length === 4,
+                        'col-2': response.data.length === 6
                     }">
                         <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name"
                             style="text-decoration: none" class="text-secondary">
