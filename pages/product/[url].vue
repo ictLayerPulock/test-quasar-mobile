@@ -302,16 +302,8 @@ const addToCart = ref()
         </div>
       </q-card-section>
       <q-card-section>
-        <div class="row items-center justify-center q-gutter-sm">
-          <q-card class="row q-pa-none">
-              <q-btn color="primary" size="md" class="q-px-sm" icon="remove" flat @click="removeQty" />
-              <q-input v-model.number="quantity" dense filled square type="number" color="primary"
-                style="max-width:40px;" input-class="text-right" disable class="cursor-pointer" />
-              <q-btn color="primary" size="md" icon="add" class="q-px-sm" flat @click="addQty" />
-           
-          </q-card>
-          <q-btn color="primary" label="Add To Cart" style="height:41px ;width:120px" @click="addToCart" />
-        </div>
+        <!-- <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" /> -->
+        <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
       </q-card-section>
       <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
         <div class="q-px-sm">
@@ -325,8 +317,7 @@ const addToCart = ref()
       </q-card-section>
     </q-card>
     
-    <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
-    
+   
     <LazySuggestedProductsM />
   </div>
 </template>
