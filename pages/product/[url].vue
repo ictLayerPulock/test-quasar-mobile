@@ -231,18 +231,16 @@ async function addQty() {
 
 const addToCart = ref()
 </script>
-
 <template>
   <div>
     <q-card v-if="product.fg_id">
       <q-card-section class="q-pa-none">
-        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth"
-          :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
+        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth" :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
       </q-card-section>
       <q-card-section v-if="product.fg_id" class="q-pa-sm">
-        <h2 class="text-subtitle1 text-primary text-weight-medium q-ma-none text-capitalize">
+        <h1 class="text-subtitle1 text-primary text-weight-medium q-ma-none text-capitalize text-center">
           {{ product.acc_ledger_name }}
-        </h2>
+        </h1>
       </q-card-section>
       <q-card-section class="q-pa-none">
         <div class="row justify-between items-center q-px-sm">
@@ -253,9 +251,7 @@ const addToCart = ref()
             </div>
           </div>
           <div class="row justify-start items-center">
-            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name"
-              :aria-label="product.fg_category_name" style="text-decoration: none"
-              class="row justify-center items-center text-secondary">
+            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name" :aria-label="product.fg_category_name" style="text-decoration: none" class="row justify-center items-center text-secondary">
               <q-icon name="category" class="q-mr-xs" left />
               <p class="q-ma-none">
                 {{ product.fg_category_name }}
@@ -316,8 +312,6 @@ const addToCart = ref()
         </div>
       </q-card-section>
     </q-card>
-    
-   
     <LazySuggestedProductsM />
   </div>
 </template>
