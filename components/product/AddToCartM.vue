@@ -11,7 +11,7 @@
 
   <q-card v-if="quantity > selectedAttrStock && attrAvailable==true && fgOrderType!=0 && fgOrderType!=1"
     flat class="bg-grey-2 text-body2 text-weight-medium">
-    <q-card-section class="q-py-xs items-center justify-center column q-gutter-xs">
+    <q-card-section class="q-py-xs column items-center justify-center q-gutter-xs">
       <div class="text-primary">
         {{ quantity - selectedAttrStock }}
         <span v-if="quantity - selectedAttrStock > 1">Items</span>
@@ -24,7 +24,7 @@
     </q-card-section>
   </q-card>
   <q-card v-if="attrAvailable==false" flat class="bg-grey-2 text-body2 text-weight-medium">
-    <q-card-section class="q-pa-sm items-center justify-center column q-gutter-xs">
+    <q-card-section class="q-pa-sm column items-center justify-center  q-gutter-xs">
       <p class="q-ma-none">Out of Stock</p>
     </q-card-section>
   </q-card>
