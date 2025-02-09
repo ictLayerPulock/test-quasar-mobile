@@ -1,5 +1,5 @@
 <template>
-  <div v-if="attrAvailable == false" class="row items-center justify-center q-gutter-md q-pb-md">
+  <div v-if="attrAvailable == true" class="row items-center justify-center q-gutter-md q-pb-md">
     <q-card class="row q-pa-none">
       <q-btn color="primary" size="md" class="q-px-sm" icon="remove" flat @click="removeQty" />
       <q-input v-model.number="quantity" dense filled square type="number" color="primary" style="max-width:40px;"
@@ -23,7 +23,7 @@
         Delivery Time different from regular orders.</p>
     </q-card-section>
   </q-card>
-  <q-card  flat class="bg-grey-2 text-body2 text-weight-medium">
+  <q-card v-if="attrAvailable==false" flat class="bg-grey-2 text-body2 text-weight-medium">
     <q-card-section class="q-pa-sm items-center justify-center column q-gutter-xs">
       <p class="q-ma-none">Out of Stock</p>
     </q-card-section>
@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { useQuasar } from "quasar";
-
 const cartCount = useCartCount();
 const preOrderType = usePreOrderType();
 const selectedAttrStock = useSelectedAttrStock();
@@ -43,7 +42,6 @@ const customID = useCustomID();
 const customImgUrl = useCustomImgUrl();
 const customFgImgUrl = useCustomFgImgUrl();
 const disabledAddQtyBtn = ref(false)
-
 
 /* Cart Notification (Toast / Alert) */
 const $q = useQuasar();
@@ -75,7 +73,6 @@ const props = defineProps({
 const attrAvailable = useState(`attrAvailable${props.fgId}`)
 
 const quantity = ref(1);
-
 const attribute = ref(0)
 const attr_stock = ref(0)
 attribute.value = selectedAttr.value
@@ -87,8 +84,6 @@ if (props.fgDiscount > 0) {
 }
 
 /* Order Type Change State */
-
-
 function orderTypeChangeState() {
   if (quantity.value > attr_stock.value) {
     preOrderType.value = 1;
@@ -96,7 +91,6 @@ function orderTypeChangeState() {
     preOrderType.value = 0;
   }
 }
-
 
 async function removeQty() {
   if (quantity.value > 1) {
@@ -122,7 +116,6 @@ async function addQty() {
   }
 }
 orderTypeChangeState();
-
 
 /* Add To Cart */
 async function addToCart() {

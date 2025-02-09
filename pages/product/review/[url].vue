@@ -5,6 +5,7 @@ const config = useRuntimeConfig();
 const route = useRoute();
 const customPrice = useCustomPrice();
 const url = route.params.url;
+// const videoModal = useVideoModal();
 const customerIsAuth = ref(false);
 const customerID = useCustomerID();
 const showShareBtn = ref(false);
@@ -12,11 +13,10 @@ const productTagName = ref("");
 const shareToEarnModal = useShareToEarnModal();
 // const fgRating = ref<number>(0);
 
-// ** If a user receives a product URL shared by another user via the share option, the URL will include a referral ID (e.g., product/product-url/?ref=customer_id). 
-// ** This referral ID is stored in cookies, and if the recipient purchases any product, the referral ID will be sent through the API.
 if (route.query.ref) {
   const customerRef = useCookie("customerRef", { maxAge: 604800 * 4 });
-  customerRef.value = typeof route.query.ref === "string" ? route.query.ref : "";
+  customerRef.value =
+    typeof route.query.ref === "string" ? route.query.ref : "";
 }
 
 const { data: product }: any = await useAsyncData(
@@ -58,7 +58,6 @@ const { data: product }: any = await useAsyncData(
         images: responseData.images,
         fg_review_count: responseData.fg_review_count,
         fetchedAt: responseData.fetchedAt,
-        fg_order_type: responseData.fg_order_type,
         // "acc_ledger_id": responseData.acc_ledger_id,
         // "acc_ledger_name_bn": responseData.acc_ledger_name_bn,
         // "fg_attribute_id": responseData.fg_attribute_id,
@@ -106,63 +105,12 @@ const { data: product }: any = await useAsyncData(
     },
   }
 );
-// ** stores tags into session storage for Suggested Product 
-function storeSessionTags(product: any) {
-  if (product.fg_tag_arr) {
-    const tagsNameArr: string[] = [];
-    for (const key in product.fg_tag_arr) {
-      tagsNameArr.push(product.fg_tag_arr[key].fg_tag_name);
-    }
-    productTagName.value = tagsNameArr.join(",");
-  }
-  if (product.fg_tag_id != "" && product.fg_tag_id != null) {
-    if (typeof localStorage !== "undefined") {
-      if (localStorage.getItem("sessionTag")) {
-        const sessionTag = localStorage.getItem("sessionTag");
-        const sessionTagArr = (sessionTag as any)?.split(",");
-        const fgTagArr = product.fg_tag_id.split(",");
-        const difference = fgTagArr.filter(
-          (item: string) => !sessionTagArr.includes(item)
-        );
-        if (difference.length > 0) {
-          const finalArr = sessionTagArr.concat(difference);
-          if (finalArr.length > 19) {
-            const indexToRemove = 0; // Index of the item to remove
-            finalArr.splice(indexToRemove, 1);
-          }
-          localStorage.setItem("sessionTag", finalArr.join(","));
-        }
-      } else {
-        if (product.fg_tag_id != "" && product.fg_tag_id != null) {
-          localStorage.setItem("sessionTag", product.fg_tag_id);
-        }
-      }
-    }
-  }
-}
-// ** stores fg id into localStorage for recently views
-function addToRecent(product: any) {
-  let historyFg: string[] = [];
-  if (typeof localStorage !== "undefined") {
-    if (localStorage.getItem("history")) {
-      let localStorageFg = localStorage.getItem("history");
-      historyFg = (localStorageFg ?? "").split(",");
-      if (!historyFg.includes(product.fg_id)) {
-        historyFg.push(product.fg_id);
-        localStorageFg = historyFg.join(",");
-        localStorage.setItem("history", localStorageFg);
-      }
-    } else {
-      historyFg.push(product.fg_id);
-      const localStorageFg = historyFg.join(",");
-      localStorage.setItem("history", localStorageFg);
-    }
-  }
-}
 
 function shareToEarn() {
   if (typeof localStorage !== "undefined") {
-    const customerAuth = JSON.parse(localStorage.getItem("auth_customer_data") ?? "{}");
+    const customerAuth = JSON.parse(
+      localStorage.getItem("auth_customer_data") ?? "{}"
+    );
     if (customerAuth) {
       customerID.value = customerAuth.customer_id;
       customerIsAuth.value = true;
@@ -185,57 +133,45 @@ function shareToEarn() {
 }
 
 onMounted(() => {
-  if (!product.value.fg_id) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: 'Product Not Found'
-    })
-  }
-  addToRecent(product.value);
-  storeSessionTags(product.value);
   shareToEarn();
-  useRefreshHistory();
 });
 
-// Modify the HTML content by adding inline styles to specific tags
-const rawVHtml = ref(product.value.fg_detail_content_editor);
-const rawVHtmlGlance = ref(product.value.fg_detail_at_a_glance);
-const styledHtml = computed(() => {
-  return rawVHtml.value
-    .replace(/<h1>/g, '<h1 style="font-size: 18px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<h2>/g, '<h2 style="font-size: 17px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<h3>/g, '<h3 style="font-size: 16px; line-height: 1.5; margin: 0 0 7px 0; font-weight: 500;">')
-    .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-    .replace(/<ul>/g, '<ul style="font-size: 14px; line-height: 1.5; margin: 0 0 5px 0;">')
-    .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-    .replace(/<img/g, '<img style="width:100%; height:400px;"')
-    .replace(/<iframe/g, '<iframe style="width:100%; height:400px;"');
-});
-const styledHtmlGlance = computed(() => {
-  return rawVHtmlGlance.value
-    .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-});
+/* Reveiw Page */
 
-// Add to card
-const quantity = ref(1)
-async function removeQty() {
-  if (quantity.value > 1) {
-    quantity.value--
-  } else {
-    quantity.value == 1
+const customer_review_text = ref("");
+const customer_review_date = ref("");
+const customer_review_rating = ref(0);
+
+const reviews: any = ref();
+/* Review JSON */
+const { data: response }: any = await useAsyncData(() =>
+  $fetch("/api/product-review-list", {
+    method: "POST",
+    body: {
+      fg_url: url,
+    },
+  })
+);
+
+reviews.value = response.value.data;
+
+for (const key in response.value.data) {
+  response.value.data[key].comment_rating_avg =
+    response.value.data[key].comment_rating_avg * 1.0;
+  if (response.value.data[key].acc_customer_ledger_id == customerID.value) {
+    customer_review_text.value = response.value.data[key].comment_rating_text;
+    customer_review_date.value = response.value.data[key].comment_rating_date;
+    customer_review_rating.value =
+      response.value.data[key].comment_rating_avg * 1.0;
   }
 }
-async function addQty() {
-  quantity.value++
-}
-
-const addToCart = ref()
 </script>
 <template>
-  <div>
+  <div class="bg-grey-2">
     <q-card v-if="product.fg_id">
       <q-card-section class="q-pa-none">
-        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth" :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
+        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth"
+          :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
       </q-card-section>
       <q-card-section v-if="product.fg_id" class="q-pa-sm">
         <h1 class="text-h6 text-primary text-weight-medium q-ma-none text-capitalize text-center">
@@ -251,7 +187,9 @@ const addToCart = ref()
             </div>
           </div>
           <div class="row justify-start items-center">
-            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name" :aria-label="product.fg_category_name" style="text-decoration: none" class="row justify-center items-center text-secondary">
+            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name"
+              :aria-label="product.fg_category_name" style="text-decoration: none"
+              class="row justify-center items-center text-secondary">
               <q-icon name="category" class="q-mr-xs" left />
               <p class="q-ma-none">
                 {{ product.fg_category_name }}
@@ -267,13 +205,15 @@ const addToCart = ref()
             {{ viewCount(product.fg_view) }}
           </div>
           <q-space />
-          <NuxtLink v-if="product.fg_rating > 0" :to="`/product/review/${product.fg_url}`" class="row items-center" title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
+          <NuxtLink v-if="product.fg_rating > 0" :to="`/product/review/${product.fg_url}`" class="row items-center"
+            title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
             <span v-if="product.fg_review_count > 0" class="text-caption text-grey-7" style="padding-top: 2px">
               ({{ product.fg_review_count }})
             </span>
             <q-rating v-model="product.fg_rating" class="q-ml-xs" size="16px" :max="5" color="primary" readonly />
           </NuxtLink>
-          <NuxtLink v-else :to="`/product/review/${product.fg_url}`" class="row items-center q-gutter-xs no-wrap" title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
+          <NuxtLink v-else :to="`/product/review/${product.fg_url}`" class="row items-center q-gutter-xs no-wrap"
+            title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
             <q-icon v-if="product.fg_id" name="star" color="primary" style="margin-bottom: 2px" />
             <span v-if="product.fg_id" class="text-caption text-primary text-capitalize">
               Give First Rating!
@@ -281,7 +221,6 @@ const addToCart = ref()
           </NuxtLink>
         </div>
       </q-card-section>
-      <q-separator />
       <q-card-section v-if="product.fg_id" class="q-pa-sm bg-grey-3">
         <div v-if="
           product.fg_discount > 0 &&
@@ -318,21 +257,47 @@ const addToCart = ref()
           </div>
         </div>
       </q-card-section>
-      <q-card-section>
-        <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
-        <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
-      </q-card-section>
-      <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
+      <q-card-section class="q-pa-sm">
         <div class="q-px-sm">
-          <div class="text-justify q-pa-xs text-body2 text-capitalize" v-html="styledHtmlGlance" />
+          <q-btn :to="`/product/${product.fg_url}`" icon="arrow_back" outline dense label="Back to Product Details"
+            type="submit" color="primary" class="full-width bg-white" />
         </div>
       </q-card-section>
-      <q-card-section v-if="product.fg_detail_content_editor" flat square class="bg-grey-1 q-py-none">
-        <div class="q-px-sm">
-          <div class="text-justify q-pa-xs text-body2" v-html="styledHtml" />
-        </div>
+      <q-card-section class="q-pa-sm">
+        <ReviewSubmitReviewM :fg-id="product.fg_id" :customer-review-text="customer_review_text"
+          :customer-review-date="customer_review_date" :customer-review-rating="customer_review_rating" />
       </q-card-section>
     </q-card>
+
+
+    <!-- <q-card v-if="reviews.length > 0">
+      <q-expansion-item expand-icon-toggle expand-separator class="text-subtitle2" label="REVIEWS" default-opened>
+        <q-card>
+          <q-list v-for="(item, index) in reviews" :key="item" class="q-pa-xs" :class="index % 2 == 1 ? `bg-grey-1` : ''">
+            <q-item :inset-item="1" class="q-pa-sm">
+              <q-item-section>
+                <q-item-label>
+                  {{ item.acc_ledger_name }} || ID:{{ item.comment_rating_id }}
+                </q-item-label>
+                <q-item-label caption lines="2">
+                  "{{ item.comment_rating_text }}"
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side top>
+                <q-item-label caption>
+                  {{ useTimeAgoReal(item.comment_rating_date) }}
+                </q-item-label>
+                <q-item-label caption>
+                  <q-rating v-model="item.comment_rating_avg" size="12px" color="primary" icon="star_border" icon-selected="star" readonly />
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator v-if="index != reviews.length - 1" spaced inset />
+            <q-separator v-else class="invisible" spaced inset />
+          </q-list>
+        </q-card>
+      </q-expansion-item>
+    </q-card> -->
     <LazySuggestedProductsM />
   </div>
 </template>
