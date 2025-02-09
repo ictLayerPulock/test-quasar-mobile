@@ -30,6 +30,9 @@
               </q-input>
               <small v-if="passCodeError" class="text-primary text-capitalize q-pl-sm">{{ passCodeError }}</small>
               <small v-if="loginError" class="text-primary text-capitalize q-pl-sm">{{ loginError }}</small>
+              <div class="row justify-end text-secondary"  @click="navigateTo('/forget-password/')">
+                <p class="q-ma-none text-italic">Forget Password</p>
+              </div>
               <div class="row justify-center">
                 <q-btn color="primary" @click="handleLogin()">
                   Login

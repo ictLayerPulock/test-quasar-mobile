@@ -258,9 +258,9 @@ for (const key in response.value.data) {
         </div>
       </q-card-section>
       <q-card-section class="q-pa-sm">
-        <div class="q-px-sm">
+        <div class="q-px-sm row justify-center">
           <q-btn :to="`/product/${product.fg_url}`" icon="arrow_back" outline dense label="Back to Product Details"
-            type="submit" color="primary" class="full-width bg-white" />
+            type="submit" color="primary" class="full-width bg-white" style="max-width: 300px;" />
         </div>
       </q-card-section>
       <q-card-section class="q-pa-sm">

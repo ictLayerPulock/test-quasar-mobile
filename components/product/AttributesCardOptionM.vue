@@ -1,39 +1,52 @@
 <template>
-    <q-skeleton v-if="status === 'pending'" class="q-py-md" height="280px"></q-skeleton>
-    <section v-else>
-        <p v-if="attributes.data.length > 1 && fgOrderType == 0" class="text-subtitle2 text-center">Select Attribute For In Stock</p>
-        <p v-if="attributes.data.length > 1 && fgOrderType == 1" class="text-subtitle2 text-center">Select Attribute For Order</p>
-        <p v-if="attributes.data.length > 1 && fgOrderType == 2" class="text-subtitle2 text-center">Select Attribute For Pre-Order</p>
-        <div v-if="attributes.data.length > 1" class="row q-col-gutter-sm justify-center items-center">
-            <div v-for="attr in attributes.data" class="col-sm-6" style="width: 110px">
-                <q-card class="cursor-pointer shadow-6 shadow-on-hover overflow-hidden" :style="getCardStyle(attr.fg_attribute_id)" @click="attrChanged(attr.fg_attribute_id)">
-                    <q-card-section class="q-pa-none">
-                        <q-img v-if="attr.attr_images.length > 0" placeholder="/placeholder.gif" loading="lazy" :alt="attr.fg_attribute_name" :title="attr.fg_attribute_name" :src="img(attr.attr_images[0], {
-                            sizes: '280px',
-                            width: 280,
-                            height: 280,
-                        })"></q-img>
-                        <q-img v-else placeholder loading="lazy" :alt="attr.fg_attribute_name" :title="attr.fg_attribute_name" :src="img(`/placeholder.gif`, {
-                            sizes: '280px',
-                            width: 280,
-                            height: 280, quality: 70
-                        })"></q-img>
-                    </q-card-section>
-                    <div class="absolute bg-transparent" style="top: 0px; left: 0px">
-                        <q-radio v-model="attribute" :val="attr.fg_attribute_id" size="25px" color="negative" style="opacity: 90%" />
-                    </div>
-                    <div v-if="attr.available_stock > 0" class="absolute bg-transparent text-caption" style="top: 2px; right: 4px">
-                        {{ numberShortFormat(attr.available_stock) }}/ Qty.
-                    </div>
-                    <div v-else class="absolute bg-transparent text-caption" style="top: 2px; right: 4px">
-                        Pre-Order
-                    </div>
-                    <q-card-section class="q-pa-xs bg-grey-2 text-center">
-                        <div class="text-caption text-weight-light ellipsis-2-lines">
-                            {{ attr.fg_attribute_name }}
+    <section class="q-pb-sm">
+        <div v-if="status === 'pending'">
+            <q-skeleton class="q-py-md" height="280px"></q-skeleton>
+        </div>
+        <div v-else>
+            <p v-if="attributes.data.length > 1 && fgOrderType == 0" class="text-subtitle2 q-mb-xs text-center">Select Attribute
+                For In Stock</p>
+            <p v-if="attributes.data.length > 1 && fgOrderType == 1" class="text-subtitle2 q-mb-xs text-center">Select Attribute
+                For Order</p>
+            <p v-if="attributes.data.length > 1 && fgOrderType == 2" class="text-subtitle2 q-mb-xs text-center">Select Attribute
+                For Pre-Order</p>
+            <div v-if="attributes.data.length > 1" class="row q-col-gutter-sm justify-center items-center">
+                <div v-for="attr in attributes.data" class="col-sm-6" style="width: 110px">
+                    <q-card class="cursor-pointer shadow-6 shadow-on-hover overflow-hidden"
+                        :style="getCardStyle(attr.fg_attribute_id)" @click="attrChanged(attr.fg_attribute_id)">
+                        <q-card-section class="q-pa-none">
+                            <q-img v-if="attr.attr_images.length > 0" placeholder="/placeholder.gif" loading="lazy"
+                                :alt="attr.fg_attribute_name" :title="attr.fg_attribute_name" :src="img(attr.attr_images[0], {
+                                    sizes: '280px',
+                                    width: 280,
+                                    height: 280,
+                                })"></q-img>
+                            <q-img v-else placeholder loading="lazy" :alt="attr.fg_attribute_name"
+                                :title="attr.fg_attribute_name" :src="img(`/placeholder.gif`, {
+                                    sizes: '280px',
+                                    width: 280,
+                                    height: 280, quality: 70
+                                })">
+                                </q-img>
+                        </q-card-section>
+                        <div class="absolute bg-transparent" style="top: 0px; left: 0px">
+                            <q-radio v-model="attribute" :val="attr.fg_attribute_id" size="25px" color="negative"
+                                style="opacity: 90%" />
                         </div>
-                    </q-card-section>
-                </q-card>
+                        <div v-if="attr.available_stock > 0" class="absolute bg-transparent text-caption"
+                            style="top: 2px; right: 4px">
+                            {{ numberShortFormat(attr.available_stock) }}/ Qty.
+                        </div>
+                        <div v-else class="absolute bg-transparent text-caption" style="top: 2px; right: 4px">
+                            Pre-Order
+                        </div>
+                        <q-card-section class="q-pa-xs bg-grey-2 text-center">
+                            <div class="text-caption text-weight-light ellipsis-2-lines">
+                                {{ attr.fg_attribute_name }}
+                            </div>
+                        </q-card-section>
+                    </q-card>
+                </div>
             </div>
         </div>
     </section>
@@ -94,15 +107,15 @@ const {
             available_stock: attr.available_stock,
             available_stock_all: attr.available_stock_all,
             fg_id: attr.fg_id,
-            attr_images: attr.attr_images,            
+            attr_images: attr.attr_images,
         }))
         if (responseData.data.length > 0) {
             attrAvailable.value = true
         }
-        else{
+        else {
             attrAvailable.value = false
         }
-        
+
         return {
             ...responseData,
             fetchedAt: new Date(),
