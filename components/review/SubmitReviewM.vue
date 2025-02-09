@@ -42,28 +42,25 @@
       <q-card v-else flat class="column">
         <q-card-section class="q-gutter-y-md text-center">
           <h3 class="q-ma-none text-h6 text-primary text-uppercase">Reviews & Ratings</h3>
-          <p class="text-body2 q-ma-none text-uppercase"> Purchase this product to give a review.</p>
+          <p class="text-body2 q-ma-none"> Purchase this product to give a review.</p>
         </q-card-section>
       </q-card>
       <!-- If Product Reviewed Already-->
       <q-card v-show="customerReviewText != ''" flat>
-        <div class="text-subtitle2 text-uppercase q-py-sm text-center">
-          Reviews & Ratings
-        </div>
-        <q-card-section>
-          <div class="items-center justify-between row">
+        <h3 class="q-ma-none text-h6 text-primary text-uppercase text-center">Reviews & Ratings</h3>
+        <q-card-section class="q-ma-none">
+          <div class="row justify-between items-center">
             <p class="text-subtitle2 q-my-xs">
               Your Review
             </p>
-            <p class="text-caption q-my-xs text-grey-7">
+            <p class="text-caption q-my-xs">
               {{ useTimeAgoReal(props.customerReviewDate) }}
             </p>
           </div>
-          <div class="items-center justify-between row ">
+          <div class="row justify-between items-center q-gutter-x-sm">
             <p class="text-caption q-my-xs">
               "{{ props.customerReviewText }}"
             </p>
-            <!-- TODO: Rating Average -->
             <q-rating v-model="reviewRating" size="12px" color="primary" icon="star_border" icon-selected="star"
               readonly />
           </div>
@@ -72,7 +69,7 @@
     </div>
     <div v-else class="column justify-center q-gutter-md q-pa-sm text-center">
       <h3 class="q-ma-none text-h6 text-primary text-uppercase">Reviews & Ratings</h3>
-      <p class="text-subtitle2 q-ma-none text-uppercase">Log in and purchase this item to submit your review.</p>
+      <p class="text-subtitle2 q-ma-none">Log in and purchase this item to submit your review.</p>
       <div>
         <NuxtLink to="/login" style="text-decoration:none">
           <q-btn color="primary">
