@@ -216,20 +216,7 @@ const styledHtmlGlance = computed(() => {
     .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
 });
 
-// Add to card
-const quantity = ref(1)
-async function removeQty() {
-  if (quantity.value > 1) {
-    quantity.value--
-  } else {
-    quantity.value == 1
-  }
-}
-async function addQty() {
-  quantity.value++
-}
 
-const addToCart = ref()
 </script>
 <template>
   <div>
@@ -319,8 +306,10 @@ const addToCart = ref()
         </div>
       </q-card-section>
       <q-card-section>
+        {{ url }}
         <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
         <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
+       
       </q-card-section>
       <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
         <div class="q-px-sm">
@@ -333,6 +322,7 @@ const addToCart = ref()
         </div>
       </q-card-section>
     </q-card>
+    <ProductRelatedProductsM :url="(url as any)" />
     <LazySuggestedProductsM />
   </div>
 </template>

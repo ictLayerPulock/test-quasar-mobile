@@ -159,8 +159,6 @@ const { data: response, status }: any = useAsyncData(
           // fg_type_url: item.fg_type_url,
         }))
         .splice(0, 6);
-        console.log(responseData.data.length);
-        console.log("Some")
         if (responseData.data.length > 0){
           show.value = true;
         }
