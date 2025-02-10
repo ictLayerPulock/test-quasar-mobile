@@ -747,116 +747,74 @@ const tab = ref("checkout");
   <div>
     <div style="padding-bottom: 60px; padding-top: 56px">
       <!-- Checkout Items -->
-      <q-card flat square class="bg-grey-1 q-pa-none">
-        <q-tab-panels v-if="shoppingCart.length != 0" v-model="tab" swipeable infinite animated
-          transition-prev="jump-right" transition-next="jump-left">
-          <q-tab-panel name="checkout" class="fit row gradient q-pa-none">
-            <q-card-section v-for="(item, index) in shoppingCart" :key="item.fg_id" class="q-pa-sm q-col-gutter-xs"
-              :class="isMobileSize <= 450 ? 'col-12' : 'col-6'">
-              <q-card class="row q-pa-none">
-                <q-card-section class="col-5 q-pa-none">
-                  <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" format="webp" class="fit"
-                    width="200" quality="50" :src="item.fg_image" :alt="item.acc_ledger_name"
-                    :title="item.acc_ledger_name" />
-                </q-card-section>
+      <q-card v-if="shoppingCart.length != 0" flat square class="bg-grey-1 q-pa-none">
+        <div class="row justify-center q-pa-xs q-col-gutter-sm">
+          <div v-for="(item, index) in shoppingCart" :key="item.fg_id" :class="isMobileSize <= 450 ? '' : 'col-6'">
+            <q-card class="my-card" style="width: 100%;"
+              :style="isMobileSize <= 450 ? 'max-width: 450px' : 'max-width: 400px'">
+              <q-card-section horizontal>
+                <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" format="webp" class="col-4"
+                  width="200" quality="50" :src="item.fg_image" :alt="item.acc_ledger_name"
+                  :title="item.acc_ledger_name" />
                 <q-checkbox v-model="itemChecked[index]" class="absolute" size="sm" color="primary" />
-                <q-card-section class="col-7 q-pa-none">
-                  <div class="column q-pa-sm q-gutter-y-xs text-secondary"
+                <q-card-section class="q-pa-sm">
+                  <div class="text-subtitle2 ellipsis-2-lines text-secondary"
                     @click="navigateTo('/product/' + item.fg_url)">
-                    <div class="q-my-xs no-wrap">
-                      <div class="text-subtitle2 ellipsis-2-lines">
-                        {{ item.acc_ledger_name }}
+                    <p class="q-ma-none">{{ item.acc_ledger_name }}</p>
+                  </div>
+                  <div class="row justify-between items-center q-py-xs">
+                    <div class="row items-center no-wrap">
+                      <q-icon name="qr_code" color="primary" class="q-mr-xs" />
+                      <div class="text-caption q-mr-xs ellipsis">
+                        {{ item.fg_sku }}
                       </div>
                     </div>
-                    <div class="row justify-between items-center no-wrap">
-                      <div class="row items-center no-wrap" style="width: 110px">
-                        <q-icon name="qr_code" color="primary" class="q-mr-xs" />
-                        <div class="text-caption q-mr-xs ellipsis">
-                          {{ item.fg_sku }}
-                        </div>
-                      </div>
-                      <div class="text-caption ellipsis">
-                        {{ item.fg_category_name }}
-                      </div>
-                    </div>
-                    <div class="row justify-between items-baseline">
-                      <div v-if="item.fg_price != item.fg_discounted_price" class="text-caption text-strike">
-                        {{ config.public.currencyBefore }}
-                        {{ formatMoney(item.fg_price * item.cartQty) }}
-                        {{ config.public.currencyAfter }}
-                      </div>
-                      <q-space />
-                      <div class="text-subtitle2 text-weight-medium q-ml-sm">
-                        {{ config.public.currencyBefore }}
-                        {{
-                          formatMoney(item.fg_discounted_price * item.cartQty)
-                        }}
-                        {{ config.public.currencyAfter }}
-                      </div>
+                    <div class="text-caption ellipsis text-primary">
+                      {{ item.fg_category_name }}
                     </div>
                   </div>
-                  <div class="q-pa-sm q-col-gutter-y-xs">
-                    <div class="column items-center justify-center q-gutter-y-sm">
-                      <q-select v-model="item.selected_attribute" dense outlined fill color="primary"
-                        :options="item.fg_stock_and_attribute" style="width: 100%;" @update:model-value="(val: any) => handelAttrChange(val, index)
-                          " />
-                      <div class="row justify-between items-center q-gutter-x-sm">
-                        <q-btn outline round icon="remove" color="primary" size="xs" aria-label="Remove"
-                          @click="removeQty(index)" />
-                        <q-input v-model.number="item.cartQty" dense outlined type="number" color="primary"
-                          style="max-width: 32px" min="1" readonly />
-                        <q-btn outline round icon="add" color="primary" :disable="disabledAddQtyBtn" size="xs"
-                          aria-label="Add" @click="addQty(index)" />
-                        <q-btn icon="delete_outline" outline round size="sm" class="bg-white" color="primary"
-                          aria-label="Delete" @click="deleteProductModal(index)" />
-                      </div>
+                  <div class="row justify-between items-baseline">
+                    <div v-if="item.fg_price != item.fg_discounted_price" class="text-caption text-strike">
+                      {{ config.public.currencyBefore }}
+                      {{ formatMoney(item.fg_price * item.cartQty) }} some
+                      {{ config.public.currencyAfter }}
                     </div>
+                    <q-space />
+                    <div class="text-subtitle2 text-weight-medium text-primary">
+                      {{ config.public.currencyBefore }}
+                      {{
+                        formatMoney(item.fg_discounted_price * item.cartQty)
+                      }}
+                      {{ config.public.currencyAfter }}
+                    </div>
+                  </div>
+                  <div class="row justify-center q-py-sm">
+                    <q-select v-model="item.selected_attribute" dense outlined fill color="primary"
+                      :options="item.fg_stock_and_attribute" style="width: 100%; max-width: 220px" @update:model-value="(val: any) => handelAttrChange(val, index)
+                        " />
+                  </div>
+
+                  <div class="row justify-between items-center q-gutter-x-md">
+                    <q-btn outline round icon="remove" color="primary" size="xs" aria-label="Remove"
+                      @click="removeQty(index)" />
+                    <q-input v-model.number="item.cartQty" dense outlined type="number" color="primary"
+                      style="max-width: 40px" min="1" readonly />
+                    <q-btn outline round icon="add" color="primary" :disable="disabledAddQtyBtn" size="xs"
+                      aria-label="Add" @click="addQty(index)" />
+                    <q-btn icon="delete_outline" outline round size="sm" class="bg-white" color="primary"
+                      aria-label="Delete" @click="deleteProductModal(index)" />
                   </div>
                 </q-card-section>
-              </q-card>
-            </q-card-section>
-          </q-tab-panel>
-        </q-tab-panels>
-
-        <q-card v-else flat bordered style="height: 80px">
-          <q-card-section class="q-py-md">
-           <h5 class="text-uppercase text-h6 text-weight-regular q-ma-none text-primary text-center">{{ noItemText }}</h5> 
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+      </q-card>
+      <q-card v-else flat square class="row justify-center gradient" style="height: 90px">
+          <q-card-section class="text-uppercase text-h6 q-py-lg text-weight-regular text-grey-9 text-center">
+            {{ noItemText }}
           </q-card-section>
         </q-card>
-        <!-- Delete Modal -->
-        <q-dialog v-model="delete_item_modal">
-          <q-card class="shadow-up-10">
-            <q-card-section class="bg-grey-2 text-body1">
-              <div>Remove this item from shopping cart?</div>
-            </q-card-section>
-            <q-separator space />
-            <q-card-section>
-              <div class="row justify-between q-gutter-md">
-                <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDelete()" />
-                <q-btn v-close-popup class="col" outline label="No" color="primary" />
-              </div>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
-
-        <!-- Delete All Modal -->
-        <q-dialog v-model="delete_all_modal">
-          <q-card class="shadow-up-10">
-            <q-card-section class="bg-grey-2 text-body1">
-              <div>Remove all items from shopping cart?</div>
-            </q-card-section>
-            <q-separator space />
-            <q-card-section>
-              <div class="row justify-between q-gutter-md">
-                <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary"
-                  @click="confirmDeleteAll()" />
-                <q-btn v-close-popup class="col" outline label="No" color="primary" />
-              </div>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
-      </q-card>
-
       <!-- Delivery Details -->
       <div v-if="shoppingCart.length != 0" id="deliveryDetails" class="q-gutter-y-sm q-pt-sm">
         <q-card flat square class="q-pa-xs text-center" :class="isMobileSize <= 450 ? 'column' : 'row'">
@@ -883,29 +841,29 @@ const tab = ref("checkout");
             </q-input>
             <small v-if="emailError" class="text-primary text-capitalize q-pl-sm">{{ emailError }}</small>
 
-            <q-input filled v-model="customerAddress" type="text" maxlength="255" autogrow label="Address Details"
-              placeholder="Please enter your address details" dense
+            <q-input filled v-model="customerAddress" type="text" maxlength="255" class="q-py-md" autogrow
+              label="Address Details" placeholder="Please enter your address details" dense
               hint="Example: Apt Number, House Number, Street Name or Number, Block or Area or Moholla, District">
               <template v-slot:prepend>
                 <q-icon size="xs" name="home" />
               </template>
             </q-input>
-            <q-input v-model="selected" class="q-pt-sm" standout type="text" dense readonly required
+            <q-input v-model="selected" class="q-pt-lg" standout type="text" dense readonly required
               @click="deliveryLocationModal = true" />
             <small v-if="orderError" class="text-primary text-capitalize q-pl-sm">{{ orderError }}</small>
           </q-card-section>
-          <q-card-section v-if="shoppingCart.length != 0" id="total" class="gradient rounded-borders"
+          <q-card-section v-if="shoppingCart.length != 0" id="total" class="gradient rounded-borders q-pa-none"
             :class="isMobileSize <= 450 ? '' : 'col-6'">
-            <div class="column text-weight-light">
+            <div>
               <h6 class="text-h6 q-ma-none">
                 Item Total {{ config.public.currencyBefore }}
               </h6>
-              <span class="text-h6  text-primary">
+              <h6 class="text-h6 q-ma-none text-primary">
                 {{ formatMoney(cartTotal) }}
                 {{ config.public.currencyAfter }}
-              </span>
+              </h6>
             </div>
-            <div class="row">
+            <div class="row justify-center q-pa-sm">
               <q-input v-model:model-value="coupon_code" filled :hint="coupon_code
                 ? 'Discount: ' +
                 formatMoney(couponDiscountPercentage * 1.0) +
@@ -923,65 +881,59 @@ const tab = ref("checkout");
                 </template>
               </q-input>
             </div>
-            <div class="column q-gutter-y-sm">
-              <div v-if="couponDiscountAmount > 0" class="col text-subtitle1 column text-weight-medium">
-                <p class="text-bold text-h6 q-ma-none">
-                  Invoice Total {{ config.public.currencyBefore }}
-                </p>
-                <span class="text-primary text-h6 text-weight-medium">
-                  {{ formatMoney(cartTotal - couponDiscountAmount) }}
-                  {{ config.public.currencyAfter }}
-                </span>
-                <span class="text-overline text-weight-medium text-grey-7">
-                  ( {{ formatMoney(cartTotal) }}
-                  {{ config.public.currencyAfter }} -
-                  {{ formatMoney(couponDiscountAmount * 1.0) }}
-                  {{ config.public.currencyAfter }} )
-                </span>
-              </div>
-              <div v-else class="col column text-weight-medium">
-                <span class="text-bold text-h6 q-pb-xs">
-                  Invoice Total {{ config.public.currencyBefore }}
-                </span>
-                <span class="text-primary text-h6">
-                  {{ formatMoney(cartTotal) }}
-                  {{ config.public.currencyAfter }}
-                </span>
-              </div>
+            <!-- Invoice total -->
+            <div v-if="couponDiscountAmount > 0">
+              <p class="text-bold text-h6 q-ma-none">
+                Invoice Total {{ config.public.currencyBefore }}
+              </p>
+              <h6 class="text-primary text-h6 q-ma-none text-weight-medium">
+                {{ formatMoney(cartTotal - couponDiscountAmount) }}
+                {{ config.public.currencyAfter }}
+              </h6>
+              <span class="text-overline text-weight-medium">
+                ( {{ formatMoney(cartTotal) }}
+                {{ config.public.currencyAfter }} -
+                {{ formatMoney(couponDiscountAmount * 1.0) }}
+                {{ config.public.currencyAfter }} )
+              </span>
             </div>
-          </q-card-section>
-        </q-card>
-        <q-card flat square>
-          <q-card-section v-if="shoppingCart.length != 0" id="deliveryDetails" :class="isMobileSize <= 450 ? 'column' : 'row'">
-            <div class="col-6">
-              <div v-show="shippingTotal > 0" class="col column items-center text-weight-medium">
-                <h6 class="text-bold q-ma-none text-body1 text-center q-pb-xs">
-                  Shipping Charge {{ config.public.currencyBefore }}
-                </h6>
-                <h6 class="text-orange-14 text-h6 q-ma-none text-bold">
-                  {{ formatMoney(shippingTotal) }}
-                  {{ config.public.currencyAfter }}
-                </h6>
-              </div>
-              <div class="column text-weight-medium">
-                <h6 class="text-h6 text-center q-ma-none">
-                  Payable Amount {{ config.public.currencyBefore }}
-                </h6>
-                <h5 class="text-primary text-h5  text-center q-ma-none text-bold">
-                  {{
-                    formatMoney(
-                      cartTotal * 1.0 -
-                      couponDiscountAmount +
-                      shippingTotal * 1.0
-                    )
-                  }}
-                  {{ config.public.currencyAfter }}
-                </h5>
-              </div>
+            <div v-else>
+              <h6 class="text-bold text-h6 q-ma-none">
+                Invoice Total {{ config.public.currencyBefore }}
+              </h6>
+              <h6 class="text-primary text-h6 q-ma-none text-weight-medium">
+                {{ formatMoney(cartTotal) }}
+                {{ config.public.currencyAfter }}
+              </h6>
             </div>
-            <div class="col-6 row justify-center">
+            <div v-show="shippingTotal > 0">
+              <h6 class="text-bold q-ma-none text-body1 text-center q-pb-xs">
+                Shipping Charge {{ config.public.currencyBefore }}
+              </h6>
+              <h6 class="text-orange-14 text-h6 q-ma-none text-bold">
+                {{ formatMoney(shippingTotal) }}
+                {{ config.public.currencyAfter }}
+              </h6>
+            </div>
+            <q-separator />
+            <div>
+              <h6 class="text-h6 text-center q-ma-none">
+                Payable Amount {{ config.public.currencyBefore }}
+              </h6>
+              <h5 class="text-primary text-h5  text-center q-ma-none text-bold">
+                {{
+                  formatMoney(
+                    cartTotal * 1.0 -
+                    couponDiscountAmount +
+                    shippingTotal * 1.0
+                  )
+                }}
+                {{ config.public.currencyAfter }}
+              </h5>
+            </div>
+            <div class="row justify-center">
               <q-form :action="getEnvValue.api_url + 'paynow-order'" id="payNowForm" method="post"
-                class="column q-gutter-md text-center">
+                class="column q-gutter-sm text-center">
                 <q-radio v-model="paymentSelect" :val="-1" :title="disabledBtn ? 'Fill Up The Delivery Details' : ''"
                   :disable="disabledBtn">
                   <q-btn outline color="primary" style="min-width: 160px" class="shadow-3" no-caps>
@@ -992,9 +944,9 @@ const tab = ref("checkout");
                   class="q-ml-md" :title="disabledBtn ? 'Fill Up The Delivery Details' : ''" :disabled="disabledBtn" />
               </q-form>
             </div>
-
           </q-card-section>
         </q-card>
+
         <!-- Delivery Location Modal -->
         <q-dialog v-model="deliveryLocationModal" backdrop-filter="blur(1px) brightness(90%)" transition-show="fade"
           transition-hide="fade">
@@ -1032,14 +984,42 @@ const tab = ref("checkout");
           </q-card>
         </q-dialog>
       </div>
-
+      <q-dialog v-model="delete_item_modal">
+        <q-card class="shadow-up-10">
+          <q-card-section class="bg-grey-2 text-body1">
+            <div>Remove this item from shopping cart?</div>
+          </q-card-section>
+          <q-separator space />
+          <q-card-section>
+            <div class="row justify-between q-gutter-md">
+              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDelete()" />
+              <q-btn v-close-popup class="col" outline label="No" color="primary" />
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+      <!-- Delete All Modal -->
+      <q-dialog v-model="delete_all_modal">
+        <q-card class="shadow-up-10">
+          <q-card-section class="bg-grey-2 text-body1">
+            <div>Remove all items from shopping cart?</div>
+          </q-card-section>
+          <q-separator space />
+          <q-card-section>
+            <div class="row justify-between q-gutter-md">
+              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDeleteAll()" />
+              <q-btn v-close-popup class="col" outline label="No" color="primary" />
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
       <LazySuggestedProductsM />
 
       <!-- Checkout Header -->
-      <q-page-sticky expand position="top" style="margin-top: 2px;">
-        <q-toolbar class="text-primary bg-grey-2 shadow-2 q-pa-sm">
+      <q-page-sticky expand position="top" style="margin-top: 1px;">
+        <q-toolbar class="text-primary bg-grey-2 shadow-2 q-px-md">
           <q-toolbar-title>
-            <h1 class="q-ma-xs text-h6 text-bold">Checkout</h1>
+            <h1 class="text-h6 text-bold">Checkout</h1>
           </q-toolbar-title>
           <q-btn v-if="checkedAll && shoppingCart.length != 0" v-model="checkedAll" icon="delete_outline" flat dense
             no-caps color="primary" class="text-caption" label="Delete All" @click="deleteAllCartItemsModal()" />
