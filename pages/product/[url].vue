@@ -305,12 +305,16 @@ const styledHtmlGlance = computed(() => {
           </div>
         </div>
       </q-card-section>
+      
       <q-card-section>
-        {{ url }}
         <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
         <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
-       
       </q-card-section>
+      <!-- Set Products -->
+      <ProductSetProductCardM :fg-id="product.fg_id" />
+      <!-- Related Products -->
+      <ProductRelatedProductsM :url="(url as any)" />
+      
       <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
         <div class="q-px-sm">
           <div class="text-justify q-pa-xs text-body2 text-capitalize" v-html="styledHtmlGlance" />
@@ -322,7 +326,6 @@ const styledHtmlGlance = computed(() => {
         </div>
       </q-card-section>
     </q-card>
-    <ProductRelatedProductsM :url="(url as any)" />
     <LazySuggestedProductsM />
   </div>
 </template>

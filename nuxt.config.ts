@@ -52,4 +52,12 @@ export default defineNuxtConfig({
       tagFiltering: "null" // fg_tag_id for filtering , if not needed then null
     },
   },
+  image: {
+    quality: 90,
+    format: ["webp"],
+    domains: [process.env.NUXT_IMAGE_DOMAINS!],
+    alias: {
+      media: process.env.MEDIA_PATH!,
+    },
+  },
 })
