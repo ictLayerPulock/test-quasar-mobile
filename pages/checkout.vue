@@ -748,7 +748,7 @@ function onchangeDeliveryType(
     <div style="padding-bottom: 60px; padding-top: 56px">
       <!-- Checkout Items -->
       <q-card v-if="shoppingCart.length != 0" flat square class="bg-grey-1 q-pa-none">
-        <div class="row justify-center q-pa-xs q-col-gutter-sm">
+        <div class="row q-pa-xs q-col-gutter-sm">
           <div v-for="(item, index) in shoppingCart" :key="item.fg_id" :class="isMobileSize <= 500 ? '' : 'col-6'">
             <q-card style="width: 100%;" :style="isMobileSize <= 500 ? 'max-width: 500px' : 'max-width: 500px'">
               <q-card-section horizontal>

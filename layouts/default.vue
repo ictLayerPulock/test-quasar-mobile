@@ -17,7 +17,7 @@
     <!-- Left Drawer (Category List) -->
     <q-drawer v-model="leftDrawerOpen" side="left" :width="300" :breakpoint="500" overlay elevated class="gradient-left text-body2">
       <q-scroll-area :style="customerIsAuth
-        ? 'height: calc(100% - 120px); margin-top: 120px'
+        ? 'height: calc(100% - 120px); margin-top: 110px'
         : 'height: calc(100% - 64px); margin-top: 64px'
         " visible>
         <q-list>
@@ -131,14 +131,21 @@
           <q-btn flat icon="code" dense size="11px" label="Created By ICT Layer" no-caps href="https://www.ictlayer.com/" />
         </div>
       </q-scroll-area>
-      <div class="absolute-top bg-grey-5" style="height: 64px">
-        <div v-if="customerIsAuth" class="q-pa-md">
+      <div class="absolute-top bg-grey-5" :style="isMobileSize <= 450 ? 'height: 75px' : 'height: 56px'">
+        <div v-if="customerIsAuth" class="q-pa-sm">
           <div class="column q-gutter-md">
-            <NuxtLink to="/customer/accounts" style="text-decoration: none" aria-label="Accounts" class="text-secondary" >
-              <p class="text-weight-bold text-capitalize">
-                Customer Name 
+            <NuxtLink to="/customer/accounts" class="text-secondary" style="text-decoration: none" aria-label="Accounts">
+              <p class="text-weight-bold text-capitalize q-ma-none">
+                {{ customerInfo.name }}
               </p>
+              <div class="text-caption">
+                {{ customerInfo.phone }}
+              </div>
             </NuxtLink>
+            <q-btn dense color="primary" class="bg-grey-3" outline @click="confirmLogout()" aria-label="Logout">
+              <q-icon name="logout" class="q-pr-sm" />
+              Logout
+            </q-btn>
           </div>
         </div>
         <div v-else class="q-pa-md">
@@ -160,6 +167,20 @@
         <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">
           <slot />
         </div>
+        <q-dialog v-model="logout_confirm_modal">
+        <q-card class="shadow-up-10">
+          <q-card-section class="bg-grey-2 text-body1">
+            <div>Are you sure you want to logout?</div>
+          </q-card-section>
+          <q-separator space />
+          <q-card-section>
+            <div class="row justify-between q-gutter-md">
+              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="logoutCustomer()" />
+              <q-btn v-close-popup class="col" outline label="No" color="primary" />
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
       </q-page>
     </q-page-container>
     <!-- Page Scroller Start -->
@@ -188,11 +209,16 @@ const config = useRuntimeConfig();
 const tab = ref("home");
 const { $pwa }: any = useNuxtApp();
 const install = ref();
+const logout_confirm_modal = ref(false);
+const confirmLogout = async () => {
+  logout_confirm_modal.value = true;
+};
 
 const customerIsAuth = ref(false);
 const customerID = ref("");
 const customerInfo = ref<DataType>([]);
-
+  const $q = useQuasar();
+  const isMobileSize = computed(() => $q.screen.width);
 
 const { data: allDiscountMenu }: any = await useFetch(
   "/api/all-discounted-count",

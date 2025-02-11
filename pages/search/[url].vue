@@ -1,71 +1,77 @@
 <template>
+  
+  <Head>
+    <Title>Search Page</Title>
+  </Head>
   <div style="padding-top: 90px">
-    <div v-if="product.length > 0" class="q-gutter-xs q-mt-md">
+    <div v-if="product.length > 0">
       <q-infinite-scroll :offset="100" @load="onLoad">
-        <q-card flat square class="row justify-center q-pa-sm q-gutter-sm gradient">
-          <div v-for="(item, index) in product" :key="item" :class="isMobileSize <= 450 ? 'col-6' : ''" :style="isMobileSize <= 450 ? 'width:100%; max-width:500px' : 'width:100%; max-width:325px'">
-            <q-card>
-              <q-card-section horizontal class="overflow-hidden">
-                <q-card-section class="col q-pa-none border-right">
-                  <NuxtLink :to="`/product/${item.fg_url}`">
-                    <NuxtImg loading="lazy" placeholder="/placeholder.gif" sizes="100vw sm:50vw md:170px" width="170" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" format="webp" quality="50" class="fit" :draggable="false" />
-                  </NuxtLink>
-                </q-card-section>
-                <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
-                <q-card-section class="col-7 q-pa-sm q-col-gutter-sm">
-                  <div class="text-subtitle2 ellipsis-2-lines text-secondary"
-                    @click="navigateTo('/product/' + item.fg_url)">
-                    <p class="q-ma-none">{{ item.acc_ledger_name }}</p>
-                  </div>
-                  <div class="row justify-between items-center no-wrap">
-                    <div class="row items-center  no-wrap">
-                      <q-icon name="qr_code" color="primary" class="q-mr-xs" />
-                      <div class="text-caption q-mr-xs ellipsis">
-                        {{ item.fg_sku }}
+        <q-card flat square class="gradient">
+          <q-card-section class="row justify-center q-col-gutter-sm q-pa-sm">
+            <div v-for="(item, index) in product" :key="item" :class="isMobileSize <= 450 ? 'col-6' : ''" :style="isMobileSize <= 450 ? 'width:100%; max-width:500px' : 'width:100%; max-width:325px'">
+              <q-card>
+                <q-card-section horizontal class="overflow-hidden">
+                  <q-card-section class="col q-pa-none border-right">
+                    <NuxtLink :to="`/product/${item.fg_url}`">
+                      <NuxtImg loading="lazy" placeholder="/placeholder.gif" sizes="100vw sm:50vw md:170px" width="170" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" format="webp" quality="50" class="fit" :draggable="false" />
+                    </NuxtLink>
+                  </q-card-section>
+                  <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute" style="top: 5px; left: 5px" />
+                  <q-card-section class="col-7 q-pa-sm q-col-gutter-sm">
+                    <div class="text-subtitle2 ellipsis-2-lines text-secondary"
+                      @click="navigateTo('/product/' + item.fg_url)">
+                      <p class="q-ma-none">{{ item.acc_ledger_name }}</p>
+                    </div>
+                    <div class="row justify-between items-center no-wrap">
+                      <div class="row items-center  no-wrap">
+                        <q-icon name="qr_code" color="primary" class="q-mr-xs" />
+                        <div class="text-caption q-mr-xs ellipsis">
+                          {{ item.fg_sku }}
+                        </div>
+                      </div>
+                      <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-caption text-primary ellipsis" style="text-decoration: none">
+                        {{ item.fg_category_name }}
+                      </NuxtLink>
+                    </div>
+                    <div class="row justify-between items-center">
+                      <NuxtLink v-if="item.fg_rating > 0" :to="`/product/review/${item.fg_url}`" class="items-center row no-wrap text-secondary" style="text-decoration: none">
+                        <q-rating v-model="item.fg_rating" class="q-mr-sm" size="12px" :max="5" color="primary" readonly />
+                        <span v-if="item.fg_reviews != ''" class="text-caption">
+                          ({{ item.fg_reviews }}00)
+                        </span>
+                      </NuxtLink>
+                      <q-space />&nbsp;
+                      <div  v-if="item.fg_view > 0" class="row items-center text-caption text-primary">
+                        <q-icon color="primary" name="trending_up" class="q-mr-xs" left />
+                        <p class="q-ma-none">
+                          {{ viewCount(item.fg_view) }}
+                        </p>
                       </div>
                     </div>
-                    <NuxtLink :to="`/category/${item.fg_category_url}`" class="text-caption text-primary ellipsis" style="text-decoration: none">
-                      {{ item.fg_category_name }}
-                    </NuxtLink>
-                  </div>
-                  <div class="row justify-between items-center">
-                    <NuxtLink v-if="item.fg_rating > 0" :to="`/product/review/${item.fg_url}`" class="items-center row no-wrap text-secondary" style="text-decoration: none">
-                      <q-rating v-model="item.fg_rating" class="q-mr-sm" size="12px" :max="5" color="primary" readonly />
-                      <span v-if="item.fg_reviews != ''" class="text-caption">
-                        ({{ item.fg_reviews }}00)
-                      </span>
-                    </NuxtLink>
-                    <q-space />&nbsp;
-                    <div  v-if="item.fg_view > 0" class="row items-center text-caption text-primary">
-                      <q-icon color="primary" name="trending_up" class="q-mr-xs" left />
-                      <p class="q-ma-none">
-                        {{ viewCount(item.fg_view) }}
-                      </p>
+                    <div class="row justify-between items-baseline">
+                      <div v-if="
+                        item.fg_discount > 0 &&
+                        inDateRange(
+                          item.fg_discount_start_date,
+                          item.fg_discount_end_date
+                        )
+                      " class="text-caption text-bold text-primary text-uppercase">
+                        <span class="q-mr-sm"> -{{ item.fg_discount }}% </span>
+                      </div>
+                      <q-space />
+                      <div class="row text-subtitle2 text-weight-medium text-primary">
+                        <span>
+                          {{ config.public.currencyBefore }}
+                          {{ formatMoney(item.fg_up_final * 1.0) }}
+                          {{ config.public.currencyAfter }}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row justify-between items-baseline">
-                    <div v-if="
-                      item.fg_discount > 0 &&
-                      inDateRange(
-                        item.fg_discount_start_date,
-                        item.fg_discount_end_date
-                      )
-                    " class="text-caption text-bold text-primary text-uppercase">
-                      <span class="q-mr-sm"> -{{ item.fg_discount }}% </span>
-                    </div>
-                    <q-space />
-                    <div class="row text-subtitle2 text-weight-medium text-primary">
-                      <span>
-                        {{ config.public.currencyBefore }}
-                        {{ formatMoney(item.fg_up_final * 1.0) }}
-                        {{ config.public.currencyAfter }}
-                      </span>
-                    </div>
-                  </div>
+                  </q-card-section>
                 </q-card-section>
-              </q-card-section>
-            </q-card>
-          </div>
+              </q-card>
+            </div>
+          </q-card-section>
         </q-card>
         <template #loading>
           <div v-if="!no_more_data" class="row justify-center q-my-md">
