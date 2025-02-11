@@ -83,7 +83,6 @@
     <q-page-sticky expand position="top">
       <q-toolbar class="text-white bg-grey-2 q-pa-xs shadow-4">
         <q-toolbar-title>
-          <!-- TO DO: Autocomplete -->
           <q-input v-model="searched_keyword" label="Search" class="col q-pa-xs" bg-color="white" autofocus label-color="primary" outlined dense color="primary" type="text" @keyup.enter="searchClicked">
             <template #append>
               <span class="text-overline text-weight-light text-grey-6">
@@ -98,52 +97,6 @@
           <!-- Sort Filter -->
           <q-scroll-area class="q-py-xs q-pr-xs" style="height: 44px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
             <div class="row justify-center" style="width: 490px">
-              <!-- gender -->
-              <!-- <q-chip
-                  v-if="genderFilter == ''"
-                  square
-                  clickable
-                  outline
-                  class="bg-white"
-                  :icon="gender"
-                  color="primary"
-                  text-color="white"
-                  @click="changeGender('man')"
-                >
-                  Gender
-                </q-chip>
-                <q-chip
-                  v-if="genderFilter == 'M'"
-                  square
-                  clickable
-                  outline
-                  class="bg-white"
-                  :icon="gender"
-                  color="primary"
-                  text-color="white"
-                  @click="changeGender('woman')"
-                >
-                  Men
-                </q-chip>
-                <q-chip
-                  v-if="genderFilter == 'F'"
-                  square
-                  clickable
-                  outline
-                  class="bg-white"
-                  :icon="gender"
-                  color="primary"
-                  text-color="white"
-                  @click="changeGender('wc')"
-                >
-                  Women
-                </q-chip>
-                <q-separator
-                  vertical
-                  spaced
-                  inset
-                  color="primary"
-                /> -->
               <!-- rating -->
               <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                 Rating
@@ -193,8 +146,7 @@
     <q-dialog v-model="filterQueryModal" backdrop-filter="blur(1px) brightness(90%)" transition-show="fade" transition-hide="fade">
       <!-- Query Filters -->
       <q-card class="shadow-3">
-        <!-- <q-card-section class="text-primary items-center row text-h6 gradient"> -->
-        <q-card-section class="text-primary items-center q-py-sm row justify-center bg-grey-2">
+        <q-card-section class="row justify-center items-center text-primary q-py-sm bg-grey-3">
           <div class="text-body1 text-weight-medium">
             Filters ({{ productCount }})
           </div>
@@ -202,7 +154,7 @@
           <q-btn v-close-popup outline round size="sm" icon="close" color="primary" />
         </q-card-section>
         <q-separator />
-        <q-card-section style="max-height: 70vh" class="bg-grey-1 scroll q-px-xs">
+        <q-card-section style="max-height: 80vh" class="bg-grey-1 scroll q-px-xs">
           <q-list class="rounded-borders">
             <q-item>
               <q-item-section avatar>
@@ -360,14 +312,13 @@
     </q-dialog>
   </div>
 </template>
+
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const img = useImage();
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
-
 const nuxtApp = useNuxtApp();
-
 const productCount = ref(0);
 const category_selected = ref(false);
 
@@ -415,7 +366,6 @@ const selectedAttrName = ref<string[]>([]);
 /* Price */
 const minPrice = ref(0);
 const maxPrice = ref(0);
-
 const loading = ref(false);
 const no_more_data = ref(false);
 const start = ref(0);

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   };
 
   try {
-    const response = await $fetch(config.apiUrl + "get-location-chain", {
+    const response = await $fetch(config.apiUrl + "get-all-brand-list", {
       method: "POST",
       body: body,
     });
