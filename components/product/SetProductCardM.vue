@@ -25,8 +25,8 @@
       <q-carousel-slide v-for="itemSet in carousal.length" :key="itemSet" :name="itemSet">
         <div :class="carousal.length == 1 ? 'fit' : ''" class="row items-center no-wrap">
           <div v-for="(item, index) in carousal[itemSet - 1].set" :key="item" class="col-6">
-            <q-card class="col-3 rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
-              <NuxtImg  loading="lazy" style="width: 192px; height: 256px" :src="`media/${item.fg_set_image}`" />
+            <q-card class="rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
+              <NuxtImg  loading="lazy" class="fit" style="width: 192px; height: 256px" :src="`media/${item.fg_set_image}`" />
               <div class="absolute-bottom text-center text-caption bg-grey-7 text-white" style="z-index: 50">
                 {{ item.label }} <br />
                 {{ config.public.currencyBefore }}
@@ -39,12 +39,12 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
-  
   </q-card>
+
   <q-dialog v-model="setProductModal" backdrop-filter="blur(1px) brightness(90%)" transition-show="fade" transition-hide="fade">
     <q-card class="gradient" style="width: 700px; max-width: 100vw">
       <q-card-section class="row justify-center text-primary">
-        <h6 class="text-h6 q-ma-none">{{ selectedSetProduct.label }}</h6>
+        <h6 class="text-h6 q-ma-none text-center">{{ selectedSetProduct.label }}</h6>
       </q-card-section>
       <q-separator />
       <q-card-section style="max-height: 70vh" class="scroll">

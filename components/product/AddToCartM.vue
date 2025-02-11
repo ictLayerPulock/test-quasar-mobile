@@ -172,6 +172,6 @@ async function addToCart() {
   }
   const localStorageCart = JSON.parse(localStorage.getItem("cartItem") ?? "{}");
   cartCount.value = localStorageCart.length;
-  showNotif();
+  // showNotif();
 }
 </script>

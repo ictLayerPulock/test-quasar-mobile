@@ -10,10 +10,6 @@ const customerID = useCustomerID();
 const showShareBtn = ref(false);
 const productTagName = ref("");
 const shareToEarnModal = useShareToEarnModal();
-// const fgRating = ref<number>(0);
-
-// ** If a user receives a product URL shared by another user via the share option, the URL will include a referral ID (e.g., product/product-url/?ref=customer_id). 
-// ** This referral ID is stored in cookies, and if the recipient purchases any product, the referral ID will be sent through the API.
 if (route.query.ref) {
   const customerRef = useCookie("customerRef", { maxAge: 604800 * 4 });
   customerRef.value = typeof route.query.ref === "string" ? route.query.ref : "";

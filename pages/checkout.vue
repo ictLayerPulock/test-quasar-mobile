@@ -736,7 +736,7 @@ function onchangeDeliveryType(
   }
   setCartData(cartItem);
 }
-const tab = ref("checkout");
+
 </script>
 
 <template>
@@ -749,15 +749,14 @@ const tab = ref("checkout");
       <!-- Checkout Items -->
       <q-card v-if="shoppingCart.length != 0" flat square class="bg-grey-1 q-pa-none">
         <div class="row justify-center q-pa-xs q-col-gutter-sm">
-          <div v-for="(item, index) in shoppingCart" :key="item.fg_id" :class="isMobileSize <= 450 ? '' : 'col-6'">
-            <q-card class="my-card" style="width: 100%;"
-              :style="isMobileSize <= 450 ? 'max-width: 450px' : 'max-width: 400px'">
+          <div v-for="(item, index) in shoppingCart" :key="item.fg_id" :class="isMobileSize <= 500 ? '' : 'col-6'">
+            <q-card style="width: 100%;" :style="isMobileSize <= 500 ? 'max-width: 500px' : 'max-width: 500px'">
               <q-card-section horizontal>
                 <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" format="webp" class="col-4"
                   width="200" quality="50" :src="item.fg_image" :alt="item.acc_ledger_name"
                   :title="item.acc_ledger_name" />
                 <q-checkbox v-model="itemChecked[index]" class="absolute" size="sm" color="primary" />
-                <q-card-section class="q-pa-sm">
+                <q-card-section class="q-pa-sm" style="width:100%">
                   <div class="text-subtitle2 ellipsis-2-lines text-secondary"
                     @click="navigateTo('/product/' + item.fg_url)">
                     <p class="q-ma-none">{{ item.acc_ledger_name }}</p>
@@ -769,14 +768,27 @@ const tab = ref("checkout");
                         {{ item.fg_sku }}
                       </div>
                     </div>
-                    <div class="text-caption ellipsis text-primary">
-                      {{ item.fg_category_name }}
+                    <div class="row no-wrap">
+                      <q-chip v-if="item.customName" size="12px" style="width: 100px"
+                        class="ellipsis bg-grey-3 overflow-hidden cursor-pointer no-margin" flat square color="primary">
+                        <q-avatar square>
+                          <q-img :src="item.customImgUrl" />
+                        </q-avatar>
+                        <div class="ellipsis text-subtitle2 row">
+                          <span class="ellipsis">
+                            {{ item.customName }}
+                          </span>
+                        </div>
+                        <q-tooltip anchor="top middle" self="bottom middle" class="bg-primary text-body2">
+                          Customized: {{ item.customName }}
+                        </q-tooltip>
+                      </q-chip>
                     </div>
                   </div>
                   <div class="row justify-between items-baseline">
                     <div v-if="item.fg_price != item.fg_discounted_price" class="text-caption text-strike">
                       {{ config.public.currencyBefore }}
-                      {{ formatMoney(item.fg_price * item.cartQty) }} some
+                      {{ formatMoney(item.fg_price * item.cartQty) }}
                       {{ config.public.currencyAfter }}
                     </div>
                     <q-space />
@@ -790,11 +802,11 @@ const tab = ref("checkout");
                   </div>
                   <div class="row justify-center q-py-sm">
                     <q-select v-model="item.selected_attribute" dense outlined fill color="primary"
-                      :options="item.fg_stock_and_attribute" style="width: 100%; max-width: 220px" @update:model-value="(val: any) => handelAttrChange(val, index)
+                      :options="item.fg_stock_and_attribute" style="width: 100%; max-width: 480px" @update:model-value="(val: any) => handelAttrChange(val, index)
                         " />
                   </div>
 
-                  <div class="row justify-between items-center q-gutter-x-md">
+                  <div class="row justify-between items-center q-gutter-x-md" style="max-width: 200px; width: 100%;">
                     <q-btn outline round icon="remove" color="primary" size="xs" aria-label="Remove"
                       @click="removeQty(index)" />
                     <q-input v-model.number="item.cartQty" dense outlined type="number" color="primary"
@@ -804,6 +816,92 @@ const tab = ref("checkout");
                     <q-btn icon="delete_outline" outline round size="sm" class="bg-white" color="primary"
                       aria-label="Delete" @click="deleteProductModal(index)" />
                   </div>
+                  <!-- Regular Delivery -->
+                  <div v-show="selectedLocation != 0 && regDevFee[index] > 0" class="items-center q-px-sm q-py-xs">
+                    <div class="row justify-between items-center">
+                      <q-radio v-model="deliveryType[index]" size="xs" val="regular"
+                        @click="onchangeDeliveryType(index, 'regular')">
+                        <template #default>
+                          <div class="column q-pl-sm">
+                            <p class="text-subtitle2 q-ma-none">
+                              Regular Delivery
+                            </p>
+                            <p v-if="item.pre_order_qty > 0" class="text-weight-regular text-caption q-ma-none">
+                              {{ config.public.currencyBefore }}
+                              {{ formatMoney(regDevFee[index]) }}
+                              {{ config.public.currencyAfter }} ({{
+                                addDays(
+                                  regDevDay[index] * 1.0 +
+                                  preDevDay[index] * 1.0
+                                )
+                              }})
+                            </p>
+                            <p v-else class="text-weight-regular text-caption q-ma-none">
+                              {{ config.public.currencyBefore }}
+                              {{ formatMoney(regDevFee[index]) }}
+                              {{ config.public.currencyAfter }} ({{
+                                addDays(regDevDay[index] * 1.0)
+                              }})
+                            </p>
+                          </div>
+                        </template>
+                      </q-radio>
+                      <q-icon size="xs" name="local_shipping" color="primary" />
+                    </div>
+                  </div>
+                  <!-- Express Delivery -->
+                  <div v-show="exprDevFee[index] > 0 && item.pre_order_qty == 0" class="items-center q-px-sm q-py-xs">
+                    <div class="row justify-between items-center">
+                      <q-radio v-model="deliveryType[index]" size="xs" val="express"
+                        @click="onchangeDeliveryType(index, 'express')">
+                        <template #default>
+                          <div class="column q-pl-sm">
+                            <p class="text-subtitle2 q-ma-none">
+                              Express Delivery
+                            </p>
+                            <p class="text-caption q-ma-none text-right">
+                              {{ config.public.currencyBefore }}
+                              {{ formatMoney(exprDevFee[index]) }}
+                              {{ config.public.currencyAfter }} ({{
+                                addDays(exprDevDayHour[index] * 1.0)
+                              }})
+                            </p>
+                          </div>
+                        </template>
+                      </q-radio>
+                      <q-icon size="xs" name="flash_on" color="primary" />
+                    </div>
+                  </div>
+
+                  <!-- Free Shipping -->
+                  <div v-show="selectedLocation != 0 && item.fg_shipping_cost_free == 1"
+                    class="row justify-between items-center q-pt-sm">
+                    <q-radio v-model="deliveryType[index]" size="xs" val="regular"
+                      @click="onchangeDeliveryType(index, 'regular')">
+                      <template #default>
+                        <div class="column q-pl-sm">
+                          <p class="text-subtitle2 q-ma-none">
+                            Free Delivery
+                          </p>
+                          <p class="text-weight-regular text-caption q-ma-none">
+                            {{
+                              addDays(
+                                regDevDay[index] * 1.0 +
+                                preDevDay[index] * 1.0
+                              )
+                            }}
+                          </p>
+                        </div>
+                      </template>
+                    </q-radio>
+                    <q-icon size="xs" name="local_shipping" color="primary" />
+                  </div>
+                  <div v-if="item.pre_order_qty > 0"
+                    class="row justify-center q-py-xs text-caption text-weight-medium text-primary">
+                    <p class="q-ma-none">{{ item.pre_order_qty }} Pre-Ordered&nbsp;</p>
+                    <span v-if="item.pre_order_qty > 1">Items</span>
+                    <span v-else>Item</span>
+                  </div>
                 </q-card-section>
               </q-card-section>
             </q-card>
@@ -811,10 +909,10 @@ const tab = ref("checkout");
         </div>
       </q-card>
       <q-card v-else flat square class="row justify-center gradient" style="height: 90px">
-          <q-card-section class="text-uppercase text-h6 q-py-lg text-weight-regular text-grey-9 text-center">
-            {{ noItemText }}
-          </q-card-section>
-        </q-card>
+        <q-card-section class="text-uppercase text-h6 q-py-lg text-weight-regular text-grey-9 text-center">
+          {{ noItemText }}
+        </q-card-section>
+      </q-card>
       <!-- Delivery Details -->
       <div v-if="shoppingCart.length != 0" id="deliveryDetails" class="q-gutter-y-sm q-pt-sm">
         <q-card flat square class="q-pa-xs text-center" :class="isMobileSize <= 450 ? 'column' : 'row'">

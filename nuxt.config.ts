@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["quasar"]
   },
+   
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET,
     apiUrl: process.env.NUXT_API_URL,
