@@ -5,19 +5,26 @@
       <q-toolbar class="justify-between items-center" style="height: 60px">
         <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="primary" round icon="menu" />
         <q-toolbar-title class="row justify-center">
-          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40" alt="Logo-name" title="Logo-name" />
+          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40"
+            alt="Logo-name" title="Logo-name" />
         </q-toolbar-title>
-        <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''" to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
-          <span v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption" style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
-            {{ cartCount }}
-          </span>
-        </q-btn>
+        <div class="row justify-end">
+          <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''"
+            to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
+            <span v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption"
+              style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
+              {{ cartCount }}
+            </span>
+          </q-btn>
+          <q-btn v-if="customerIsAuth" color="primary" to="/customer/accounts" flat round icon="person" title="My Profile" />
+        </div>
       </q-toolbar>
     </q-header>
     <!-- Left Drawer (Category List) -->
-    <q-drawer v-model="leftDrawerOpen" side="left" :width="300" :breakpoint="500" overlay elevated class="gradient-left text-body2">
+    <q-drawer v-model="leftDrawerOpen" side="left" :width="300" :breakpoint="500" overlay elevated
+      class="gradient-left text-body2">
       <q-scroll-area :style="customerIsAuth
-        ? 'height: calc(100% - 120px); margin-top: 110px'
+        ? 'height: calc(100% - 110px); margin-top: 130px'
         : 'height: calc(100% - 64px); margin-top: 64px'
         " visible>
         <q-list>
@@ -37,7 +44,8 @@
               Categories
             </q-item-section>
           </q-item>
-          <q-item v-ripple :class="allDiscountMenu > 0 ? `` : `hidden`" active-class="bg-grey-4" to="/all-discounted" clickable>
+          <q-item v-ripple :class="allDiscountMenu > 0 ? `` : `hidden`" active-class="bg-grey-4" to="/all-discounted"
+            clickable>
             <q-item-section avatar>
               <q-icon size="25px" name="percent" />
             </q-item-section>
@@ -117,24 +125,29 @@
         </q-list>
         <q-separator spaced inset />
         <div class="q-gutter-xs row justify-center">
-          <q-btn href="mailto:info@womanish.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="email" />
-          <q-btn href="https://wa.me/+8801926680888" size="md" class="q-pa-sm" flat title="Whatsapp" role="button" target="_blank">
+          <q-btn href="mailto:info@womanish.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary"
+            icon="email" />
+          <q-btn href="https://wa.me/+8801926680888" size="md" class="q-pa-sm" flat title="Whatsapp" role="button"
+            target="_blank">
             <q-avatar size="36px">
               <q-img src="/service-icons/whatsapp.svg" />
             </q-avatar>
           </q-btn>
-          <q-btn href="https://www.facebook.com/womanishltd" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="facebook" />
-          <q-btn href="https://www.youtube.com/@womanishLtd-official" target="_blank" size="md" class="q-pa-sm" flat color="primary" icon="smart_display" />
+          <q-btn href="https://www.facebook.com/womanishltd" target="_blank" size="md" class="q-pa-sm" flat
+            color="primary" icon="facebook" />
+          <q-btn href="https://www.youtube.com/@womanishLtd-official" target="_blank" size="md" class="q-pa-sm" flat
+            color="primary" icon="smart_display" />
         </div>
         <q-separator spaced inset />
         <div class="row justify-center q-pb-xs">
-          <q-btn flat icon="code" dense size="11px" label="Created By ICT Layer" no-caps href="https://www.ictlayer.com/" />
+          <q-btn flat icon="code" dense size="11px" label="Created By ICT Layer" no-caps
+            href="https://www.ictlayer.com/" />
         </div>
       </q-scroll-area>
-      <div class="absolute-top bg-grey-5" :style="isMobileSize <= 450 ? 'height: 75px' : 'height: 56px'">
+      <div class="absolute-top bg-grey-5">
         <div v-if="customerIsAuth" class="q-pa-sm">
           <div class="column q-gutter-md">
-            <NuxtLink to="/customer/accounts" class="text-secondary" style="text-decoration: none" aria-label="Accounts">
+            <NuxtLink to="/customer/accounts" class="text-secondary" style="text-decoration: none">
               <p class="text-weight-bold text-capitalize q-ma-none">
                 {{ customerInfo.name }}
               </p>
@@ -142,7 +155,7 @@
                 {{ customerInfo.phone }}
               </div>
             </NuxtLink>
-            <q-btn dense color="primary" class="bg-grey-3" outline @click="confirmLogout()" aria-label="Logout">
+            <q-btn dense color="primary" class="bg-grey-4" outline @click="confirmLogout()" aria-label="Logout">
               <q-icon name="logout" class="q-pr-sm" />
               Logout
             </q-btn>
@@ -150,7 +163,7 @@
         </div>
         <div v-else class="q-pa-md">
           <div class="column q-gutter-md">
-            <q-btn dense outline to="/login" color="primary" aria-label="Login">
+            <q-btn dense outline to="/login" color="primary" class="bg-grey-4" aria-label="Login">
               <q-icon name="login" class="q-pr-sm" />
               Login / Signup
             </q-btn>
@@ -162,32 +175,33 @@
       <LayoutsRightDrawerM />
     </q-drawer>
     <!-- page-container -->
-    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer" v-touch-swipe.mouse.left="toggleRightDrawer">
+    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer"
+      v-touch-swipe.mouse.left="toggleRightDrawer">
       <q-page class="q-pa-sm">
         <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">
           <slot />
         </div>
         <q-dialog v-model="logout_confirm_modal">
-        <q-card class="shadow-up-10">
-          <q-card-section class="bg-grey-2 text-body1">
-            <div>Are you sure you want to logout?</div>
-          </q-card-section>
-          <q-separator space />
-          <q-card-section>
-            <div class="row justify-between q-gutter-md">
-              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="logoutCustomer()" />
-              <q-btn v-close-popup class="col" outline label="No" color="primary" />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+          <q-card class="shadow-up-10">
+            <q-card-section class="bg-grey-2 text-body1">
+              <div>Are you sure you want to logout?</div>
+            </q-card-section>
+            <q-separator space />
+            <q-card-section>
+              <div class="row justify-between q-gutter-md">
+                <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="logoutCustomer()" />
+                <q-btn v-close-popup class="col" outline label="No" color="primary" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </q-page>
     </q-page-container>
     <!-- Page Scroller Start -->
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn id="scroll_to_top" fab-mini icon="keyboard_arrow_up" color="primary" aria-label="Scroll To Top" />
-      </q-page-scroller>
-      <!-- Page Scroller End -->
+      <q-btn id="scroll_to_top" fab-mini icon="keyboard_arrow_up" color="primary" aria-label="Scroll To Top" />
+    </q-page-scroller>
+    <!-- Page Scroller End -->
     <q-footer dense reveal elevated class="row justify-center items-center gradient-bottom text-grey-10">
       <q-tabs v-model="tab" no-caps active-color="primary" indicator-color="primary" switch-indicator>
         <q-route-tab to="/tracking" icon="location_searching" aria-label="Tracking" class="q-pa-sm" />
@@ -217,8 +231,8 @@ const confirmLogout = async () => {
 const customerIsAuth = ref(false);
 const customerID = ref("");
 const customerInfo = ref<DataType>([]);
-  const $q = useQuasar();
-  const isMobileSize = computed(() => $q.screen.width);
+const $q = useQuasar();
+const isMobileSize = computed(() => $q.screen.width);
 
 const { data: allDiscountMenu }: any = await useFetch(
   "/api/all-discounted-count",
