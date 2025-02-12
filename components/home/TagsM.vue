@@ -28,7 +28,7 @@
           </q-card-section>
           <q-card-section v-else class="row q-pt-sm q-px-sm q-gutter-x-sm q-pb-none gradient" style="width: 530px">
             <div v-for="tag in response.data" :key="tag">
-              <NuxtLink :to="`/tag/${tag.fg_series_url}`" :aria-label="tag.fg_series_name" style="text-decoration: none"
+              <NuxtLink :to="`/tag/${tag.fg_tag_url}`" :aria-label="tag.fg_tag_name" style="text-decoration: none"
                 class="text-secondary">
                 <q-card class="shadow-6 shadow-on-hover zoom-on-hover cursor-pointer rounded">
                   <q-card-section class="q-pa-none" style="width:120px;">

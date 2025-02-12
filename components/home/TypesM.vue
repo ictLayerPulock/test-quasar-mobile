@@ -31,7 +31,7 @@
                     <q-card-section v-else class="row q-pt-sm q-px-sm q-gutter-x-sm q-pb-none gradient"
                         style="width: 400px">
                         <div v-for="type in response.data" :key="type">
-                            <NuxtLink :to="`/type/${type.fg_series_url}`" :aria-label="type.fg_series_name"
+                            <NuxtLink :to="`/type/${type.fg_type_url}`" :aria-label="type.fg_type_name"
                                 style="text-decoration: none" class="text-secondary">
                                 <q-card class="shadow-6 shadow-on-hover zoom-on-hover cursor-pointer rounded">
                                     <q-card-section class="q-pa-none" style="width:120px;">
