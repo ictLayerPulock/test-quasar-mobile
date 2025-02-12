@@ -1,30 +1,31 @@
 <template>
   <Head>
-    <Title>{{ tag.fg_tag_meta_title }}</Title>
+    <Title>{{ type.fg_type_meta_title }}</Title>
   </Head>
-
-  <div style="padding-top: 51px">
+  <div style="padding-top: 50px">
     <q-pull-to-refresh @refresh="clearCache">
-      <q-skeleton v-if="tag.fg_tag_name === 'pending'" width="320px" height="50px"
+      <q-skeleton v-if="type.fg_type_name === 'pending'" width="320px" height="50px"
           style="margin-top: 60px" />
         <div v-else class="bg-grey-4">
-          <div v-if="!tag.fg_tag_banner" class="row justify-around items-center bg-grey-2">
+          <div v-if="!type.fg_type_banner" class="row justify-around items-center bg-grey-2">
             <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm"
-              :title="tag.fg_tag_name">
-              {{ tag.fg_tag_name }}
+              :title="type.fg_type_name">
+              {{ type.fg_type_name }}
             </h1>
           </div>
           <q-card v-else square flat>
             <NuxtImg loading="lazy" format="webp" quality="50" class="fit" height="50" :draggable="false"
-              placeholder="/placeholder.gif" :src="tag.fg_tag_banner" alt="page-banner"
+              placeholder="/placeholder.gif" :src="type.fg_type_banner" alt="page-banner"
               title="page-banner" />
             <h1 class="text-h6 text-center q-ma-none text-primary q-pa-sm">
-              {{ tag.fg_tag_name }}
+              {{ type.fg_type_name }}
             </h1>
           </q-card>
         </div>
-      <TagListTagsM />
-      <LazyTagTrendingProductsM :url="url" />
+      
+      <!-- Trending Products -->
+      <LazyTypeTrendingProductsM :url="url" />
+      <!-- Product List -->
       <div v-if="show" class="q-gutter-xs q-mt-md">
         <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
             <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
@@ -140,6 +141,7 @@
             <!-- Sort Filter -->
             <q-scroll-area class="q-py-xs q-pr-xs" style="height: 44px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
               <div class="row justify-center" style="width: 490px">
+                
                 <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                   Rating
                 </q-chip>
@@ -184,15 +186,18 @@
           </q-toolbar-title>
         </q-toolbar>
       </q-page-sticky>
+      <!-- (PENDING) -->
+      <!-- Auto-complete, Select Keyword, Trending Searches etc  -->
     </q-pull-to-refresh>
   </div>
 </template>
 <script setup lang="ts">
 const config = useRuntimeConfig();
-const nuxtApp = useNuxtApp();
+const show = ref(true);
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
-const show = ref(true);
+
+const nuxtApp = useNuxtApp();
 
 const clearCache = (done: any) => {
   clearNuxtData();
@@ -200,43 +205,40 @@ const clearCache = (done: any) => {
   useShowNotif($q, "restart_alt", "Cache Cleared. Reloading...");
   done();
 };
-
 const route = useRoute();
-const url:any = route.params.url;
+const url = route.params.url as string;
 
 const loading = ref(false);
 const no_more_data = ref(false);
 const start = ref(0);
-const limit = ref(8);
-
+const limit = ref(18);
 const genderFilter = ref("");
 const priceHigh = ref(0);
 const recentHigh = ref(0);
 const trendingHigh = ref(0);
 const ratingHigh = ref(0);
 
-interface ProductType {
+interface DataType {
   [x: string]: any;
 }
-const product: ProductType = ref([]);
+const product = ref<DataType>([]);
 
-const { data: tag } = await useAsyncData(() =>
-  $fetch("/api/tag-detail/" + url, {
-    query: {
-      fg_tag_url: url,
-    },
-  }),
+const { data: type } = await useAsyncData(
+  `type-list: ${url}`,
+  async () =>
+    $fetch("/api/type-detail/" + url, {
+      query: {
+        fg_type_url: url,
+      },
+    }),
   {
-    default: () => [],
-    // lazy: true,
-    deep: false,
     transform(responseData: any) {
       return {
         ...responseData,
         fetchedAt: new Date(),
       };
     },
-    getCachedData(key: any) {
+    getCachedData(key) {
       const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
       if (!data) {
         return;
@@ -252,39 +254,18 @@ const { data: tag } = await useAsyncData(() =>
   }
 );
 
-
-const {
-  data: response,
-  refresh,
-  status,
-}: any = await useAsyncData(
-  `tag-product: ${url}`,
+const { data: products, refresh, status }: any = await useAsyncData(
+  `type-product: ${url}`,
   async () =>
-    $fetch("/api/tag-product/" + url, {
+    $fetch("/api/type-product/" + url, {
       query: {
         start: start.value,
         limit: limit.value,
-        fg_tag_url: url,
+        fg_type_url: url,
         tag: config.public.tagFiltering,
-        gender: genderFilter.value,
-        rating:
-          ratingHigh.value != 0 ? (ratingHigh.value == 1 ? "high" : "low") : "",
-        trending:
-          trendingHigh.value != 0
-            ? trendingHigh.value == 1
-              ? "high"
-              : "low"
-            : "",
-        recent:
-          recentHigh.value != 0 ? (recentHigh.value == 1 ? "high" : "low") : "",
-        price:
-          priceHigh.value != 0 ? (priceHigh.value == 1 ? "high" : "low") : "",
       },
     }),
   {
-    // default: () => [],
-    // lazy: true,
-    // deep: false,
     transform(responseData: any) {
       responseData.data = responseData.data.map((item: any) => ({
         acc_ledger_name: item.acc_ledger_name,
@@ -297,7 +278,7 @@ const {
         fg_up_final: item.fg_up_final,
         /* For List Card */
         fg_sku: item.fg_sku,
-        fg_rating: item.fg_rating,
+        fg_rating: item.fg_rating * 1.00,
         fg_category_name: item.fg_category_name,
         fg_category_url: item.fg_category_url,
         // fg_up: item.fg_up,
@@ -313,12 +294,6 @@ const {
         // fg_type_name: item.fg_type_name,
         // fg_type_url: item.fg_type_url,
       }));
-      if (responseData.data.length == 0) show.value = false;
-      product.value = responseData.data;
-      for (const key in product.value) {
-        (product.value[key] as any).fg_rating =
-          (product.value[key] as any).fg_rating * 1.0;
-      }
       return {
         ...responseData,
         fetchedAt: new Date(),
@@ -335,103 +310,101 @@ const {
       if (isExpired) {
         return;
       }
-      if (data.data.length == 0) show.value = false;
-      product.value = data.data;
       return data;
     },
   }
 );
+product.value = products.value.data;
 
-product.value = (response as any).value.data;
-
-function onLoad(index: any, done: any) {
+function onLoad() {
   loading.value = true;
-  start.value += 26;
-  limit.value = 26;
+  start.value += 12;
+  limit.value = 6;
   if (!no_more_data.value) {
     setTimeout(async () => {
-      const { data }: any = useAsyncData(
-        async () =>
-          $fetch("/api/tag-product/" + url, {
-            query: {
-              limit: limit.value,
-              start: start.value,
-              fg_tag_url: url,
-              tag: config.public.tagFiltering,
-              gender: genderFilter.value,
-              rating:
-                ratingHigh.value != 0
-                  ? ratingHigh.value == 1
-                    ? "high"
-                    : "low"
-                  : "",
-              trending:
-                trendingHigh.value != 0
-                  ? trendingHigh.value == 1
-                    ? "high"
-                    : "low"
-                  : "",
-              recent:
-                recentHigh.value != 0
-                  ? recentHigh.value == 1
-                    ? "high"
-                    : "low"
-                  : "",
-              price:
-                priceHigh.value != 0
-                  ? priceHigh.value == 1
-                    ? "high"
-                    : "low"
-                  : "",
-            },
-          }),
-        {
-          default: () => [],
-          lazy: true,
-          deep: false,
-          transform(input: any) {
-            input.data = input.data.map((item: any) => ({
-              acc_ledger_name: item.acc_ledger_name,
-              fg_discount: item.fg_discount,
-              fg_discount_end_date: item.fg_discount_end_date,
-              fg_image: item.fg_image,
-              fg_url: item.fg_url,
-              fg_featured: item.fg_featured,
-              fg_view: item.fg_view,
-              fg_up_final: item.fg_up_final,
-              /* For List Card */
-              fg_sku: item.fg_sku,
-              fg_rating: item.fg_rating,
-              fg_category_name: item.fg_category_name,
-              fg_category_url: item.fg_category_url,
-              // fg_up: item.fg_up,
-              // fg_tag_arr: item.fg_tag_arr,
-              // acc_ledger_name_bn: item.acc_ledger_name_bn,
-              // fg_image_file_name: item.fg_image_file_name,
-              // fg_gender: item.fg_gender,
-              // fg_brand_id: item.fg_brand_id,
-              // fg_brand_name: item.fg_brand_name,
-              // fg_brand_logo: item.fg_brand_logo,
-              // fg_type_id: item.fg_type_id,
-              // fg_tag_id: item.fg_tag_id,
-              // fg_type_name: item.fg_type_name,
-              // fg_type_url: item.fg_type_url,
-            }));
-            const old = product.value.length;
-            product.value = product.value.concat(input.data);
-            const current = product.value.length;
-            if (old === current) {
-              no_more_data.value = true;
-            }
-            loading.value = false;
-            return {
-              ...input,
-              fetchedAt: new Date(),
-            };
-          },
-        }
-      );
-      if ($q.platform.is.mobile && ($q.screen.sm || $q.screen.lt.sm)) done();
+      const { data }: any = await useFetch("/api/type-product/" + url, {
+        query: {
+          start: start.value,
+          gender: genderFilter.value,
+          tag: config.public.tagFiltering,
+          rating:
+            ratingHigh.value != 0
+              ? ratingHigh.value == 1
+                ? "high"
+                : "low"
+              : "",
+          trending:
+            trendingHigh.value != 0
+              ? trendingHigh.value == 1
+                ? "high"
+                : "low"
+              : "",
+          recent:
+            recentHigh.value != 0
+              ? recentHigh.value == 1
+                ? "high"
+                : "low"
+              : "",
+          price:
+            priceHigh.value != 0 ? (priceHigh.value == 1 ? "high" : "low") : "",
+          limit: limit.value,
+          fg_type_url: url,
+        },
+        transform(responseData: any) {
+          responseData.data = responseData.data.map((item: any) => ({
+            acc_ledger_name: item.acc_ledger_name,
+            fg_discount: item.fg_discount,
+            fg_discount_end_date: item.fg_discount_end_date,
+            fg_image: item.fg_image,
+            fg_url: item.fg_url,
+            fg_featured: item.fg_featured,
+            fg_view: item.fg_view,
+            fg_up_final: item.fg_up_final,
+            /* For List Card */
+            fg_sku: item.fg_sku,
+            fg_rating: item.fg_rating * 1.00,
+            fg_category_name: item.fg_category_name,
+            fg_category_url: item.fg_category_url,
+            // fg_up: item.fg_up,
+            // fg_tag_arr: item.fg_tag_arr,
+            // acc_ledger_name_bn: item.acc_ledger_name_bn,
+            // fg_image_file_name: item.fg_image_file_name,
+            // fg_gender: item.fg_gender,
+            // fg_brand_id: item.fg_brand_id,
+            // fg_brand_name: item.fg_brand_name,
+            // fg_brand_logo: item.fg_brand_logo,
+            // fg_type_id: item.fg_type_id,
+            // fg_tag_id: item.fg_tag_id,
+            // fg_type_name: item.fg_type_name,
+            // fg_type_url: item.fg_type_url,
+          }));
+          return {
+            ...responseData,
+            fetchedAt: new Date(),
+          };
+        },
+        getCachedData(key) {
+          const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+          if (!data) {
+            return;
+          }
+          const expDate = new Date(data.fetchedAt);
+          expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
+          const isExpired = expDate.getTime() < Date.now();
+          if (isExpired) {
+            return;
+          }
+          return data;
+        },
+      });
+      const old = product.value.length;
+      product.value = product.value.concat(data.value.data);
+      const current = product.value.length;
+      if (old === current) {
+        no_more_data.value = true;
+      }
+      loading.value = false;
+      // done()
     }, 1000);
   }
 }

@@ -8,6 +8,7 @@
       <LazyHomeFlashSaleM />
       <LazyHomeSeriesM />
       <LazyHomeTagsM />
+      <LazyHomeTypesM />
       <LazyHomeCategoryProductsM />
       <LazyHomeNewsM />
       <LazyHomeBlogM />
