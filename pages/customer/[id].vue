@@ -41,38 +41,39 @@ onMounted(async () => {
           <q-route-tab to="/customer/accounts" label="My Profile" />
           <q-route-tab to="/customer/order-list" label="My Orders" />
         </q-tabs>
-
-        <q-card>
-          <q-card-section class="row justify-center">
-            <q-avatar size="100px">
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
-            </q-avatar>
-          </q-card-section>
-          <q-card-section class="q-pa-none">
-            <q-card class="my-card text-white" style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)">
-              <q-card-section class="q-pa-sm">
-                <div class="row items-center">
-                  <q-btn to="/customer/accounts" flat round icon="person" title="My Profile" />
-                  <h6 class="q-ma-none text-h6">{{ customerInfo.name }}</h6>
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pt-none">
-                <div class="row items-center">
-                  <q-btn to="/customer/accounts" flat size="xs" round icon="phone" title="Phone" />
-                  <p class="q-ma-none text-subtitle2">{{ customerInfo.phone }}</p>
-                </div>
-                <div class="row items-center">
-                  <q-btn to="/customer/accounts" flat size="xs" round icon="mail" title="Email" />
-                  <p class="q-ma-none text-subtitle2">{{ customerInfo.email }}</p>
-                </div>
-                <div class="row items-center">
-                  <q-btn to="/customer/accounts" flat size="xs" round icon="location_on" title="Address" />
-                  <p class="q-ma-none text-subtitle2">{{ customerInfo.billing_address }}</p>
-                </div>
-              </q-card-section>
-            </q-card>
-          </q-card-section>
-        </q-card>
+        <div class="q-pa-sm row justify-center">
+          <q-card class="shadow-7 rounded bg-white" style="width: 100%; max-width: 500px;">
+            <q-card-section class="row justify-center">
+              <q-avatar size="100px">
+                <NuxtImg loading="lazy" width="100" height="100" format="webp" quality="50"
+                  src="https://placehold.co/100x100" />
+              </q-avatar>
+            </q-card-section>
+            <q-card-section class="q-pa-sm">
+              <div class="row justify-center items-center">
+                <q-btn to="/customer/accounts" flat round icon="person" title="My Profile" />
+                <h6 class="q-ma-none text-h6">{{ customerInfo.name }}</h6>
+              </div>
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+              <div class="row justify-center items-center">
+                <q-btn to="/customer/accounts" flat size="xs" round icon="phone" title="Phone" />
+                <p class="q-ma-none text-subtitle2">{{ customerInfo.phone }}</p>
+              </div>
+              <div class="row justify-center items-center">
+                <q-btn to="/customer/accounts" flat size="xs" round icon="mail" title="Email" />
+                <p class="q-ma-none text-subtitle2">{{ customerInfo.email }}</p>
+              </div>
+              <div class="row justify-center items-center">
+                <q-btn to="/customer/accounts" flat size="xs" round icon="location_on" title="Address" />
+                <p class="q-ma-none text-subtitle2">{{ customerInfo.billing_address }}</p>
+              </div>
+            </q-card-section>
+            <div class="row justify-center absolute" style="top: 5px; right: 5px">
+              <q-btn round color="primary" outline size="sm" icon="edit" />
+            </div>
+          </q-card>
+        </div>
       </q-card>
     </div>
   </div>

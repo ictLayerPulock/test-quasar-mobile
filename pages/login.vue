@@ -15,7 +15,7 @@
         <q-card-section class="q-pa-none">
           <q-tab-panels v-model="tab" animated transition-prev="scale" transition-next="scale" class="text-center">
             <q-tab-panel name="login" class="q-gutter-y-md">
-              <q-input filled v-model="username" type="email" label="Email" placeholder="example@mail.com" dense>
+              <q-input filled v-model="username" type="email" label="Email / Mobile Number" placeholder="example@mail.com" dense>
                 <template v-slot:prepend>
                   <q-icon size="xs" name="mail" />
                 </template>

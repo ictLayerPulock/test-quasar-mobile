@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const nuxtApp = useNuxtApp()
-const route: any = useRoute()
+import { ref } from "vue"
+const route = useRoute()
 const config = useRuntimeConfig()
-const cartCount = useCartCount()
-const invoiceId = ref(null)
+const invoiceId = ref("")
 const customerName = ref("")
 const customerPhone = ref("")
 const customerEmail = ref("")
@@ -12,65 +12,59 @@ const cartItemData = ref("")
 const coupon_data = ref("")
 const selectedLocation = ref("")
 const affiliate_id = ref("")
-
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
 
-interface PaymentGatewaysType {
-  [x: string]: any
-}
 const getEnvValue = await $fetch('/api/get-env-value', {})
-const paymentGateways = ref<PaymentGatewaysType>([])
-interface InvoiceData {
-  [x: string]: any
+const invoiceData = ref<InvoiceDataType>([])
+interface InvoiceDataType {
+  [x: string]: any;
 }
+interface PaymentGatewaysType {
+  [x: string]: any;
 
-const invoiceData: InvoiceData = ref([])
-const invId = ref(0)
-onMounted(() => {
-  localStorage.removeItem("cartItem")
+}
+const paymentGateways = ref<PaymentGatewaysType>([])
 
-  const localStorageCart = JSON.parse(localStorage.getItem("cartItem") ?? "{}")
-  cartCount.value = localStorageCart.length
-})
-if (route.query.q.length === 32) {
-  invoiceId.value = route.query.q
+if ((route.query.q as string).length === 32) {
+  invoiceId.value = route.query.q as string
   try {
-    const response: any = await $fetch("/api/payment-detail", {
+    const { data: response }: any = await useFetch("/api/payment-detail", {
       method: "POST",
       body: {
         enc_invoice_id: route.query.q,
       },
     })
-    const status = response.status
-    const data = response.data
+    const status = response.value.status
+    const data = response.value.data
 
     if (status === 200) {
       invoiceData.value = data.invoice_data
       paymentGateways.value = data.payment_gateways
     }
   } catch (error) {
-    // console.log(error)
+    console.log(error)
   }
 }
 </script>
 <template>
+
   <Head>
-    <Title>Payment Canceled</Title>
+    <Title>Payment Success</Title>
     <Meta name="robots" content="none" />
   </Head>
-  <div>
-    <!-- Order Header -->
-    <q-card>
-      <q-card-section class="text-center">
-        <NuxtImg loading="lazy" height="120" width="300" quality="70" format="webp" src="/images/order-cancelled.webp"
-          alt="order-cancelled" title="order-cancelled" />
-        <h6 class="text-h6 q-ma-xs text-primary text-capitalize">
-          Your Payment has been canceled!
-        </h6>
-        <h5 class="text-h5 text-bold q-ma-xs q-pt-sm text-primary">
+  <div class="gradient">
+    <q-card class="q-pa-xs">
+      <q-card-section class="text-center q-pa-xs">
+        <NuxtImg loading="lazy" height="120" width="300" quality="70" format="webp"
+          src="/images/placeholder-confirm.webp" alt="placeholder-confirm" title="placeholder-confirm" />
+        <!-- <q-img width="200px" src="/images/placeholder-confirm.web" /> -->
+        <div class="text-body1 text-capitalize text-green-6">
+          Your Payment was successfully done!
+        </div>
+        <h6 class="q-ma-xs text-primary">
           Order ID: #{{ invoiceData.invoice_id }}
-        </h5>
+        </h6>
       </q-card-section>
       <q-separator />
       <q-card-section :class="isMobileSize <= 450 ? 'q-gutter-y-sm' : 'row'">
