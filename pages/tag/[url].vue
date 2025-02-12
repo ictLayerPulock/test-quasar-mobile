@@ -1,34 +1,34 @@
 <template>
 
   <Head>
-    <Title>{{ series_info.fg_series_meta_title }}</Title>
+    <Title>{{ tag.fg_tag_meta_title }}</Title>
   </Head>
 
-  <div style="padding-top: 48">
+  <div style="padding-top: 51px">
     <q-pull-to-refresh @refresh="clearCache">
-      <div>
-        <q-skeleton v-if="series_info.fg_series_name === 'pending'" width="320px" height="50px"
+      <q-skeleton v-if="tag.fg_tag_name === 'pending'" width="320px" height="50px"
           style="margin-top: 60px" />
         <div v-else class="bg-grey-4">
-          <div v-if="!series_info.fg_series_banner" class="row justify-around items-center bg-grey-2">
+          <div v-if="!tag.fg_tag_banner" class="row justify-around items-center bg-grey-2">
             <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm"
-              :title="series_info.fg_series_name">
-              {{ series_info.fg_series_name }}
+              :title="tag.fg_tag_name">
+              {{ tag.fg_tag_name }}
             </h1>
           </div>
           <q-card v-else square flat>
             <NuxtImg loading="lazy" format="webp" quality="50" class="fit" height="50" :draggable="false"
-              placeholder="/placeholder.gif" :src="series_info.fg_series_banner" alt="page-banner"
+              placeholder="/placeholder.gif" :src="tag.fg_tag_banner" alt="page-banner"
               title="page-banner" />
             <h1 class="text-h6 text-center q-ma-none text-primary q-pa-sm">
-              {{ series_info.fg_series_name }}
+              {{ tag.fg_tag_name }}
             </h1>
           </q-card>
         </div>
-
-        <LazySeriesTrendingProductsM :url="(url as any)" />
-        <div v-if="show" class="q-gutter-xs q-mt-md">
-          <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
+      <TagListTagsM />
+      <LazyTagTrendingProductsM :url="url" />
+      <div v-if="show" class="q-gutter-xs q-mt-md">
+        
+        <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
             <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
               <div v-for="item in 3" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                 <q-card>
@@ -129,70 +129,56 @@
               </div>
             </template>
           </q-infinite-scroll>
-        </div>
-        <div v-else flat outline bordered class="bg-grey-1 flex flex-center">
-          <q-card-section class="text-subtitle1 text-primary text-uppercase">
-            No Product To Show
-          </q-card-section>
-        </div>
+      </div>
+      <div v-else flat outline bordered class="bg-grey-1 text-center">
+        <q-card-section class="text-subtitle1 text-primary text-uppercase">
+          No Product To Show
+        </q-card-section>
       </div>
       <!-- Sort Filter -->
       <q-page-sticky expand position="top">
-        <q-toolbar class="bg-grey-3 q-pa-xs shadow-4">
+        <q-toolbar class="text-white bg-grey-3 q-pa-xs shadow-4">
           <q-toolbar-title>
             <!-- Sort Filter -->
-            <q-scroll-area class="q-py-xs q-pr-xs flex flex-center" style="height: 44px" :thumb-style="{ opacity: '0' }"
-              @touchstart.stop @mousedown.stop>
-              <div class="row" style="width: 490px">
-                <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star"
-                  icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
+            <q-scroll-area class="q-py-xs q-pr-xs" style="height: 44px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+              <div class="row justify-center" style="width: 490px">
+                <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                   Rating
                 </q-chip>
-                <q-chip v-if="ratingHigh == 1" square clickable outline class="bg-white" icon="star"
-                  icon-right="arrow_upward" color="primary" text-color="white" @click="orderByRatingHightoLow">
+                <q-chip v-if="ratingHigh == 1" square clickable outline class="bg-white" icon="star" icon-right="arrow_upward" color="primary" text-color="white" @click="orderByRatingHightoLow">
                   Rating
                 </q-chip>
-                <q-chip v-if="ratingHigh == -1" square clickable outline class="bg-white" icon="star"
-                  icon-right="arrow_downward" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
+                <q-chip v-if="ratingHigh == -1" square clickable outline class="bg-white" icon="star" icon-right="arrow_downward" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                   Rating
                 </q-chip>
                 <!-- trending -->
-                <q-chip v-if="!trendingHigh" square clickable outline class="bg-white" icon="trending_up"
-                  icon-right="import_export" color="primary" text-color="white" @click="orderByTrendingLowtoHigh">
+                <q-chip v-if="!trendingHigh" square clickable outline class="bg-white" icon="trending_up" icon-right="import_export" color="primary" text-color="white" @click="orderByTrendingLowtoHigh">
                   Trending
                 </q-chip>
-                <q-chip v-if="trendingHigh == 1" square clickable outline class="bg-white" icon="trending_up"
-                  icon-right="arrow_upward" color="primary" text-color="white" @click="orderByTrendingHightoLow">
+                <q-chip v-if="trendingHigh == 1" square clickable outline class="bg-white" icon="trending_up" icon-right="arrow_upward" color="primary" text-color="white" @click="orderByTrendingHightoLow">
                   Trending
                 </q-chip>
-                <q-chip v-if="trendingHigh == -1" square clickable outline class="bg-white" icon="trending_up"
-                  icon-right="arrow_downward" color="primary" text-color="white" @click="orderByTrendingLowtoHigh">
+                <q-chip v-if="trendingHigh == -1" square clickable outline class="bg-white" icon="trending_up" icon-right="arrow_downward" color="primary" text-color="white" @click="orderByTrendingLowtoHigh">
                   Trending
                 </q-chip>
                 <!-- recent -->
-                <q-chip v-if="!recentHigh" square clickable outline class="bg-white" icon="calendar_month"
-                  icon-right="import_export" color="primary" text-color="white" @click="orderByRecentLowtoHigh">
+                <q-chip v-if="!recentHigh" square clickable outline class="bg-white" icon="calendar_month" icon-right="import_export" color="primary" text-color="white" @click="orderByRecentLowtoHigh">
                   Recent
                 </q-chip>
-                <q-chip v-if="recentHigh == 1" square clickable outline class="bg-white" icon="calendar_month"
-                  icon-right="arrow_upward" color="primary" text-color="white" @click="orderByRecentHightoLow">
+                <q-chip v-if="recentHigh == 1" square clickable outline class="bg-white" icon="calendar_month" icon-right="arrow_upward" color="primary" text-color="white" @click="orderByRecentHightoLow">
                   Recent
                 </q-chip>
-                <q-chip v-if="recentHigh == -1" square clickable outline class="bg-white" icon="calendar_month"
-                  icon-right="arrow_downward" color="primary" text-color="white" @click="orderByRecentLowtoHigh">
+                <q-chip v-if="recentHigh == -1" square clickable outline class="bg-white" icon="calendar_month" icon-right="arrow_downward" color="primary" text-color="white" @click="orderByRecentLowtoHigh">
                   Recent
                 </q-chip>
                 <!-- price -->
-                <q-chip v-if="!priceHigh" square clickable outline class="bg-white" icon="payments"
-                  icon-right="import_export" color="primary" text-color="white" @click="orderByPriceLowtoHigh">
+                <q-chip v-if="!priceHigh" square clickable outline class="bg-white" icon="payments" icon-right="import_export" color="primary" text-color="white" @click="orderByPriceLowtoHigh">
                   Price
                 </q-chip>
-                <q-chip v-if="priceHigh == 1" square clickable outline class="bg-white" icon="payments"
-                  icon-right="arrow_upward" color="primary" text-color="white" @click="orderByPriceHightoLow">
+                <q-chip v-if="priceHigh == 1" square clickable outline class="bg-white" icon="payments" icon-right="arrow_upward" color="primary" text-color="white" @click="orderByPriceHightoLow">
                   Price
                 </q-chip>
-                <q-chip v-if="priceHigh == -1" square clickable outline class="bg-white" icon="payments"
-                  icon-right="arrow_downward" color="primary" text-color="white" @click="orderByPriceLowtoHigh">
+                <q-chip v-if="priceHigh == -1" square clickable outline class="bg-white" icon="payments" icon-right="arrow_downward" color="primary" text-color="white" @click="orderByPriceLowtoHigh">
                   Price
                 </q-chip>
               </div>
@@ -216,14 +202,15 @@ const clearCache = (done: any) => {
   useShowNotif($q, "restart_alt", "Cache Cleared. Reloading...");
   done();
 };
+
 const route = useRoute();
-const url = route.params.url;
+const url:any = route.params.url;
 
 const loading = ref(false);
 const no_more_data = ref(false);
-
 const start = ref(0);
-const limit = ref(18);
+const limit = ref(8);
+
 const genderFilter = ref("");
 const priceHigh = ref(0);
 const recentHigh = ref(0);
@@ -235,16 +222,53 @@ interface ProductType {
 }
 const product: ProductType = ref([]);
 
-const { data: response, status, refresh }: any = await useAsyncData(
-  `series-product: ${url}`,
+const { data: tag } = await useAsyncData(() =>
+  $fetch("/api/tag-detail/" + url, {
+    query: {
+      fg_tag_url: url,
+    },
+  }),
+  {
+    default: () => [],
+    // lazy: true,
+    deep: false,
+    transform(responseData: any) {
+      return {
+        ...responseData,
+        fetchedAt: new Date(),
+      };
+    },
+    getCachedData(key: any) {
+      const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      if (!data) {
+        return;
+      }
+      const expDate = new Date(data.fetchedAt);
+      expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
+      const isExpired = expDate.getTime() < Date.now();
+      if (isExpired) {
+        return;
+      }
+      return data;
+    },
+  }
+);
+
+
+const {
+  data: response,
+  refresh,
+  status,
+}: any = await useAsyncData(
+  `tag-product: ${url}`,
   async () =>
-    $fetch("/api/series-product/" + url, {
+    $fetch("/api/tag-product/" + url, {
       query: {
         start: start.value,
         limit: limit.value,
-        fg_series_url: url,
-        gender: genderFilter.value,
+        fg_tag_url: url,
         tag: config.public.tagFiltering,
+        gender: genderFilter.value,
         rating:
           ratingHigh.value != 0 ? (ratingHigh.value == 1 ? "high" : "low") : "",
         trending:
@@ -260,8 +284,11 @@ const { data: response, status, refresh }: any = await useAsyncData(
       },
     }),
   {
-    transform(input: any) {
-      input.data = input.data.map((item: any) => ({
+    // default: () => [],
+    // lazy: true,
+    // deep: false,
+    transform(responseData: any) {
+      responseData.data = responseData.data.map((item: any) => ({
         acc_ledger_name: item.acc_ledger_name,
         fg_discount: item.fg_discount,
         fg_discount_end_date: item.fg_discount_end_date,
@@ -288,14 +315,14 @@ const { data: response, status, refresh }: any = await useAsyncData(
         // fg_type_name: item.fg_type_name,
         // fg_type_url: item.fg_type_url,
       }));
-      if (input.data.length == 0) show.value = false;
-      product.value = input.data;
+      if (responseData.data.length == 0) show.value = false;
+      product.value = responseData.data;
       for (const key in product.value) {
         (product.value[key] as any).fg_rating =
           (product.value[key] as any).fg_rating * 1.0;
       }
       return {
-        ...input,
+        ...responseData,
         fetchedAt: new Date(),
       };
     },
@@ -310,16 +337,14 @@ const { data: response, status, refresh }: any = await useAsyncData(
       if (isExpired) {
         return;
       }
+      if (data.data.length == 0) show.value = false;
+      product.value = data.data;
       return data;
     },
   }
 );
-product.value = response.value.data;
 
-for (const key in product.value) {
-  (product.value[key] as any).fg_rating =
-    (product.value[key] as any).fg_rating * 1.0;
-}
+product.value = (response as any).value.data;
 
 function onLoad(index: any, done: any) {
   loading.value = true;
@@ -329,13 +354,13 @@ function onLoad(index: any, done: any) {
     setTimeout(async () => {
       const { data }: any = useAsyncData(
         async () =>
-          $fetch("/api/series-product/" + url, {
+          $fetch("/api/tag-product/" + url, {
             query: {
               limit: limit.value,
               start: start.value,
-              fg_series_url: url,
-              gender: genderFilter.value,
+              fg_tag_url: url,
               tag: config.public.tagFiltering,
+              gender: genderFilter.value,
               rating:
                 ratingHigh.value != 0
                   ? ratingHigh.value == 1
@@ -412,39 +437,6 @@ function onLoad(index: any, done: any) {
     }, 1000);
   }
 }
-
-const series_info: any = ref();
-const series_category: any = ref();
-
-const { data: series }: any = await useAsyncData(() =>
-  $fetch("/api/series-by-series-url/" + url, {
-    query: {
-      fg_series_url: url,
-    },
-    transform(input: any) {
-      return {
-        ...input,
-        fetchedAt: new Date(),
-      };
-    },
-    getCachedData(key: any) {
-      const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];
-      if (!data) {
-        return;
-      }
-      const expDate = new Date(data.fetchedAt);
-      expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
-      const isExpired = expDate.getTime() < Date.now();
-      if (isExpired) {
-        return;
-      }
-      return data;
-    },
-  })
-);
-
-series_info.value = series.value.series;
-series_category.value = series.value.category;
 
 /* Sort Filter Functions */
 // const gender = ref("wc")

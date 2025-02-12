@@ -11,7 +11,7 @@
           aria-label="Series" />
       </q-card-section>
       <q-separator />
-      <q-scroll-area style="height: 340px" >
+      <q-scroll-area style="height: 345px" >
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 8" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
@@ -49,7 +49,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
-const show = ref(false);
+const show = ref(true);
 const { data: response, status }: any = useAsyncData(
   "home-series-list",
   async () =>
