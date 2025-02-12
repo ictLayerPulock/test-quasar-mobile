@@ -5,8 +5,8 @@
       <q-toolbar class="justify-between items-center" style="height: 60px">
         <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="primary" round icon="menu" />
         <q-toolbar-title class="row justify-center">
-          <NuxtImg loading="lazy" format="webp" width="150" height="40" sizes="150px" src="https://placehold.co/150x40"
-            alt="Logo-name" title="Logo-name" />
+          <NuxtImg loading="lazy" @click="navigateTo('/')" format="webp" width="150" height="40" sizes="150px"
+            class="cursor-pointer " src="https://placehold.co/150x40" alt="Company-Logo" title="Company-Logo" />
         </q-toolbar-title>
         <div class="row justify-end">
           <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''"
@@ -16,7 +16,8 @@
               {{ cartCount }}
             </span>
           </q-btn>
-          <q-btn v-if="customerIsAuth" color="primary" to="/customer/accounts" flat round icon="person" title="My Profile" />
+          <q-btn v-if="customerIsAuth" color="primary" to="/customer/accounts" flat round icon="person"
+            title="My Profile" />
         </div>
       </q-toolbar>
     </q-header>
@@ -125,7 +126,7 @@
         </q-list>
         <q-separator spaced inset />
         <div class="q-gutter-xs row justify-center">
-          <q-btn href="mailto:info@womanish.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary"
+          <q-btn href="mailto:info@demo.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary"
             icon="email" />
           <q-btn href="https://wa.me/+8801926680888" size="md" class="q-pa-sm" flat title="Whatsapp" role="button"
             target="_blank">
@@ -133,9 +134,9 @@
               <q-img src="/service-icons/whatsapp.svg" />
             </q-avatar>
           </q-btn>
-          <q-btn href="https://www.facebook.com/womanishltd" target="_blank" size="md" class="q-pa-sm" flat
-            color="primary" icon="facebook" />
-          <q-btn href="https://www.youtube.com/@womanishLtd-official" target="_blank" size="md" class="q-pa-sm" flat
+          <q-btn href="https://www.facebook.com/demoltd" target="_blank" size="md" class="q-pa-sm" flat color="primary"
+            icon="facebook" />
+          <q-btn href="https://www.youtube.com/@demoLtd-official" target="_blank" size="md" class="q-pa-sm" flat
             color="primary" icon="smart_display" />
         </div>
         <q-separator spaced inset />

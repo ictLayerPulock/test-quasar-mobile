@@ -2,7 +2,7 @@
   <div>
       <div class="q-pa-xs gradient">
           <h1 class="text-h6 text-center text-uppercase text-primary text-weight-medium q-ma-sm">
-            Womanish: Latest News & Hot Promotions Inside!
+            Latest News & Hot Promotions Inside!
           </h1>
       </div>
       <q-card square flat class="q-pa-sm bg-grey-2">

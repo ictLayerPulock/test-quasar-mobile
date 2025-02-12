@@ -6,6 +6,7 @@
       <LazyHomeFeaturedProductsM />
       <LazyHomeMostPopularM />
       <LazyHomeFlashSaleM />
+      <LazyHomeSeriesM />
       <LazyHomeCategoryProductsM />
       <LazyHomeNewsM />
       <LazyHomeBlogM />

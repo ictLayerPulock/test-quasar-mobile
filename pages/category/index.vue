@@ -4,7 +4,7 @@
     <q-card>
       <q-card-section class="q-pa-sm gradient-h">
           <h1 class="text-h5 text-uppercase text-primary q-ma-none text-weight-medium text-center">
-            Categories of Womanish
+            Categories 
           </h1>
       </q-card-section>
       <q-card-section class="q-pa-none">
@@ -12,7 +12,7 @@
           <q-card flat square class="gradient q-pa-none">
             <div class="row q-col-gutter-sm q-px-sm q-pt-sm justify-center">
               <div v-for="item in 12" :key="item" :class="isMobileSize <= 450 ? 'col-4' : 'col-2'">
-                <NuxtLink class="text-black" style="text-decoration: none">
+                <NuxtLink class="text-secondary" style="text-decoration: none">
                   <q-card class="shadow-5 q-pa-none">
                     <NuxtImg loading="lazy" rounded width="96" height="96" class="fit" src="/placeholder.gif" />
                     <p
