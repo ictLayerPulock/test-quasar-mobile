@@ -49,7 +49,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
-const show = ref(true);
+const show = ref(false);
 const { data: response, status }: any = useAsyncData(
   "home-series-list",
   async () =>

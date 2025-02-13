@@ -151,12 +151,10 @@ async function onLoad() {
           View More
         </q-btn>
       </q-card-actions>
-      <div v-else class="q-pa-xs">
-        <div class="items-center justify-evenly row q-pt-sm q-pa-xs">
-          <h1 class="text-h6 text-uppercase text-primary text-weight-medium q-ma-sm">
+      <q-card-actions v-else class="q-pa-xs row justify-center bg-grey-2">
+          <h3 class="text-h6 text-uppercase text-primary text-weight-medium q-ma-sm text-center">
             {{ customerOrderError }}
-          </h1>
-        </div>
-      </div>
+          </h3>
+      </q-card-actions>
   </div>
 </template>

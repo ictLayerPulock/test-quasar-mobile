@@ -1,5 +1,4 @@
 <template>
-
   <Head>
     <Title>Customer Login Page</Title>
   </Head>
@@ -41,13 +40,13 @@
             </q-tab-panel>
             <!-- Register Section -->
             <q-tab-panel name="register" class="q-gutter-y-md">
-              <q-input filled v-model="customerName" type="text" label="Name" placeholder="Please enter your name" dense>
+              <q-input filled v-model="customerName" type="text" label="Name*" placeholder="Please enter your name" dense>
                 <template v-slot:prepend>
                   <q-icon size="xs" name="person" />
                 </template>
               </q-input>
               <small v-if="nameError" class="text-primary text-capitalize q-pl-sm">{{ nameError }}</small>
-              <q-input filled v-model="customerPhone" type="text" label="Mobile Number" placeholder="017XXXXXXXX" dense>
+              <q-input filled v-model="customerPhone" type="text" label="Mobile Number*" placeholder="017XXXXXXXX" dense>
                 <template v-slot:prepend>
                   <q-icon size="xs" name="phone" />
                 </template>
@@ -59,7 +58,7 @@
                 </template>
               </q-input>
               <small v-if="emailError" class="text-primary text-capitalize q-pl-sm">{{ emailError }}</small>
-              <q-input v-model="customerPassword" filled :type="isPwd ? 'password' : 'text'" label="Password"
+              <q-input v-model="customerPassword" filled :type="isPwd ? 'password' : 'text'" label="Password*"
                 placeholder="Enter Password" dense>
                 <template v-slot:append>
                   <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" size="xs" class="cursor-pointer"
@@ -74,7 +73,9 @@
                   <q-icon size="xs" name="home" />
                 </template>
               </q-input>
-              <small v-if="addressError" class="text-primary text-capitalize q-pl-xs">{{ addressError }}</small>
+              <div :class="addressError ? 'q-pt-xs' : ''">
+                <small v-if="addressError" class="text-primary text-capitalize">{{ addressError }}</small>
+              </div>
               <!-- Delivery Location -->
               <q-input v-model="selected" standout type="text" dense readonly required
                 @click="deliveryLocationModal = true" />

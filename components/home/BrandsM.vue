@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section v-show="show">
         <q-card flat square class="gradient">
             <q-card-section class="row justify-between gradient-h  q-py-none q-px-sm">
                 <NuxtLink to="/brand" aria-label="Brands" title="Brands" style="text-decoration: none">
@@ -52,6 +52,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
+const show = ref(false);
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
 
@@ -68,6 +69,7 @@ const { data: response, status }: any = useAsyncData(
         default: () => [],
         lazy: true,
         transform(responseData: any) {
+            if (responseData.data.length  > 2) show.value = true;
             return {
                 brandList: responseData.data,
                 fetchedAt: new Date(),
@@ -84,6 +86,7 @@ const { data: response, status }: any = useAsyncData(
             if (isExpired) {
                 return;
             }
+            if (data.data.length > 2) show.value = true;
             return data;
         },
     }
