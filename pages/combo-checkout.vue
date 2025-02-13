@@ -1,78 +1,38 @@
 <script setup lang="ts">
+import { useQuasar } from "quasar";
+
 const getEnvValue = await $fetch("/api/get-env-value", {});
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
-// const { formatMoney } = useNuxtApp()
+
 const config = useRuntimeConfig();
 const baseURL = config.public.baseURL;
 const cartCount = useCartCount();
 const noItemText = ref("");
-
-// const shape = ref('line')
-const paymentSelect = ref(0);
-
 const filter = ref("");
 const filterRef = ref("");
-
-function resetFilter() {
-  filter.value = "";
-  filterRef.value = "";
-}
-
-/* Delivery Type */
 interface DataType {
   [x: string]: any;
 }
+function resetFilter() {
+  filter.value = "";
+  filterRef.value = "";
+  // filterRef.value.focus()
+}
+
+/* Delivery Type */
 const deliveryType = ref<DataType>([]);
-const disabledBtn = ref(true);
 const selected = ref("Choose Delivery Location / Area / Landmark*");
 const deliveryLocationModal = ref(false);
 const selectedLocation = ref(0);
 
-interface RegDevFeeType {
-  [x: string]: any;
-}
-const regDevFee = ref<RegDevFeeType>([]);
-
-interface ExprDevFeeType {
-  [x: string]: any;
-}
-const exprDevFee = ref<ExprDevFeeType>([]);
-
-interface ExprDevHourType {
-  [x: string]: any;
-}
-const exprDevHour = ref<ExprDevHourType>([]);
-
-interface ExprDevDayHourType {
-  [x: string]: any;
-}
-const exprDevDayHour = ref<ExprDevDayHourType>([]);
-
-interface ExprDevRemainHourType {
-  [x: string]: any;
-}
-const exprDevRemainHour = ref<ExprDevRemainHourType>([]);
-
-interface RegDevDayType {
-  [x: string]: any;
-}
-const regDevDay = ref<RegDevDayType>([]);
-
-interface PreDevDayType {
-  [x: string]: any;
-}
-const preDevDay = ref<PreDevDayType>([]);
-
-interface ItemCheckedType {
-  [x: string]: any;
-}
-const itemChecked = ref<ItemCheckedType>([]);
-
-interface ShoppingCartType {
-  [x: string]: any;
-}
-const shoppingCart = ref<ShoppingCartType>([]);
+const regDevFee = ref<DataType>([]);
+const exprDevFee = ref<DataType>([]);
+const exprDevHour = ref<DataType>([]);
+const exprDevDayHour = ref<DataType>([]);
+const exprDevRemainHour = ref<DataType>([]);
+const regDevDay = ref<DataType>([]);
+const preDevDay = ref<DataType>([]);
 
 function locationChanged(
   id: number,
@@ -118,55 +78,37 @@ function locationChanged(
     shoppingCart.value[index].delivery_day = regDevDay.value[index];
   }
   setCartData(shoppingCart.value);
-  checkDisabledBtn();
 }
 
 // fetch location tree ↓↓↓↓
 
 const locationJson = ref([]);
-
-interface LocationListType {
-  [x: string]: any;
-}
-const locationList = ref<LocationListType>([]);
+const locationList = ref<DataType>([]);
 
 const { data: response }: any = await useFetch("/api/get-location-chain", {
   method: "POST",
-  transform(response: any) {
-    locationJson.value = response.data;
-    locationList.value = response.location_list;
-    return {
-      ...response,
-    };
-  },
 });
+locationJson.value = response.value.data;
+locationList.value = response.value.location_list;
+
+// fetch location tree ↑↑↑↑
+
+// fetch payment gateway list ↓↓↓↓
+
+const paymentGatewayList = ref<DataType>([]);
+
+const paymentGateWays: any = await useFetch("/api/payment-gateway-list", {
+  method: "POST",
+});
+paymentGatewayList.value = paymentGateWays.data.value.data;
 
 // fetch payment gateway list ↑↑↑↑
+
 const customerName = ref("");
 const customerPhone = ref("");
 const customerEmail = ref("");
 const customerAddress = ref("");
-const paymentGatewayID = ref("");
-
-// fetch location tree ↑↑↑↑
-// fetch payment gateway list ↓↓↓↓
-const paymentGatewayList = ref<DataType>([]);
-const { data: paymentGateWays }: any = await useFetch(
-  "/api/payment-gateway-list",
-  {
-    method: "POST",
-    transform(paymentGateWays: any) {
-      paymentGatewayList.value = paymentGateWays.data;
-      paymentGatewayID.value = paymentGatewayList.value[0].payment_gateway_id;
-      return {
-        ...paymentGateWays,
-      };
-    },
-  }
-);
-
-const cartItemData = ref("");
-const cartItemDataArr: any = ref("");
+const cartItemData = ref<DataType>([]);
 
 const nameError = ref("");
 const phoneError = ref("");
@@ -176,7 +118,8 @@ const orderError = ref("");
 const locationError = ref("");
 
 const coupon_code = ref(null);
-const coupon_data = ref<any>(null);
+const coupon_data = ref<any>([]);
+const shoppingCart = ref<DataType>([]);
 const cartTotal = ref(0);
 const shippingTotal = ref(0);
 const customerRef = useCookie("customerRef");
@@ -186,80 +129,38 @@ const couponDiscountPercentage = ref(0);
 const couponDiscountAmount = ref(0);
 const affiliate_id = ref(null);
 const noItemFound = ref(false);
-const disabledAddQtyBtn = ref(false)
-function checkDisabledBtn() {
-  if (
-    customerName.value &&
-    customerPhone.value &&
-    customerAddress.value &&
-    selected.value != "Choose Delivery Location / Area / Landmark*"
-  ) {
-    if (
-      customerPhone.value.length == 11 &&
-      customerName.value != "" &&
-      customerAddress.value != ""
-    ) {
-      for (const index in cartItemDataArr.value) {
-        if (cartItemDataArr.value[index].item_checked != "") {
-          disabledBtn.value = false;
-        }
-      }
-    } else {
-      disabledBtn.value = true;
-    }
-  } else {
-    if (
-      customerPhone.value.length == 11 &&
-      customerName.value != "" &&
-      customerAddress.value != ""
-    ) {
-      for (const index in cartItemDataArr.value) {
-        if (cartItemDataArr.value[index].item_checked != "") {
-          disabledBtn.value = false;
-        }
-      }
-    } else {
-      disabledBtn.value = true;
-    }
-  }
-}
+
 onMounted(async () => {
-  const cartItem = JSON.parse(localStorage.getItem("cartItem") ?? "{}");
-  if (cartItem.length > 0) {
-    cartItemData.value = localStorage.getItem("cartItem") ?? "";
-    cartItemDataArr.value = JSON.parse(cartItemData.value);
+  if (localStorage.getItem("comboCartItem")) {
+    cartItemData.value = JSON.parse(
+      localStorage.getItem("comboCartItem") ?? "{}"
+    );
 
-    const fgIdArray = cartItem.map((item: { fgId: any }) => item.fgId);
-    const fgIds = fgIdArray.join(",");
-
-    if (cartItem.length != 0) {
-      const response: any = await $fetch("/api/shopping-cart", {
+    if (cartItemData.value.length != 0) {
+      const response: any = await $fetch("/api/shopping-cart-combo", {
         method: "POST",
         body: {
-          fg_id: fgIds,
+          combo_id: cartItemData.value[0].fg_combo_id,
         },
       });
       const status = response.status;
       const data = response.data;
 
       if (status === 200) {
+        const cartItem: any = [];
         data.forEach(
-          (fg: {
-            fg_id: any;
-            fg_image: string;
-            fg_stock_and_attribute: string | any[];
-            fg_attribute_id: string;
-            selected_attribute: null;
-            pre_order_qty: number;
-            fg_shipping_cost_free: number;
-            fg_price: number;
-            fg_discounted_price: number;
-          }) => {
-            const foundIndex = fgIdArray.findIndex((item: string | any[]) =>
-              item.includes(fg.fg_id)
-            );
-            fgIdArray[foundIndex] = "0";
-
+          (
+            fg: {
+              fg_image: string;
+              fg_stock_and_attribute: string | any[];
+              fg_attribute_id: string;
+              selected_attribute: null;
+              pre_order_qty: number;
+              fg_shipping_cost_free: number;
+            },
+            foundIndex: string | number
+          ) => {
+            cartItem[foundIndex] = fg;
             if (!fg.fg_image) fg.fg_image = "/no-image.webp";
 
             try {
@@ -269,7 +170,6 @@ onMounted(async () => {
             } catch (error) {
               fg.fg_stock_and_attribute = [];
             }
-
             try {
               const fgAttributeIdArray = fg.fg_attribute_id.split(",");
               const foundAttrIndex = fgAttributeIdArray.findIndex((item) =>
@@ -281,29 +181,26 @@ onMounted(async () => {
               fg.selected_attribute = null;
             }
 
+            cartItem[foundIndex].selected_attribute =
+              fg.fg_stock_and_attribute[0];
+
             fg.pre_order_qty = getPreOrderQuantity(
               cartItem[foundIndex],
               fg.selected_attribute
             );
-            cartItem[foundIndex].item_checked = "checked";
             cartItem[foundIndex].delivery = "regular";
             cartItem[foundIndex].fg_shipping_cost_free =
               fg.fg_shipping_cost_free * 1.0;
-            if (cartItem[foundIndex].customPrice) {
-              fg.fg_price =
-                fg.fg_price * 1.0 + cartItem[foundIndex].customPrice * 1.0;
-              fg.fg_discounted_price =
-                fg.fg_discounted_price * 1.0 +
-                cartItem[foundIndex].customPrice * 1.0;
-            }
 
             deliveryType.value[foundIndex] = "regular";
             regDevFee.value[foundIndex] = 0;
             exprDevFee.value[foundIndex] = 0;
+
             cartItem[foundIndex] = { ...cartItem[foundIndex], ...fg };
           }
         );
         shoppingCart.value = cartItem;
+        noItemText.value = "";
 
         if (cartItem.length > 0) {
           noItemFound.value = false;
@@ -313,10 +210,10 @@ onMounted(async () => {
         setCartData(cartItem);
       }
     } else {
-      noItemText.value = "No Item in Shopping Cart";
+      noItemText.value = "No Item in Combo Cart";
     }
   } else {
-    noItemText.value = "No Item in Shopping Cart";
+    noItemText.value = "No Item in Combo Cart";
   }
   const customerInfo = JSON.parse(
     localStorage.getItem("auth_customer_data") ?? "{}"
@@ -347,139 +244,59 @@ onMounted(async () => {
   // if customer login ↑↑↑
 });
 
-async function removeQty(index: any) {
-  if (typeof window !== "undefined") {
-    const cartItemString = localStorage.getItem("cartItem");
-    if (cartItemString) {
-      const cartItem = JSON.parse(cartItemString);
-      if (cartItem[index].cartQty > 1) {
-        shoppingCart.value[index].cartQty--;
-        shoppingCart.value[index].pre_order_qty--;
-        cartItem[index].cartQty--;
-        disabledAddQtyBtn.value = false
-        const preOrderQty = getPreOrderQuantity(
-          cartItem[index],
-          cartItem[index].selected_attribute
-        );
-        shoppingCart.value[index].pre_order_qty = preOrderQty;
-        cartItem[index].pre_order_qty = preOrderQty;
-        if (deliveryType.value[index] == "regular") {
-          if (cartItem[index].pre_order_qty > 0) {
-            cartItem[index].delivery = "regular";
-            cartItem[index].delivery_fee = regDevFee.value[index];
-            cartItem[index].delivery_day =
-              preDevDay.value[index] * 1.0 + regDevDay.value[index] * 1.0;
-          } else {
-            cartItem[index].delivery = "regular";
-            cartItem[index].delivery_fee = regDevFee.value[index];
-            cartItem[index].delivery_day = regDevDay.value[index] * 1.0;
-          }
-        } else {
-          cartItem[index].delivery = "express";
-          cartItem[index].delivery_fee = exprDevFee.value[index];
-          cartItem[index].delivery_day = exprDevDayHour.value[index] * 1.0;
-        }
-        setCartData(cartItem);
-      }
-    }
-  }
-}
-function addQty(index: any) {
-  if (typeof window !== "undefined") {
-    const cartItemString = localStorage.getItem("cartItem");
-    if (cartItemString) {
-      const cartItem = JSON.parse(cartItemString);
-      shoppingCart.value[index].cartQty++;
-      shoppingCart.value[index].pre_order_qty++;
-      cartItem[index].cartQty++;
-      let preOrderQty = getPreOrderQuantity(
-        cartItem[index],
-        cartItem[index].selected_attribute
-      );
-      if (cartItem[index].fgOrderType == 0 && preOrderQty > 0) {
-        disabledAddQtyBtn.value = true
-        shoppingCart.value[index].cartQty--;
-        shoppingCart.value[index].pre_order_qty--;
-        cartItem[index].cartQty--;
-        preOrderQty = getPreOrderQuantity(
-          cartItem[index],
-          cartItem[index].selected_attribute
-        );
-      }
-      shoppingCart.value[index].pre_order_qty = preOrderQty;
-      cartItem[index].pre_order_qty = preOrderQty;
-      if (deliveryType.value[index] == "regular") {
-        if (cartItem[index].pre_order_qty > 0) {
-          cartItem[index].delivery = "regular";
-          cartItem[index].delivery_fee = regDevFee.value[index];
-          cartItem[index].delivery_day =
-            preDevDay.value[index] * 1.0 + regDevDay.value[index] * 1.0;
-        } else {
-          cartItem[index].delivery = "regular";
-          cartItem[index].delivery_fee = regDevFee.value[index];
-          cartItem[index].delivery_day = regDevDay.value[index] * 1.0;
-        }
-      } else {
-        cartItem[index].delivery = "express";
-        cartItem[index].delivery_fee = exprDevFee.value[index];
-        cartItem[index].delivery_day = exprDevDayHour.value[index] * 1.0;
-      }
-      setCartData(cartItem);
-    }
-  }
-}
-
 function setCartData(cartItem: any) {
   let total = 0;
   let shipping = 0;
   const modifiedCartItemString = JSON.stringify(cartItem);
-  localStorage.setItem("cartItem", modifiedCartItemString);
+  localStorage.setItem("comboCartItem", modifiedCartItemString);
 
-  cartItemData.value = localStorage.getItem("cartItem") ?? "";
+  // cartItemData.value = localStorage.getItem("comboCartItem")
 
-  cartItem.forEach((item: any, index: any) => {
-    if (item.item_checked == "checked") {
+  cartItem.forEach(
+    (
+      item: {
+        fg_discounted_price: number;
+        fg_combo_detail_qty: number;
+        pre_order_qty: number;
+      },
+      index: string | number
+    ) => {
       if (deliveryType.value[index] == "regular") {
         if (regDevFee.value[index]) {
-          total += item.fg_discounted_price * item.cartQty;
+          total += item.fg_discounted_price * item.fg_combo_detail_qty;
           shipping += regDevFee.value[index];
         } else {
-          total += item.fg_discounted_price * item.cartQty;
+          total += item.fg_discounted_price * item.fg_combo_detail_qty;
         }
-        // total += ((item.fg_price * item.cartQty) + (regDevFee.value[index]) ? regDevFee.value[index] : 0);
       } else {
         if (item.pre_order_qty > 0) {
           deliveryType.value[index] = "regular";
 
           if (regDevFee.value[index]) {
-            total += item.fg_discounted_price * item.cartQty;
+            total += item.fg_discounted_price * item.fg_combo_detail_qty;
             shipping += regDevFee.value[index];
           } else {
-            total += item.fg_discounted_price * item.cartQty;
+            total += item.fg_discounted_price * item.fg_combo_detail_qty;
           }
         } else {
           if (exprDevFee.value[index]) {
-            total += item.fg_discounted_price * item.cartQty;
+            total += item.fg_discounted_price * item.fg_combo_detail_qty;
             shipping += exprDevFee.value[index];
           } else {
-            total += item.fg_discounted_price * item.cartQty;
+            total += item.fg_discounted_price * item.fg_combo_detail_qty;
           }
         }
-        // total += ((item.fg_price * item.cartQty) + (exprDevFee.value[index]) ? exprDevFee.value[index] : 0);
       }
-      itemChecked.value[index] = true;
-    } else {
-      itemChecked.value[index] = false;
     }
-  });
+  );
   cartTotal.value = total;
   shippingTotal.value = shipping;
   resetCoupon();
 }
 
-function handelAttrChange(val: any, index: any) {
+function handelAttrChange(val: any, index: string | number) {
   if (typeof window !== "undefined") {
-    const cartItemString = localStorage.getItem("cartItem");
+    const cartItemString = localStorage.getItem("comboCartItem");
     if (cartItemString) {
       const cartItem = JSON.parse(cartItemString);
       cartItem[index].selected_attribute = val;
@@ -499,7 +316,10 @@ function handelAttrChange(val: any, index: any) {
   }
 }
 
-function getPreOrderQuantity(cartItemIndex: any, selectedAttribute: any) {
+function getPreOrderQuantity(
+  cartItemIndex: { cartQty: number },
+  selectedAttribute: string | null
+) {
   let preOrderQty = 0;
   if (selectedAttribute) {
     const match = selectedAttribute.match(/\((-?\d+)\)/);
@@ -518,15 +338,14 @@ const delete_item_modal = ref(false);
 const delete_all_modal = ref(false);
 const deleteIndex = ref(null);
 
-function deleteProductModal(index: any) {
-  deleteIndex.value = index;
-  if (typeof window !== "undefined") {
-    delete_item_modal.value = true;
-  }
-}
+// function deleteProductModal(index) {
+// 	deleteIndex.value = index
+// 	if (typeof window !== "undefined") {
+// 		delete_item_modal.value = true
+// 	}
+// }
 
 function deleteAllCartItemsModal() {
-  // deleteIndex.value = index
   if (typeof window !== "undefined") {
     delete_all_modal.value = true;
   }
@@ -534,7 +353,7 @@ function deleteAllCartItemsModal() {
 
 function confirmDelete() {
   const index = deleteIndex.value;
-  const cartItemString = localStorage.getItem("cartItem");
+  const cartItemString = localStorage.getItem("comboCartItem");
   if (cartItemString) {
     const cartItem = JSON.parse(cartItemString);
     shoppingCart.value.splice(index, 1);
@@ -543,17 +362,14 @@ function confirmDelete() {
   }
   deleteIndex.value = null;
 
-  const localStorageCart = JSON.parse(localStorage.getItem("cartItem") ?? "{}");
+  const localStorageCart = JSON.parse(
+    localStorage.getItem("comboCartItem") ?? "{}"
+  );
   cartCount.value = localStorageCart.length;
-
-  if (cartCount.value == 0) {
-    noItemText.value = "No Item in Shopping Cart";
-  }
 }
 
 function confirmDeleteAll() {
-  localStorage.removeItem("cartItem");
-  // cartCount.value = localStorageCart.length
+  localStorage.removeItem("comboCartItem");
   window.location.reload();
 }
 
@@ -597,10 +413,10 @@ function resetCoupon() {
   couponDiscountAmount.value = 0;
 }
 
-function couponNotification(type: any, message: any) {
+function couponNotification(type: string, message: unknown) {
   $q.notify({
     type: type,
-    message: message,
+    message: message as string,
     position: "top-right",
   });
 }
@@ -618,7 +434,7 @@ async function orderNow() {
     });
   } else {
     const customerRef = useCookie("customerRef");
-    let cartItem = localStorage.getItem("cartItem");
+    let cartItem = localStorage.getItem("comboCartItem");
     cartItem = JSON.parse(cartItem ?? "{}");
     if (localStorage.getItem("affiliate_id")) {
       affiliate_id.value = JSON.parse(
@@ -626,7 +442,7 @@ async function orderNow() {
       );
     }
     try {
-      const { data: response }: any = await useFetch("/api/order", {
+      const { data: response }: any = await useFetch("/api/combo-order", {
         method: "POST",
         body: {
           name: customerName.value,
@@ -654,18 +470,7 @@ async function orderNow() {
         emailError.value = message.email || "";
         addressError.value = message.address || "";
         locationError.value = message.location || "";
-        console.log(locationError.value);
         orderError.value = message.error || "";
-        const element = document.getElementById("deliveryDetails");
-        if (element) {
-          const elementPosition =
-            element.getBoundingClientRect().top + window.pageYOffset;
-          const offset = 110; // Adjust this value to scroll above the element
-          window.scrollTo({
-            top: elementPosition - offset,
-            behavior: "smooth",
-          });
-        }
       }
     } catch (error) {
       orderError.value = error as string;
@@ -673,23 +478,25 @@ async function orderNow() {
   }
 }
 
-/* Select Payment Method */
+function onchangeDeliveryType(
+  index: string | number,
+  deliveryTypeName: string
+) {
+  deliveryType.value[index] = deliveryTypeName;
+  const cartItem = JSON.parse(localStorage.getItem("comboCartItem") ?? "{}");
 
-async function selectPayment(id: any) {
-  paymentGatewayID.value = id;
-}
-
-/** Pay and Order Now */
-
-async function payAndOrder() {
-  if (paymentSelect.value == -1) {
-    orderNow();
-  } else {
-    console.log("form submit by function");
-    const form: any = document.getElementById("payNowForm");
-    form.submit();
+  cartItem[index].delivery = deliveryTypeName;
+  if (deliveryTypeName == "regular") {
+    cartItem[index].delivery_fee = regDevFee.value[index];
+    cartItem[index].delivery_day = regDevDay.value[index];
   }
+  if (deliveryTypeName == "express") {
+    cartItem[index].delivery_fee = exprDevFee.value[index];
+    cartItem[index].delivery_day = exprDevHour.value[index];
+  }
+  setCartData(cartItem);
 }
+const tab = ref("combo-checkout");
 
 function onChangeShoppingCart(index: any) {
   const cartItemString = localStorage.getItem("cartItem");
@@ -702,6 +509,13 @@ function onChangeShoppingCart(index: any) {
   setCartData(cartItem);
 }
 
+interface ItemCheckedType {
+  [x: string]: any;
+}
+const itemChecked = ref<ItemCheckedType>([]);
+
+
+// Remove Checkout
 const checkedAll = ref(true);
 function onChangeSelectAll() {
   if (checkedAll.value) {
@@ -718,44 +532,23 @@ function onChangeSelectAll() {
     setCartData(cartItem);
   }
 }
-
-function onchangeDeliveryType(
-  index: string | number,
-  deliveryTypeName: string
-) {
-  deliveryType.value[index] = deliveryTypeName;
-  const cartItem = JSON.parse(localStorage.getItem("cartItem") ?? "{}");
-  cartItem[index].delivery = deliveryTypeName;
-  if (deliveryTypeName == "regular") {
-    cartItem[index].delivery_fee = regDevFee.value[index];
-    cartItem[index].delivery_day = regDevDay.value[index];
-  }
-  if (deliveryTypeName == "express") {
-    cartItem[index].delivery_fee = exprDevFee.value[index];
-    cartItem[index].delivery_day = exprDevHour.value[index];
-  }
-  setCartData(cartItem);
-}
-
 </script>
 
 <template>
-
   <Head>
-    <Title>Checkout Page</Title>
+    <Title>Combo Checkout Page</Title>
   </Head>
   <div>
-    <div style="padding-bottom: 60px; padding-top: 56px">
-      <!-- Checkout Items -->
-      <q-card v-if="shoppingCart.length != 0" flat square class="bg-grey-1 q-pa-none">
-        <div class="row q-pa-xs q-col-gutter-sm">
+    <div style="padding-bottom: 65px; padding-top: 56px">
+      <q-card flat square class="bg-grey-1">
+        <div v-if="shoppingCart.length != 0" class="row q-pa-xs q-col-gutter-sm">
           <div v-for="(item, index) in shoppingCart" :key="item.fg_id" :class="isMobileSize <= 500 ? '' : 'col-6'">
             <q-card style="width: 100%;" :style="isMobileSize <= 500 ? 'max-width: 500px' : 'max-width: 500px'">
               <q-card-section horizontal>
                 <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" format="webp" class="col-4"
                   width="200" quality="50" :src="item.fg_image" :alt="item.acc_ledger_name"
                   :title="item.acc_ledger_name" />
-                <q-checkbox v-model="itemChecked[index]" class="absolute" size="sm" color="primary" />
+                <!-- <q-checkbox v-model="itemChecked[index]" class="absolute" size="sm" color="primary" /> -->
                 <q-card-section class="q-pa-sm" style="width:100%">
                   <div class="text-subtitle2 ellipsis-2-lines text-secondary"
                     @click="navigateTo('/product/' + item.fg_url)">
@@ -787,17 +580,23 @@ function onchangeDeliveryType(
                   </div>
                   <div class="row justify-between items-baseline">
                     <div v-if="item.fg_price != item.fg_discounted_price" class="text-caption text-strike">
-                      {{ config.public.currencyBefore }}
-                      {{ formatMoney(item.fg_price * item.cartQty) }}
-                      {{ config.public.currencyAfter }}
+                      {{
+                            formatMoney(
+                              item.fg_price * item.fg_combo_detail_qty
+                            )
+                          }}
+                          {{ config.public.currencyAfter }}
                     </div>
                     <q-space />
                     <div class="text-subtitle2 text-weight-medium text-primary">
                       {{ config.public.currencyBefore }}
-                      {{
-                        formatMoney(item.fg_discounted_price * item.cartQty)
-                      }}
-                      {{ config.public.currencyAfter }}
+                          {{
+                            formatMoney(
+                              item.fg_discounted_price *
+                              item.fg_combo_detail_qty
+                            )
+                          }}
+                          {{ config.public.currencyAfter }}
                     </div>
                   </div>
                   <div class="row justify-center q-py-sm">
@@ -806,7 +605,7 @@ function onchangeDeliveryType(
                         " />
                   </div>
 
-                  <div class="row justify-between items-center q-gutter-x-md" style="max-width: 200px; width: 100%;">
+                  <!-- <div class="row justify-between items-center q-gutter-x-md" style="max-width: 200px; width: 100%;">
                     <q-btn outline round icon="remove" color="primary" size="xs" aria-label="Remove"
                       @click="removeQty(index)" />
                     <q-input v-model.number="item.cartQty" dense outlined type="number" color="primary"
@@ -815,7 +614,8 @@ function onchangeDeliveryType(
                       aria-label="Add" @click="addQty(index)" />
                     <q-btn icon="delete_outline" outline round size="sm" class="bg-white" color="primary"
                       aria-label="Delete" @click="deleteProductModal(index)" />
-                  </div>
+                  </div> -->
+                  
                   <!-- Regular Delivery -->
                   <div v-show="selectedLocation != 0 && regDevFee[index] > 0" class="items-center q-px-sm q-py-xs">
                     <div class="row justify-between items-center">
@@ -907,26 +707,56 @@ function onchangeDeliveryType(
             </q-card>
           </div>
         </div>
-      </q-card>
-      <q-card v-else flat square class="row justify-center gradient" style="height: 90px">
-        <q-card-section class="text-uppercase text-h6 q-py-lg text-weight-regular text-grey-9 text-center">
-          {{ noItemText }}
-        </q-card-section>
+        <q-card v-else flat bordered class="items-center q-mx-xs gradient row justify-center" style="height: 100px">
+          <q-card-section class="text-uppercase text-h6 q-py-xl text-weight-regular text-grey-6 text-center">
+            {{ noItemText }}
+          </q-card-section>
+        </q-card>
+        
+        <!-- Delete Modal -->
+        <q-dialog v-model="delete_item_modal">
+          <q-card class="shadow-up-10">
+            <q-card-section class="bg-grey-2 text-body1">
+              <div>Remove this item from shopping cart?</div>
+            </q-card-section>
+            <q-separator space />
+            <q-card-section>
+              <div class="row justify-between q-gutter-md">
+                <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDelete()" />
+                <q-btn v-close-popup class="col" outline label="No" color="primary" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+        <!-- Delete All Modal -->
+        <q-dialog v-model="delete_all_modal">
+          <q-card class="shadow-up-10">
+            <q-card-section class="bg-grey-2 text-body1">
+              <div>Remove all items from shopping cart?</div>
+            </q-card-section>
+            <q-separator space />
+            <q-card-section>
+              <div class="row justify-between q-gutter-md">
+                <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDeleteAll()" />
+                <q-btn v-close-popup class="col" outline label="No" color="primary" />
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </q-card>
       <!-- Delivery Details -->
-      <div v-if="shoppingCart.length != 0" id="deliveryDetails" class="q-gutter-y-sm q-pt-sm">
+      <div v-if="shoppingCart.length != 0" id="deliveryDetails" class="q-gutter-y-sm q-py-sm">
         <q-card flat square class="q-pa-xs text-center" :class="isMobileSize <= 450 ? 'column' : 'row'">
           <q-card-section class="q-gutter-y-sm q-pa-sm" :class="isMobileSize <= 450 ? '' : 'col-6'">
             <q-input filled v-model="customerName" type="text" label="Name" placeholder="Please enter your name" dense
-              :rules="[(val) => !!val || 'Field is required']" @update:model-value="checkDisabledBtn" required>
+              required>
               <template v-slot:prepend>
                 <q-icon size="xs" name="person" />
               </template>
             </q-input>
             <small v-if="nameError" class="text-primary text-capitalize q-pl-sm">{{ nameError }}</small>
             <q-input filled v-model="customerPhone" placeholder="017XXXXXXXX" dense maxlength="11" type="tel"
-              label="Mobile Number*" required :rules="[(val) => !!val || 'Field is required']"
-              @update:model-value="checkDisabledBtn">
+              label="Mobile Number*" required :rules="[(val) => !!val || 'Field is required']">
               <template v-slot:prepend>
                 <q-icon size="xs" name="phone" />
               </template>
@@ -981,7 +811,7 @@ function onchangeDeliveryType(
             </div>
             <!-- Invoice total -->
             <div v-if="couponDiscountAmount > 0">
-              <p class="text-bold text-h6 q-ma-none">
+              <p class="text-bold text-h6 q-ma-sm">
                 Invoice Total {{ config.public.currencyBefore }}
               </p>
               <h6 class="text-primary text-h6 q-ma-none text-weight-medium">
@@ -1014,7 +844,7 @@ function onchangeDeliveryType(
               </h6>
             </div>
             <q-separator />
-            <div class="q-py-md">
+            <div class="q-pt-sm">
               <h6 class="text-h6 text-center q-ma-none">
                 Payable Amount {{ config.public.currencyBefore }}
               </h6>
@@ -1029,17 +859,12 @@ function onchangeDeliveryType(
                 {{ config.public.currencyAfter }}
               </h5>
             </div>
-            <div class="row justify-center q-pb-md">
+            <div class="row justify-center">
               <q-form :action="getEnvValue.api_url + 'paynow-order'" id="payNowForm" method="post"
                 class="column q-gutter-sm text-center">
-                <q-radio v-model="paymentSelect" :val="-1" :title="disabledBtn ? 'Fill Up The Delivery Details' : ''"
-                  :disable="disabledBtn">
                   <q-btn outline color="primary" style="min-width: 160px" class="shadow-3" no-caps>
                     Cash On Delivery
                   </q-btn>
-                </q-radio>
-                <q-btn @click="payAndOrder()" style="min-width: 160px" v-ripple label="Pay Now" color="primary"
-                  class="q-ml-md" :title="disabledBtn ? 'Fill Up The Delivery Details' : ''" :disabled="disabledBtn" />
               </q-form>
             </div>
           </q-card-section>
@@ -1082,50 +907,20 @@ function onchangeDeliveryType(
           </q-card>
         </q-dialog>
       </div>
-      <q-dialog v-model="delete_item_modal">
-        <q-card class="shadow-up-10">
-          <q-card-section class="bg-grey-2 text-body1">
-            <div>Remove this item from shopping cart?</div>
-          </q-card-section>
-          <q-separator space />
-          <q-card-section>
-            <div class="row justify-between q-gutter-md">
-              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDelete()" />
-              <q-btn v-close-popup class="col" outline label="No" color="primary" />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-      <!-- Delete All Modal -->
-      <q-dialog v-model="delete_all_modal">
-        <q-card class="shadow-up-10">
-          <q-card-section class="bg-grey-2 text-body1">
-            <div>Remove all items from shopping cart?</div>
-          </q-card-section>
-          <q-separator space />
-          <q-card-section>
-            <div class="row justify-between q-gutter-md">
-              <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="confirmDeleteAll()" />
-              <q-btn v-close-popup class="col" outline label="No" color="primary" />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-      <LazySuggestedProductsM />
-
       <!-- Checkout Header -->
-      <q-page-sticky expand position="top" style="margin-top: 1px;">
-        <q-toolbar class="text-primary bg-grey-2 shadow-2 q-px-md">
-          <q-toolbar-title>
-            <h1 class="text-h6 text-bold">Checkout</h1>
+      <q-page-sticky expand position="top">
+        <q-toolbar class="text-primary gradient-bottom shadow-2 q-py-sm q-px-sm">
+          <q-toolbar-title class="text-body1 text-weight-medium">
+            <h6 class="q-ma-xs text-h6 text-weight-medium">Combo Cart</h6>
           </q-toolbar-title>
-          <q-btn v-if="checkedAll && shoppingCart.length != 0" v-model="checkedAll" icon="delete_outline" flat dense
+          <!-- <q-btn v-if="checkedAll && shoppingCart.length != 0" v-model="checkedAll" icon="delete_outline" flat dense
             no-caps color="primary" class="text-caption" label="Delete All" @click="deleteAllCartItemsModal()" />
           <q-checkbox v-if="shoppingCart.length != 0" v-model="checkedAll" size="sm" color="primary" val="checkedAll"
             class="q-ml-sm text-caption" :class="checkedAll ? 'text-primary' : 'text-dark'" label="Select All"
-            @click="onChangeSelectAll()" />
+            @click="onChangeSelectAll()" /> -->
         </q-toolbar>
       </q-page-sticky>
+
     </div>
   </div>
 </template>

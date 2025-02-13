@@ -1,6 +1,17 @@
 <template>
   <section v-show="show">
-    <q-card v-if="status != 'pending'" flat square class="gradient">
+    <q-card v-if="status == 'pending'">
+      <q-card-section class="q-pa-none">
+       <div class="row q-col-gutter-y-sm">
+        <div v-for="item in 6" :key="item" class="col-4">
+          <q-card style="width:80px" class="shadow-3 q-pa-none">
+              <NuxtImg loading="lazy" rounded width="100" height="75" placeholder="placeholder.gif" />
+            </q-card>
+        </div>
+       </div>
+      </q-card-section>
+    </q-card>  
+    <q-card v-else flat square class="gradient">
       <!-- Two Rows -->
       <q-scroll-area style="height:175px" :thumb-style="{ opacity: '0' }" draggable="false" @touchstart.stop
         @mousedown.stop>

@@ -7,7 +7,7 @@
         <q-btn dense round flat size="md" class="absolute bg-grey-2" icon="share" color="primary"
           style="top: 12px; right: 12px; z-index: 60; opacity: 75%" aria-label="Share" />
       </q-card-section>
-      <q-card-section class="q-pa-sm">
+      <q-card-section class="q-pa-sm gradient-h">
         <h1 class="text-h6 text-primary text-weight-medium q-ma-none text-capitalize text-center">
           {{ combo.fg_combo_name }}
         </h1>
@@ -290,8 +290,6 @@ async function addToCartAndCheckout(fgComboId: any) {
   localStorage.setItem("comboCartItem", JSON.stringify(cartArr));
   showNotif();
 }
-
-console.log(combo.fg_combo_content_editor)
 
 const rawVHtml = ref(combo.fg_combo_content_editor);
 const styledHtml = computed(() => {
