@@ -859,7 +859,7 @@ function onChangeSelectAll() {
                 {{ config.public.currencyAfter }}
               </h5>
             </div>
-            <div class="row justify-center">
+            <div class="row justify-center q-pb-md">
               <q-form :action="getEnvValue.api_url + 'paynow-order'" id="payNowForm" method="post"
                 class="column q-gutter-sm text-center">
                   <q-btn outline color="primary" style="min-width: 160px" class="shadow-3" no-caps>

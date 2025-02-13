@@ -289,6 +289,7 @@ async function addToCartAndCheckout(fgComboId: any) {
   cartArr.push(cartItem);
   localStorage.setItem("comboCartItem", JSON.stringify(cartArr));
   showNotif();
+  navigateTo("/combo-checkout");
 }
 
 const rawVHtml = ref(combo.fg_combo_content_editor);
