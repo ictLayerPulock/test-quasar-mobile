@@ -1,14 +1,18 @@
 <template>
+  <head>
+    <title>Combo</title>
+  </head>
   <div>
     <div class="gradient-h q-pa-sm">
       <h1 class="text-h5 text-center text-primary text-capitalize text-weight-medium q-my-xs">
         Combo
       </h1>
     </div>
+
     <div v-if="comboData.length > 0">
       <q-card v-for="(combo, index) in comboData" :key="combo" flat square>
         <q-card-section class="q-pa-none">
-          <NuxtImg loading="lazy" width="150" height="150" quality="50" class="fit" format="webp"
+          <NuxtImg loading="lazy" width="250" height="150" quality="50" class="fit" format="webp"
             :src="combo.fg_combo_img" :draggable="false" />
           <div class="absolute-bottom row justify-between">
             <q-btn push color="grey-3" class="text-black text-weight-medium text-uppercase"
@@ -27,21 +31,20 @@
             </span>
           </div>
         </q-card-section>
-        <q-card-section class="q-pa-none">
+        <q-card-section class="q-pa-sm gradient-h">
           <NuxtLink :to="`/combo/${combo.fg_combo_url}`" style="text-decoration: none" class="text-secondary">
-            <h5 class="col-8 text-subtitle1 justify-center text-center text-primary q-ma-none text-capitalize">
+            <h5 class="text-subtitle1 justify-center text-center text-primary q-ma-none text-capitalize">
               {{ combo.fg_combo_name }}
             </h5>
           </NuxtLink>
         </q-card-section>
-        <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }"
-        @touchstart.stop @mousedown.stop>
-        <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
+        <q-scroll-area style="height:308px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+        <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 10650px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
               <q-card-section class="q-pa-none border-bottom">
-                <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit"
-                  format="webp" src="/placeholder.gif" :draggable="false" />
+                <NuxtImg loading="lazy" width="150" height="200" quality="50" class="fit" format="webp"
+                  src="/placeholder.gif" :draggable="false" />
               </q-card-section>
               <q-card-section class="q-pa-sm q-gutter-xs">
                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
@@ -57,9 +60,14 @@
             </q-card>
           </div>
         </q-card-section>
-        <q-card-section v-else class="row q-pa-sm q-col-gutter-sm gradient"
-          :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
-          <div v-for="(item, index) in response.data" :key="index" class="col-2">
+        <q-card-section v-else class="row q-pa-sm"
+          :style="{ width: `${combo.products.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
+          <div v-for="(item, index) in combo.products" :key="index" class="col-2" :class="{
+            'col-6': combo.products.length === 2,
+            'col-4': combo.products.length === 3,
+            'col-3': combo.products.length === 4,
+            'col-2': combo.products.length === 6
+          }">
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
               class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
@@ -74,8 +82,8 @@
                 <div v-if="item.fg_view > 0" size="xs"
                   class="absolute row justify-center items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
-                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs"/>
-                  <p class="text-caption q-ma-none text-primary">
+                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
+                  <p class=" text-caption text-primary q-ma-none">
                     {{ viewCount(item.fg_view) }}
                   </p>
                 </div>
@@ -90,14 +98,14 @@
                     class="absolute row justify-center text-weight-bold bg-white"
                     style="top: 0; right: 4px; transform: translateY(-50%)">
                     <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
-                    <div class="text-primary text-capitalize q-pr-sm" :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                    <div class="text-primary text-capitalize q-pr-sm"
+                      :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
                       Ends {{ useTimeAgo(item.fg_discount_end_date) }}
                     </div>
                   </q-chip>
                   <div style="height: 48px">
                     <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
-                      <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
+                      <span class="text-subtitle2" :title="item.acc_ledger_name">
                         {{ item.acc_ledger_name }}
                       </span>
                     </p>
@@ -127,44 +135,10 @@
           </div>
         </q-card-section>
       </q-scroll-area>
-        <q-scroll-area style="height: 267px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
-          <q-card-section class="row q-pa-sm q-col-gutter-sm gradient" :style="combo.products.length == 3 ? `width:480px` : `width:800px`
-            ">
-            <div v-for="item in combo.products.slice(0, 4)" :key="item.fg_id"
-              :class="combo.products.length == 3 ? 'col-4' : 'col-3'">
-              <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-dark">
-                <q-card class="shadow-5 shadow-on-hover">
-                  <NuxtImg loading="lazy" placeholder="/placeholder.gif" sizes="100vw sm:50vw md:170px" width="170"
-                    :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" format="webp"
-                    quality="50" class="fit" :draggable="false" />
-                  <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
-                    style="top: 5px; left: 5px" />
-                  <q-card-section class="q-pa-sm q-gutter-xs">
-                    <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
-                      {{ item.acc_ledger_name }}
-                    </div>
-                    <div class="items-baseline justify-between row">
-                      <span class="text-strike text-grey-6 q-mr-sm text-caption">
-                        {{ formatMoney(item.fg_up * 1.0) }}
-                        {{ config.public.currencyAfter }}
-                      </span>
-                      <span class="text-subtitle2 text-weight-medium">
-                        {{ config.public.currencyBefore }}
-                        {{ formatMoney(item.fg_up_final * 1.0 * 1.0) }}
-                        {{ config.public.currencyAfter }}
-                      </span>
-                    </div>
-                  </q-card-section>
-                </q-card>
-              </NuxtLink>
-            </div>
-          </q-card-section>
-        </q-scroll-area>
 
-        
-        <q-card-section class="gradient q-px-sm">
+        <q-card-section class="gradient-h q-px-sm">
           <div class="items-baseline justify-between row q-gutter-xs">
-            <div class="text-caption text-strike text-grey-6 text-weight-regular">
+            <div class="text-caption text-strike text-primary text-weight-regular">
               {{ config.public.currencyBefore }}
               {{ formatMoney(total_prices[index]) }}
               {{ config.public.currencyAfter }}
@@ -177,7 +151,7 @@
                 (Ends {{ useTimeAgo(combo.fg_combo_end_date) }})
               </span>
             </div>
-            <div class="text-subtitle2 text-weight-medium">
+            <div class="text-subtitle2 text-primary text-weight-medium">
               {{ config.public.currencyBefore }}
               {{ formatMoney(final_prices[index]) }}
               {{ config.public.currencyAfter }}

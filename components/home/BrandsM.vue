@@ -31,7 +31,7 @@
                 </div>
                 <div v-else>
                     <Vue3Marquee :pause-on-hover="true" animateOnOverflowOnly :duration="50">
-                        <div v-for="brands in response.brandList" :key="brands" class="col q-pa-xs items-center">
+                        <div v-for="brands in response.data" :key="brands" class="col q-pa-xs items-center">
                             <NuxtLink :to="`/brand/${brands.fg_brand_url}`" :aria-label="brands.fg_brand_name" style="text-decoration: none" class="text-secondary">
                                 <q-card class="shadow-5 shadow-on-hover zoom-on-hover cursor-pointer rounded">
                                     <q-card-section class="q-pa-none rounded" style="width:100px; height:75px;">
@@ -71,9 +71,9 @@ const { data: response, status }: any = useAsyncData(
         transform(responseData: any) {
             if (responseData.data.length  > 2) show.value = true;
             return {
-                brandList: responseData.data,
-                fetchedAt: new Date(),
-            };
+            ...responseData,
+            fetchedAt: new Date(),
+        };
         },
         getCachedData(key: any) {
             const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];

@@ -13,7 +13,6 @@
       <LazyHomeNewsM />
       <LazyHomeBlogM />
       <LazyHomeBrandsM />
-      <!-- <LazyHomeTest /> -->
       <LazySuggestedProductsM />
     </div>
   </template>
