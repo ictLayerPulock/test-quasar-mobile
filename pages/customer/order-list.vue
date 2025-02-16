@@ -134,7 +134,7 @@ async function onLoad() {
                       </span>
                     </div>
                     <div class="row justify-start items-center text-caption">
-                      <q-icon name="schedule" left />
+                      <q-icon name="schedule" left class="q-mr-xs" />
                       <span>
                         {{ order.days_since_invoice }}
                       </span>
