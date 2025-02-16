@@ -1,33 +1,35 @@
 <template>
-  <div v-if="attrAvailable == true" class="row items-center justify-center q-gutter-md q-pb-md">
-    <q-card class="row q-pa-none">
-      <q-btn color="primary" size="md" class="q-px-sm" icon="remove" flat @click="removeQty" />
-      <q-input v-model.number="quantity" dense filled square type="number" color="primary" style="max-width:40px;"
-        input-class="text-right" disable class="cursor-pointer" />
-      <q-btn color="primary" size="md" icon="add" class="q-px-sm" flat @click="addQty" />
+  <section class="q-pt-sm">
+    <div v-if="attrAvailable == true" class="row items-center justify-center q-gutter-md">
+      <q-card class="row q-pa-none">
+        <q-btn color="primary" size="md" class="q-px-sm" icon="remove" flat @click="removeQty" />
+        <q-input v-model.number="quantity" dense filled square type="number" color="primary" style="max-width:40px;"
+          input-class="text-right" disable class="cursor-pointer" />
+        <q-btn color="primary" size="md" icon="add" class="q-px-sm" flat @click="addQty" />
+      </q-card>
+      <q-btn color="primary" label="Add To Cart" style="height:41px ;width:120px" @click="addToCart" />
+    </div>
+  
+    <q-card v-if="quantity > selectedAttrStock && attrAvailable==true && fgOrderType!=0 && fgOrderType!=1"
+      flat class="bg-grey-2 text-body2 text-weight-medium q-mt-md">
+      <q-card-section class="q-py-xs column items-center justify-center q-gutter-xs">
+        <div class="text-primary">
+          {{ quantity - selectedAttrStock }}
+          <span v-if="quantity - selectedAttrStock > 1">Items</span>
+          <span v-else>Item</span>
+          Pre-Ordered
+          <q-separator color="primary" />
+        </div>
+        <p class="text-caption text-capitalize q-mb-sm">
+          Delivery Time different from regular orders.</p>
+      </q-card-section>
     </q-card>
-    <q-btn color="primary" label="Add To Cart" style="height:41px ;width:120px" @click="addToCart" />
-  </div>
-
-  <q-card v-if="quantity > selectedAttrStock && attrAvailable==true && fgOrderType!=0 && fgOrderType!=1"
-    flat class="bg-grey-2 text-body2 text-weight-medium">
-    <q-card-section class="q-py-xs column items-center justify-center q-gutter-xs">
-      <div class="text-primary">
-        {{ quantity - selectedAttrStock }}
-        <span v-if="quantity - selectedAttrStock > 1">Items</span>
-        <span v-else>Item</span>
-        Pre-Ordered
-        <q-separator color="primary" />
-      </div>
-      <p class="text-caption text-capitalize q-mb-sm">
-        Delivery Time different from regular orders.</p>
-    </q-card-section>
-  </q-card>
-  <q-card v-if="attrAvailable==false" flat class="bg-grey-2 text-body2 text-weight-medium">
-    <q-card-section class="q-pa-sm column items-center justify-center  q-gutter-xs">
-      <p class="q-ma-none">Out of Stock</p>
-    </q-card-section>
-  </q-card>
+    <q-card v-if="attrAvailable==false" flat class="bg-grey-2 text-body2 text-weight-medium">
+      <q-card-section class="q-pa-sm column items-center justify-center  q-gutter-xs">
+        <p class="q-ma-none">Out of Stock</p>
+      </q-card-section>
+    </q-card>
+  </section>
 </template>
 
 <script setup lang="ts">

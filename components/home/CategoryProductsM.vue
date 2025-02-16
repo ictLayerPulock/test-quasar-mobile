@@ -59,14 +59,12 @@ const { data: response, status }: any = useAsyncData(
         category.discounted.length !== 0
       ">
         <q-card flat square>
-          <NuxtLink :to="`/category/${category.fg_category_url}`">
-            <NuxtImg v-if="category.fg_category_component_img" loading="lazy" class="fit"
+            <NuxtImg v-if="category.fg_category_component_img" @click="navigateTo('`/category/${category.fg_category_url}`')" loading="lazy" class="fit cursor-pointer"
               :src="category.fg_category_component_img" :alt="category.fg_category_name"
               :title="category.fg_category_name">
             </NuxtImg>
-          </NuxtLink>
-          <q-toolbar class="bg-primary q-px-none">
-            <q-tabs v-model="response.tab[index]" class="bg-primary text-white q-px-none" inline-label
+          <q-toolbar class="bg-primary q-pa-none">
+            <q-tabs v-model="response.tab[index]" class="bg-primary text-white q-pa-none" inline-label
               active-color="white" no-caps dense indicator-color="white" shrink stretch size="xs">
               <q-tab v-if="category.trending.length !== 0" icon="trending_up" :name="`trending_${index}`"
                 label="Trending" />

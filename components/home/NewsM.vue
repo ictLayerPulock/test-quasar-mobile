@@ -11,7 +11,7 @@
           aria-label="News & Updates" />
       </q-card-section>
       <q-separator />
-      <q-scroll-area style="height: 273px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+      <q-scroll-area style="height: 280px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm" style="width: 1060px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 bg-grey-1">
@@ -34,7 +34,7 @@
             </q-card>
           </div>
         </q-card-section>
-        <q-card-section v-else class="row q-px-sm q-pt-sm q-pb-none q-col-gutter-sm" style="width: 1060px">
+        <q-card-section v-else class="row q-pa-sm q-col-gutter-sm" style="width: 1060px">
           <div v-for="item in response.data" :key="item">
             <NuxtLink :to="`/news/${item.news_url}`" :aria-label="item.news_title" style="text-decoration: none" class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" style="width:165px">
