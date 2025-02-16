@@ -1,6 +1,6 @@
 <template>
     <section class="q-pb-sm">
-        {{ attributes.data }}
+        
         <div v-if="status === 'pending'">
             <q-skeleton class="q-py-md" height="280px"></q-skeleton>
         </div>
