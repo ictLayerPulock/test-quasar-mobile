@@ -11,7 +11,7 @@
     </div>
   
     <q-card v-if="quantity > selectedAttrStock && attrAvailable==true && fgOrderType!=0 && fgOrderType!=1"
-      flat class="bg-grey-2 text-body2 text-weight-medium">
+      flat class="bg-grey-2 text-body2 text-weight-medium q-mt-md">
       <q-card-section class="q-py-xs column items-center justify-center q-gutter-xs">
         <div class="text-primary">
           {{ quantity - selectedAttrStock }}

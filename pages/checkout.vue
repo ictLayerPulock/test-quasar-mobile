@@ -1024,7 +1024,7 @@ const tab = ref("checkout");
                                 </h6>
                             </div>
                         </q-card-section>
-                        <q-card-section class="row">
+                        <q-card-section class="row q-pa-none">
                             <q-space />
                             <q-input v-model:model-value="coupon_code" filled :hint="coupon_code
                                 ? 'Discount: ' +

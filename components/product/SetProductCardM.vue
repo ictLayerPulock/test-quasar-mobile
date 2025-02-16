@@ -1,120 +1,124 @@
 <template>
-  <q-card v-if="product.length > 0" flat>
-    <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
-      <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
-        Product Set Items
-      </h3>
-    </q-card-section>
-    <q-carousel  v-if="status === 'pending'" v-model="slide" class="fit gradient q-pa-none" :autoplay="5000" infinite transition-prev="fade" transition-next="fade" swipeable animated control-color="grey-5" padding :arrows="carousal.length > 1">
-      <q-carousel-slide v-for="itemSet in 6" :key="itemSet" :name="itemSet">
-        <div :class="carousal.length == 1 ? 'fit' : ''" class="row items-center no-wrap">
-          <div v-for="(item, index) in 6" :key="item" class="col-6 q-px-xs">
-            <q-card class="col-3 rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
-              <NuxtImg  loading="lazy" style="width: 200px; height: 250px" placeholder="/placeholder.gif" />
-              <div class="absolute-bottom text-center text-caption bg-grey-7 text-white" style="z-index: 50; height: 40px;">
-                <q-skeleton dense type="text" width="120px" />
-                <q-skeleton type="text" width="100px" />
-              </div>
-              <q-btn class="absolute-top-right bg-grey-3 cursor-pointer" size="sm" flat square color="primary" padding="8px" icon="shopping_cart" @click="openSetModal(item)" />
-            </q-card>
-          </div>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
-    <q-carousel v-else v-model="slide" class="fit gradient q-pa-none" :autoplay="5000" infinite transition-prev="fade" transition-next="fade" swipeable animated control-color="grey-5" padding :arrows="carousal.length > 1">
-      <q-carousel-slide v-for="itemSet in carousal.length" :key="itemSet" :name="itemSet">
-        <div :class="carousal.length == 1 ? 'fit' : ''" class="row items-center no-wrap">
-          <div v-for="(item, index) in carousal[itemSet - 1].set" :key="item" class="col-6">
-            <q-card class="rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
-              <NuxtImg  loading="lazy" class="fit" style="width: 192px; height: 256px" :src="`media/${item.fg_set_image}`" />
-              <div class="absolute-bottom text-center text-caption bg-grey-7 text-white" style="z-index: 50">
-                {{ item.label }} <br />
-                {{ config.public.currencyBefore }}
-                {{ formatMoney(item.fg_up_final_total * 1.0) }}
-                {{ config.public.currencyAfter }}
-              </div>
-              <q-btn class="absolute-top-right bg-grey-3 cursor-pointer" size="sm" flat square color="primary" padding="8px" icon="shopping_cart" @click="openSetModal(item)" />
-            </q-card>
-          </div>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
-  </q-card>
-
-  <q-dialog v-model="setProductModal" backdrop-filter="blur(1px) brightness(90%)" transition-show="fade" transition-hide="fade">
-    <q-card class="gradient" style="width: 700px; max-width: 100vw">
-      <q-card-section class="row justify-center text-primary">
-        <h6 class="text-h6 q-ma-none text-center">{{ selectedSetProduct.label }}</h6>
+  <section>
+    <q-card v-if="product.length > 0" flat>
+      <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
+        <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          Product Set Items
+        </h3>
       </q-card-section>
-      <q-separator />
-      <q-card-section style="max-height: 70vh" class="scroll">
-        <div class="q-gutter-y-md justify-between items-center no-wrap">
-          <q-card v-for="(item, index) in selectedSetProduct.fg_set_value" :key="item" class="shadow-5">
-            <q-card-section class="col q-pa-none border-right">
-              <q-img :src="item.fg_image" :ratio="config.public.imgRatio" spinner-color="primary" spinner-size="82px" loading="lazy">
-                <div class="absolute-bottom text-subtitle1 text-center">
-                 <p class="q-ma-none">{{ item.fg_name }}</p> 
-                </div>
-              </q-img>
-              <q-chip dense round flat square size="18px" class="text-subtitle2 absolute-top-left bg-grey-1" style="opacity: 80%">
-                Qty:&nbsp;
-                <span class="text-primary">
-                  {{ item.fg_qty }}
-                </span>
-              </q-chip>
-            </q-card-section>
-            <q-card-section v-if="item.fg_custom.length > 0" class="col bg-grey-3 text-primary overflow-hidden">
-              <q-scroll-area :style="item.fg_custom.length > 3 ? 'height: 112px' : 'height: 57px'" :visible="false">
-                <div class="items-center row" style="width: 475px">
-                  <q-chip v-for="custom in item.fg_custom" :key="custom" :color="selectedName[index] == custom.fg_custom_name
-                    ? 'primary'
-                    : 'white'
-                    " :class="selectedName[index] == custom.fg_custom_name
-                      ? 'text-primary bg-white'
-                      : 'text-grey-10'
-                      " class="cursor-pointer rounded-borders" flat square clickable size="24px" style="width: 150px" @click="selectCustomizedOption(index, custom)">
-                    <q-avatar>
-                      <q-img :src="custom.fg_custom_img_url" spinner-color="primary" spinner-size="24px">
-                      </q-img>
-                    </q-avatar>
-                    <div class="ellipsis text-caption column">
-                      <span>
-                        {{ custom.fg_custom_name }}
-                      </span>
-                      <span v-if="custom.fg_custom_amount > 0">
-                        {{ formatMoney(custom.fg_custom_amount * 1.0) }}
-                        {{ config.public.currencyAfter }}
-                      </span>
-                      <span v-else class="text-caption text-grey-7"> Included </span>
-                      <q-radio v-model="selectedName[index]" class="absolute-top-right bg-transparent" size="24px" :val="custom.fg_custom_name" style="top: 0px; right: 0px" @click="selectCustomizedOption(index, custom)" />
-                    </div>
-                  </q-chip>
-                </div>
-              </q-scroll-area>
-            </q-card-section>
-            <q-card-section v-else class="col-7 text-grey-7 row justify-center text-caption">
-              No Customization Available
-            </q-card-section>
-          </q-card>
-        </div>
+      <q-card-section class="q-pa-none">
+        <q-carousel  v-if="status === 'pending'" v-model="slide" class="fit gradient q-pa-none" :autoplay="5000" infinite transition-prev="fade" transition-next="fade" swipeable animated control-color="grey-5" padding :arrows="carousal.length > 1">
+          <q-carousel-slide v-for="itemSet in 6" :key="itemSet" :name="itemSet">
+            <div :class="carousal.length == 1 ? 'fit' : ''" class="row items-center no-wrap">
+              <div v-for="(item, index) in 6" :key="item" class="col-6 q-px-xs">
+                <q-card class="col-3 rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
+                  <NuxtImg  loading="lazy" style="width: 200px; height: 250px" placeholder="/placeholder.gif" />
+                  <div class="absolute-bottom text-center text-caption bg-grey-7 text-white" style="z-index: 50; height: 40px;">
+                    <q-skeleton dense type="text" width="120px" />
+                    <q-skeleton type="text" width="100px" />
+                  </div>
+                  <q-btn class="absolute-top-right bg-grey-3 cursor-pointer" size="sm" flat square color="primary" padding="8px" icon="shopping_cart" @click="openSetModal(item)" />
+                </q-card>
+              </div>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+        <q-carousel v-else v-model="slide" class="fit gradient q-pa-none" :autoplay="5000" infinite transition-prev="fade" transition-next="fade" swipeable animated control-color="grey-5" padding :arrows="carousal.length > 1">
+          <q-carousel-slide v-for="itemSet in carousal.length" :key="itemSet" :name="itemSet">
+            <div :class="carousal.length == 1 ? 'fit' : ''" class="row items-center no-wrap">
+              <div v-for="(item, index) in carousal[itemSet - 1].set" :key="item" class="col-6">
+                <q-card class="rounded-borders cursor-pointer q-pa-none" @click="openSetModal(item)">
+                  <NuxtImg  loading="lazy" class="fit" width="192" height="256" :src="`media/${item.fg_set_image}`" :alt="item.label" :title="item.label" />
+                  <div class="absolute-bottom text-center text-subtitle2 q-py-sm bg-white" style="z-index: 50">
+                    {{ item.label }} <br />
+                    {{ config.public.currencyBefore }}
+                    {{ formatMoney(item.fg_up_final_total * 1.0) }}
+                    {{ config.public.currencyAfter }}
+                  </div>
+                  <q-btn class="absolute-top-right bg-grey-3 cursor-pointer" size="sm" flat square color="primary" padding="8px" icon="shopping_cart" @click="openSetModal(item)" />
+                </q-card>
+              </div>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
       </q-card-section>
-      <q-separator />
-      <q-card-actions class="row justify-between q-gutter-md q-px-md no-wrap">
-        <q-btn :disable="!setSelectedCustomEqual" dense v-close-popup label="Cart" color="primary" @click="AddToCart(selectedSetProduct.fg_set_value)" />
-        <div v-if="selectedSetProduct.fg_up_final_total > 0" class="text-body2">
-          Total:
-          {{
-            formatMoney(
-              selectedSetProduct.fg_up_final_total * 1.0 +
-              totalCustomPrice * 1.0
-            )
-          }}
-          {{ config.public.currencyAfter }}
-        </div>
-        <q-btn v-close-popup outline dense label="Close" color="primary" />
-      </q-card-actions>
     </q-card>
-  </q-dialog>
+  
+    <q-dialog v-model="setProductModal" backdrop-filter="blur(1px) brightness(90%)" transition-show="fade" transition-hide="fade">
+      <q-card class="gradient" style="width: 700px; max-width: 100vw">
+        <q-card-section class="row justify-center text-primary">
+          <h6 class="text-h6 q-ma-none text-center">{{ selectedSetProduct.label }}</h6>
+        </q-card-section>
+        <q-separator />
+        <q-card-section style="max-height: 70vh" class="scroll">
+          <div class="q-gutter-y-md justify-between items-center no-wrap">
+            <q-card v-for="(item, index) in selectedSetProduct.fg_set_value" :key="item" class="shadow-5">
+              <q-card-section class="col q-pa-none border-right">
+                <q-img :src="item.fg_image" :ratio="config.public.imgRatio" spinner-color="primary" spinner-size="82px" loading="lazy">
+                  <div class="absolute-bottom text-subtitle1 text-center">
+                   <p class="q-ma-none">{{ item.fg_name }}</p> 
+                  </div>
+                </q-img>
+                <q-chip dense round flat square size="18px" class="text-subtitle2 absolute-top-left bg-grey-1" style="opacity: 80%">
+                  Qty:&nbsp;
+                  <span class="text-primary">
+                    {{ item.fg_qty }}
+                  </span>
+                </q-chip>
+              </q-card-section>
+              <q-card-section v-if="item.fg_custom.length > 0" class="col bg-grey-3 text-primary overflow-hidden">
+                <q-scroll-area :style="item.fg_custom.length > 3 ? 'height: 112px' : 'height: 57px'" :visible="false">
+                  <div class="items-center row" style="width: 475px">
+                    <q-chip v-for="custom in item.fg_custom" :key="custom" :color="selectedName[index] == custom.fg_custom_name
+                      ? 'primary'
+                      : 'white'
+                      " :class="selectedName[index] == custom.fg_custom_name
+                        ? 'text-primary bg-white'
+                        : 'text-grey-10'
+                        " class="cursor-pointer rounded-borders" flat square clickable size="24px" style="width: 150px" @click="selectCustomizedOption(index, custom)">
+                      <q-avatar>
+                        <q-img :src="custom.fg_custom_img_url" spinner-color="primary" spinner-size="24px">
+                        </q-img>
+                      </q-avatar>
+                      <div class="ellipsis text-caption column">
+                        <span>
+                          {{ custom.fg_custom_name }}
+                        </span>
+                        <span v-if="custom.fg_custom_amount > 0">
+                          {{ formatMoney(custom.fg_custom_amount * 1.0) }}
+                          {{ config.public.currencyAfter }}
+                        </span>
+                        <span v-else class="text-caption text-grey-7"> Included </span>
+                        <q-radio v-model="selectedName[index]" class="absolute-top-right bg-transparent" size="24px" :val="custom.fg_custom_name" style="top: 0px; right: 0px" @click="selectCustomizedOption(index, custom)" />
+                      </div>
+                    </q-chip>
+                  </div>
+                </q-scroll-area>
+              </q-card-section>
+              <q-card-section v-else class="row justify-center col-6 text-grey-7 text-caption">
+                No Customization Available
+              </q-card-section>
+            </q-card>
+          </div>
+        </q-card-section>
+        <q-separator />
+        <q-card-actions class="row justify-between q-gutter-md q-px-md no-wrap">
+          <q-btn :disable="!setSelectedCustomEqual" dense v-close-popup label="Cart" color="primary" @click="AddToCart(selectedSetProduct.fg_set_value)" />
+          <div v-if="selectedSetProduct.fg_up_final_total > 0" class="text-body2">
+            Total:
+            {{
+              formatMoney(
+                selectedSetProduct.fg_up_final_total * 1.0 +
+                totalCustomPrice * 1.0
+              )
+            }}
+            {{ config.public.currencyAfter }}
+          </div>
+          <q-btn v-close-popup outline dense label="Close" color="primary" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+  </section>
 </template>
 <script setup lang="ts">
 const config = useRuntimeConfig();
