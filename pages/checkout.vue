@@ -832,9 +832,9 @@ const tab = ref("checkout");
                                                     @click="onchangeDeliveryType(index, 'regular')">
                                                     <template #default>
                                                         <div class="column q-pl-sm">
-                                                            <p class="text-subtitle2 q-ma-none">
+                                                            <span class="text-subtitle2 q-ma-none">
                                                                 Regular Delivery
-                                                            </p>
+                                                            </span>
                                                             <p v-if="item.pre_order_qty > 0"
                                                                 class="text-weight-regular text-caption q-ma-none text-primary">
                                                                 {{ config.public.currencyBefore }}
@@ -868,9 +868,9 @@ const tab = ref("checkout");
                                                     @click="onchangeDeliveryType(index, 'express')">
                                                     <template #default>
                                                         <div class="column q-pl-sm">
-                                                            <p class="text-subtitle2 q-ma-none">
+                                                            <span class="text-subtitle2 q-ma-none">
                                                                 Express Delivery
-                                                            </p>
+                                                            </span>
                                                             <p class="text-caption q-ma-none text-right text-primary">
                                                                 {{ config.public.currencyBefore }}
                                                                 {{ formatMoney(exprDevFee[index]) }}
@@ -891,14 +891,14 @@ const tab = ref("checkout");
                                             class="row justify-between q-px-md q-py-sm q-col-gutter-y-xs q-pb-md">
                                             <div class="row items-center">
                                                 <div class="row justify-center items-center">
-                                                    <div class="row items-center q-gutter-md">
+                                                    <div class="row justify-center items-center q-gutter-md">
                                                         <q-radio v-model="deliveryType[index]" size="xs" val="regular"
                                                             @click="onchangeDeliveryType(index, 'regular')">
                                                             <template #default>
-                                                                <div class="column q-pl-sm q-ma-none">
-                                                                    <p class="text-subtitle2">
+                                                                <div class="column q-ma-none">
+                                                                    <span class="text-subtitle2">
                                                                         Free Delivery
-                                                                    </p>
+                                                                    </span>
                                                                     <p
                                                                         class="text-weight-regular text-caption q-ma-none">
                                                                         {{
@@ -1004,7 +1004,7 @@ const tab = ref("checkout");
                         </q-input>
                         <small v-if="addressError" class="text-primary text-capitalize q-pl-sm">{{ addressError
                             }}</small>
-                       
+
                         <q-input v-model="selected" class="q-pt-lg" standout type="text" dense readonly required
                             @click="deliveryLocationModal = true" />
                         <small v-if="selected == 'Choose Delivery Location / Area / Landmark*'"
@@ -1217,9 +1217,8 @@ const tab = ref("checkout");
                         dense no-caps color="primary q-ml-sm" class="text-caption" label="Delete All"
                         @click="deleteAllCartItemsModal()" />
                     <q-checkbox v-if="shoppingCart.length != 0" v-model="checkedAll" size="sm" color="primary"
-                        val="checkedAll" class="q-ml-sm text-caption"
-                        :class="checkedAll ? 'text-primary' : 'text-grey-6'" label="Select All"
-                        @click="onChangeSelectAll()" />
+                        val="checkedAll" class="q-ml-sm text-caption" :class="checkedAll ? 'text-primary' : 'text-dark'"
+                        label="Select All" @click="onChangeSelectAll()" />
                     <q-btn v-if="selectedLocation != 0" v-ripple rounded icon="place" dense no-caps flat color="primary"
                         class="q-ml-md" unelevated @click="deliveryLocationModal = true" />
                     <q-btn v-else v-ripple rounded icon="place" dense no-caps color="primary" class="q-ml-md" outline
