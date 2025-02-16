@@ -176,7 +176,7 @@
       <LayoutsRightDrawerM />
     </q-drawer>
     <!-- page-container -->
-    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer"
+    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer"  v-touch-swipe.mouse.right:7e-5
       v-touch-swipe.mouse.left="toggleRightDrawer">
       <q-page class="q-pa-sm">
         <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">

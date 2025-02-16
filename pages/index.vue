@@ -1,4 +1,9 @@
 <template>
+  
+  <Head>
+    <Title> Home Page</Title>
+
+  </Head>
     <div class="q-gutter-sm">
       <HomeBannerTemplateSlideM />
       <HomeCategoryIconsM />
