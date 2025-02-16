@@ -52,10 +52,10 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
-const show = ref(false);
+const show = ref(true);
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
-
+import { Vue3Marquee } from 'vue3-marquee'
 const { data: response, status }: any = useAsyncData(
     "home-brand-list",
     async () =>
@@ -69,7 +69,7 @@ const { data: response, status }: any = useAsyncData(
         default: () => [],
         lazy: true,
         transform(responseData: any) {
-            if (responseData.data.length  > 2) show.value = true;
+            // if (responseData.data.length  > 2) show.value = true;
             return {
             ...responseData,
             fetchedAt: new Date(),
