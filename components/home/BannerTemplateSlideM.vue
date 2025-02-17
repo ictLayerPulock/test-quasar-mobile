@@ -2,8 +2,8 @@
   <!-- Banner Main -->
   <section>
       <q-skeleton v-if="status == 'pending'" height="auto" />
-      <q-carousel v-else ref="carousel" v-model="slide" swipeable animated keep-alive :autoplay="true" transition-next="fade" transition-prev="fade" infinite height="460px" @touchstart.stop @mousedown.stop>
-        <q-carousel-slide v-for="(banner, index) in template.main" :name="index + 1" class="q-pa-none rounded-borders" loading="lazy" :alt="banner.title" :title="banner.title" :img-src="img(banner.img, {
+      <q-carousel v-else ref="carousel" square v-model="slide" swipeable animated keep-alive :autoplay="true" transition-next="fade" transition-prev="fade" infinite height="450px" @touchstart.stop @mousedown.stop>
+        <q-carousel-slide square v-for="(banner, index) in template.main" :name="index + 1" class="q-pa-none rounded-borders" loading="lazy" :alt="banner.title" :title="banner.title" :img-src="img(banner.img, {
           width: 345,
           height: 460,
         })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="product.length > 0" class="row items-center justify-center q-gutter-sm q-pa-md bg-grey-2">
+    <div v-if="product.length > 0" class="row justify-center items-center q-gutter-sm q-pa-md bg-grey-2">
       <q-btn outline color="primary" class=" text-weight-medium text-uppercase" style="width: 150px"
         @click="confirm_clear_all">
         Clear History

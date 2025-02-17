@@ -8,7 +8,7 @@
           </h3>
         </NuxtLink>
         <q-btn to="/new-arrivals" color="primary" flat padding="sm" dense size="md" icon="more_vert"
-          aria-label="New Arrivals" />
+          aria-labelledby="New Arrivals" />
       </q-card-section>
       <q-separator />
       <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }"
