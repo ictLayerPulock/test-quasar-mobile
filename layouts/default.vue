@@ -176,10 +176,10 @@
       <LayoutsRightDrawerM />
     </q-drawer>
     <!-- page-container -->
-    <q-page-container class="bg-primary" v-touch-swipe.mouse.right="toggleLeftDrawer"  v-touch-swipe.mouse.right:7e-5
+    <q-page-container v-touch-swipe.mouse.right="toggleLeftDrawer"  v-touch-swipe.mouse.right:7e-5
       v-touch-swipe.mouse.left="toggleRightDrawer">
-      <q-page class="q-pa-sm">
-        <div style="min-width: 320px; max-width: 3840px; width: 100%;" class="bg-green-10">
+      <q-page>
+        <div style="min-width: 320px; max-width: 3840px; width: 100%;">
           <slot />
         </div>
         <q-dialog v-model="logout_confirm_modal">

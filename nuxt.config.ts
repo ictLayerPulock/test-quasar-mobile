@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       currencyAfter: "Tk.",
       imgRatio: "1",
       //__ For Height
-      scrollAreaHeightMobile: "310px",
+      scrollAreaHeightMobile: "305px",
       scrollAreaHeightMobileDouble: "540px",
 
       //__ For Width

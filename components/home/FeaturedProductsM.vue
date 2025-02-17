@@ -12,7 +12,7 @@
           aria-label="Featured Products" />
       </q-card-section>
       <q-separator />
-      <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }"
+      <q-scroll-area  style="height: 308px;" :thumb-style="{ opacity: '0' }"
         @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 6" :key="item" class="col-2">

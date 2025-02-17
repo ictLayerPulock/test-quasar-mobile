@@ -11,7 +11,8 @@
           aria-label="Most Popular" />
       </q-card-section>
       <q-separator />
-      <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+      <q-scroll-area style="height: 308px;" :thumb-style="{ opacity: '0' }"
+        @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
@@ -50,7 +51,7 @@
                 <div v-if="item.fg_view > 0" size="xs"
                   class="absolute row items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
-                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs"/>
+                  <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                   <p class="text-caption q-ma-none text-primary">
                     {{ viewCount(item.fg_view) }}
                   </p>
@@ -66,7 +67,8 @@
                     class="absolute row justify-center text-weight-bold bg-white"
                     style="top: 0; right: 4px; transform: translateY(-50%)">
                     <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
-                    <div class="text-primary text-capitalize q-pr-sm" :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
+                    <div class="text-primary text-capitalize q-pr-sm"
+                      :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
                       Ends {{ useTimeAgo(item.fg_discount_end_date) }}
                     </div>
                   </q-chip>
@@ -86,7 +88,7 @@
                         item.fg_discount_end_date
                       )
                     " class="text-caption text-bold text-primary text-uppercase">
-                       <p class="q-ma-none">-{{ item.fg_discount }}%</p>
+                      <p class="q-ma-none">-{{ item.fg_discount }}%</p>
                     </div>
                     <q-space />
                     <div class="text-subtitle2 text-weight-medium">
@@ -155,7 +157,7 @@ const { data: response, status }: any = useAsyncData(
           // fg_type_url: item.fg_type_url,
         }))
         .splice(0, 6);
-        if (responseData.data.length  > 2) show.value = true;
+      if (responseData.data.length > 2) show.value = true;
       return {
         ...responseData,
         fetchedAt: new Date(),
