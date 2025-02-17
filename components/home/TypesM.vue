@@ -17,7 +17,7 @@
                         style="width: 1080px">
                         <div v-for="item in 12" :key="item" class="col-2">
                             <q-card class="shadow-5 overflow-hidden">
-                                <q-card-section class="q-pa-none border-bottom row">
+                                <q-card-section class="row q-pa-none border-bottom">
                                     <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50"
                                         class="fit relative" format="webp" src="/placeholder.gif" :draggable="false" />
                                     <div class="absolute-bottom text-body1 text-bold text-center"

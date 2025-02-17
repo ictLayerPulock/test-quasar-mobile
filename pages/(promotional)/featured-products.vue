@@ -25,16 +25,16 @@
 
                 <q-card-section class="q-pa-sm q-gutter-xs">
                   <div class="ellipsis-2-lines" style="height: 48px">
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="120px" />
                     </div>
                   </div>
                   <div class="row justify-between items-baseline">
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                     <q-space />
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                   </div>

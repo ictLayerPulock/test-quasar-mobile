@@ -76,7 +76,7 @@
     <q-card flat class="bg-white">
       <q-card-section class="q-pa-xs">
         <q-scroll-area :visible="false" style="height: 40px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
-          <div class="items-center justify-center row no-wrap text-capitalize text-bold">
+          <div class="items-center row justify-center no-wrap text-capitalize text-bold">
             <NuxtLink v-for="tag in blog.blog_tag_arr" :key="tag" :to="`/blog/tag/` + tag.blog_tag_url" :aria-label="tag.blog_tag_name" style="text-decoration: none">
               <q-chip outline clickable square color="primary" size="md" text-color="white">
                 {{ tag.blog_tag_name.replace(/_/g, " ") }}

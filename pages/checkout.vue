@@ -1008,7 +1008,7 @@ const tab = ref("checkout");
                         <q-input v-model="selected" class="q-pt-lg" standout type="text" dense readonly required
                             @click="deliveryLocationModal = true" />
                         <small v-if="selected == 'Choose Delivery Location / Area / Landmark*'"
-                            class="text-red-5 q-pl-sm q-ml-xs justify-start row">Field is required</small>
+                            class="row justify-start text-red-5 q-pl-sm q-ml-xs">Field is required</small>
                         <small v-if="orderError" class="text-primary text-capitalize q-pl-sm">{{ orderError }}</small>
                     </q-card-section>
 

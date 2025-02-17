@@ -24,16 +24,16 @@
 
                 <q-card-section class="q-pa-sm q-gutter-xs">
                   <div class="ellipsis-2-lines" style="height: 48px">
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="120px" />
                     </div>
                   </div>
                   <div class="row justify-between items-baseline">
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                     <q-space />
-                    <div class="items-baseline justify-between row q-my-xs no-wrap">
+                    <div class="row items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                   </div>
@@ -128,18 +128,6 @@
         <q-scroll-area class="q-py-xs q-pr-xs flex flex-center" style="height: 44px" :thumb-style="{ opacity: '0' }"
           @touchstart.stop @mousedown.stop>
           <div class="row" style="width: 490px">
-            <!-- gender -->
-            <!-- <q-chip v-if="genderFilter == ''" square clickable outline class="bg-white" :icon="gender" color="primary" text-color="white" @click="changeGender('man')">
-                                Gender
-                            </q-chip>
-                            <q-chip v-if="genderFilter == 'M'" square clickable outline class="bg-white" :icon="gender" color="primary" text-color="white" @click="changeGender('woman')">
-                                Men
-                            </q-chip>
-                            <q-chip v-if="genderFilter == 'F'" square clickable outline class="bg-white" :icon="gender" color="primary" text-color="white" @click="changeGender('wc')">
-                                Women
-                            </q-chip>
-                            <q-separator vertical spaced inset color="primary" /> -->
-            <!-- rating -->
             <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export"
               color="primary" text-color="white" @click="orderByRatingLowtoHigh">
               Rating

@@ -2,13 +2,12 @@
   <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
-        <NuxtLink to="/new-arrivals" aria-label="New Arrivals" title="New Arrivals" style="text-decoration: none">
+        <NuxtLink to="/new-arrivals" aria-label="New-Arrivals" title="New Arrivals" style="text-decoration: none">
           <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             New Arrivals
           </h3>
         </NuxtLink>
-        <q-btn to="/new-arrivals" color="primary" flat padding="sm" dense size="md" icon="more_vert"
-          aria-labelledby="New Arrivals" />
+        <q-btn to="/new-arrivals" color="primary" flat padding="sm" dense size="md" icon="more_vert"/>
       </q-card-section>
       <q-separator />
       <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }"

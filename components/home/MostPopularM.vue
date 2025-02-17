@@ -24,7 +24,7 @@
                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                   <q-skeleton type="text" width="200px"></q-skeleton>
                 </div>
-                <div class="items-baseline justify-between row">
+                <div class="row justify-between items-baseline">
                   <q-space />
                   <div class="text-subtitle2 text-weight-medium">
                     <q-skeleton type="text" width="40px"></q-skeleton>

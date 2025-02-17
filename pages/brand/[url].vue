@@ -39,7 +39,7 @@
                     </div>
                     <div class="row justify-between items-baseline">
                       <q-space />
-                      <div class="col items-baseline row text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
+                      <div class="col items-baseline text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
                         <q-skeleton type="text" width="80px" />
                       </div>
                     </div>

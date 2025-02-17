@@ -20,7 +20,7 @@
       >
         <div v-for="item in 6" :key="item" class="col-2">
           <q-card class="shadow-5 overflow-hidden">
-            <q-card-section class="q-pa-none border-bottom row">
+            <q-card-section class="row q-pa-none border-bottom">
               <NuxtImg
                 loading="lazy"
                 sizes="100vw sm:50vw md:170px"
@@ -40,7 +40,7 @@
               >
                 <q-skeleton type="text" width="200px"></q-skeleton>
               </div>
-              <div class="items-baseline justify-between row">
+              <div class="row justify-between items-baseline">
                 <q-space />
                 <div class="text-subtitle2 text-weight-medium">
                   <q-skeleton type="text" width="40px"></q-skeleton>
@@ -59,7 +59,7 @@
             <NuxtLink :to="`/blog/${blog.blog_url}`" :aria-label="blog.blog_title" style="text-decoration: none"
               class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" style="width:165px">
-                <q-card-section class="q-pa-none border-bottom row">
+                <q-card-section class="row q-pa-none border-bottom">
                   <NuxtImg loading="lazy" width="165" height="165" format="webp" quality="50" :draggable="false"
                     placeholder="/placeholder.gif" :src="blog.blog_image" :alt="blog.blog_title"
                     :title="blog.blog_title" />
