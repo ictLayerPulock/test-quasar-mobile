@@ -49,7 +49,7 @@
                       <q-skeleton type="text" width="120px" />
                     </div>
                     <div class="row justify-between items-center q-gutter-x-md q-my-xs no-wrap">
-                      <div class="items-center row text-grey-6 no-wrap ellipsis">
+                      <div class="row items-center text-grey-6 no-wrap ellipsis">
                         <div class="text-caption ellipsis" style="width: 100px">
                           <q-skeleton type="text" width="120px" />
                         </div>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="row justify-between items-baseline">
                       <q-space />
-                      <div class="col items-baseline row text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
+                      <div class="col items-baseline text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
                         <q-skeleton type="text" width="80px" />
                       </div>
                     </div>

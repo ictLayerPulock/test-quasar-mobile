@@ -1,7 +1,7 @@
 <template>
   <section>
     <q-card v-if="product.length > 0" flat>
-      <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
+      <q-card-section class="row items-center gradient-h q-py-none q-px-sm">
         <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
           Product Set Items
         </h3>
@@ -51,7 +51,7 @@
         </q-card-section>
         <q-separator />
         <q-card-section style="max-height: 70vh" class="scroll">
-          <div class="q-gutter-y-md justify-between items-center no-wrap">
+          <div class="q-gutter-y-md no-wrap">
             <q-card v-for="(item, index) in selectedSetProduct.fg_set_value" :key="item" class="shadow-5">
               <q-card-section class="col q-pa-none border-right">
                 <q-img :src="item.fg_image" :ratio="config.public.imgRatio" spinner-color="primary" spinner-size="82px" loading="lazy">
@@ -68,7 +68,7 @@
               </q-card-section>
               <q-card-section v-if="item.fg_custom.length > 0" class="col bg-grey-3 text-primary overflow-hidden">
                 <q-scroll-area :style="item.fg_custom.length > 3 ? 'height: 112px' : 'height: 57px'" :visible="false">
-                  <div class="items-center row" style="width: 475px">
+                  <div class="row items-center" style="width: 475px">
                     <q-chip v-for="custom in item.fg_custom" :key="custom" :color="selectedName[index] == custom.fg_custom_name
                       ? 'primary'
                       : 'white'

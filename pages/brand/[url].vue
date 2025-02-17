@@ -31,7 +31,7 @@
                       <q-skeleton type="text" width="120px" />
                     </div>
                     <div class="row justify-between items-center q-gutter-x-md q-my-xs no-wrap">
-                      <div class="items-center row text-grey-6 no-wrap ellipsis">
+                      <div class="row items-center text-grey-6 no-wrap ellipsis">
                         <div class="text-caption ellipsis" style="width: 100px">
                           <q-skeleton type="text" width="120px" />
                         </div>

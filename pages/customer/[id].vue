@@ -28,12 +28,10 @@ onMounted(async () => {
 
     <div v-if="customerInfo">
       <!-- Account Page Headers -->
-      <div class="q-pa-xs bg-grey-4">
-        <div class="items-center justify-evenly row q-pt-sm q-pa-xs">
+      <div class="row justify-center q-pa-sm bg-grey-4">
           <h1 class="text-h6 text-uppercase text-primary text-weight-medium q-ma-none">
             My Profile
           </h1>
-        </div>
       </div>
       <!-- Account Information -->
       <q-card square class="q-pa-sm bg-grey-1">

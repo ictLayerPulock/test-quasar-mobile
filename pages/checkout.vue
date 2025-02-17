@@ -804,7 +804,7 @@ const tab = ref("checkout");
                                         <q-separator />
                                         <div class="q-pa-sm q-col-gutter-y-xs">
                                             <div class="row justify-center items-center q-gutter-y-sm">
-                                                <div class="row justify-between items-center q-gutter-x-md">
+                                                <div class="row items-center q-gutter-x-md">
                                                     <q-select v-model="item.selected_attribute" dense outlined fill
                                                         color="primary" :options="item.fg_stock_and_attribute"
                                                         style="width: 180px; max-width: 320px" @update:model-value="(val: any) => handelAttrChange(val, index)

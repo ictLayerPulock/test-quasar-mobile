@@ -609,7 +609,7 @@ const tab = ref("combo-checkout");
                     </div>
                     <q-separator v-show="exprDevFee[index] > 0 && item.pre_order_qty == 0" inset />
                     <div v-show="exprDevFee[index] > 0 && item.pre_order_qty == 0" class="items-center q-px-xs q-py-xs">
-                      <div class="items-center row justify-between">
+                      <div class="row justify-between items-center">
                         <q-radio v-model="deliveryType[index]" size="xs" val="express"
                           @click="onchangeDeliveryType(index, 'express')">
                           <template #default>
