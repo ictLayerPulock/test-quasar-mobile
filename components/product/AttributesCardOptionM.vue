@@ -11,7 +11,7 @@
                 For Order</p>
             <p v-if="attributes.data.length > 1 && fgOrderType == 2" class="text-subtitle2 q-mb-xs text-center">Select Attribute
                 For Pre-Order</p>
-            <div v-if="attributes.data.length > 1" class="row q-col-gutter-sm justify-center items-center">
+            <div v-if="attributes.data.length > 1" class="row justify-center items-center q-col-gutter-sm">
                 <div v-for="attr in attributes.data" class="col-sm-6" style="width: 110px">
                     <q-card class="cursor-pointer shadow-6 shadow-on-hover overflow-hidden"
                         :style="getCardStyle(attr.fg_attribute_id)" @click="attrChanged(attr.fg_attribute_id)">

@@ -18,7 +18,7 @@
               <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit" format="webp"
                 src="/placeholder.gif" :draggable="false" />
               <q-card-section class="q-pa-sm">
-                <div class="text-body2 text-secondary text-weight-regular ellipsis-2-lines text-capitalize"
+                <div class="text-body2 text-weight-regular ellipsis-2-lines text-capitalize"
                   style="height: 42px">
                   <q-skeleton type="text" width="120px" />
                 </div>
@@ -26,7 +26,7 @@
               <q-card-section class="q-pa-sm">
                 <div class="row justify-between items-center">
                   <q-space />
-                  <div class="items-center row text-caption text-secondary">
+                  <div class="row items-center text-caption">
                     <q-skeleton type="text" width="40px" />
                   </div>
                 </div>

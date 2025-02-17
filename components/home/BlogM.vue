@@ -51,8 +51,8 @@
                                     </div>
                                 </q-card-section>
                                 <q-card-section class="q-pa-sm">
-                                    <div class="row items-center justify-between">
-                                        <div class="row items-center justify-start">
+                                    <div class="row justify-between items-center">
+                                        <div class="row justify-start items-center">
                                             <q-icon name="schedule" class="q-mr-xs" left />
                                             <div class="text-caption">
                                                 <span class="text-primary text-capitalize">

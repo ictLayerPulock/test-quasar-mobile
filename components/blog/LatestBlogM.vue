@@ -57,7 +57,7 @@
       >
       <div v-for="blog in response.data" :key="blog">
             <NuxtLink :to="`/blog/${blog.blog_url}`" :aria-label="blog.blog_title" style="text-decoration: none"
-              class="text-black">
+              class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" style="width:165px">
                 <q-card-section class="q-pa-none border-bottom row">
                   <NuxtImg loading="lazy" width="165" height="165" format="webp" quality="50" :draggable="false"
@@ -65,14 +65,14 @@
                     :title="blog.blog_title" />
                 </q-card-section>
                 <q-card-section class="q-pa-sm">
-                  <div class="text-body2 text-secondary text-weight-regular ellipsis-2-lines text-capitalize"
+                  <div class="text-body2 text-weight-regular ellipsis-2-lines text-capitalize"
                     style="height: 38px">
                     {{ blog.blog_title }}
                   </div>
                 </q-card-section>
                 <q-card-section class="q-pa-sm">
-                  <div class="items-center justify-between row">
-                    <div class="items-center justify-start row text-primary">
+                  <div class="row justify-between items-center">
+                    <div class="row justify-start items-center text-primary">
                       <q-icon name="schedule" class="q-mr-xs" left />
                       <div class="text-caption">
                         <span class="text-primary text-capitalize">
@@ -80,7 +80,7 @@
                         </span>
                       </div>
                     </div>
-                    <div v-if="blog.blog_view > 0" class="items-center row text-caption text-secondary">
+                    <div v-if="blog.blog_view > 0" class="row items-center text-caption">
                       <q-icon name="trending_up" class="q-mr-xs" left />
                       <span>
                         {{ blog.blog_view }}

@@ -8,7 +8,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "a": "pnpm run dev -o --port --host"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "start": "node .output/server/index.mjs",
+    "a": "pnpm run dev -o --port --host",
+    "h": "pnpm run dev -o --host",
+    "u": "pnpm update",
+    "n": "pnpm dlx nuxi upgrade --force"
   },
   "dependencies": {
     "@nuxtjs/html-validator": "1.8.2",

@@ -1,28 +1,28 @@
 <template>
   <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
-      <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
-        <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+      <q-card-section class="row items-center gradient-h q-pa-sm">
+        <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-ma-none">
           Latest News
         </h3>
       </q-card-section>
       <q-separator />
-      <q-scroll-area style="height: 273px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+      <q-scroll-area style="height: 280px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm" style="width: 1060px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 bg-grey-1">
               <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit" format="webp"
                 src="/placeholder.gif" :draggable="false" />
               <q-card-section class="q-pa-sm">
-                <div class="text-body2 text-secondary text-weight-regular ellipsis-2-lines text-capitalize"
+                <div class="text-body2 text-weight-regular ellipsis-2-lines text-capitalize"
                   style="height: 42px">
                   <q-skeleton type="text" width="120px" />
                 </div>
               </q-card-section>
               <q-card-section class="q-pa-sm">
-                <div class="row justify-between items-center">
+                <div class="row items-center">
                   <q-space />
-                  <div class="items-center row text-caption text-secondary">
+                  <div class="items-center row text-caption">
                     <q-skeleton type="text" width="40px" />
                   </div>
                 </div>
@@ -30,7 +30,7 @@
             </q-card>
           </div>
         </q-card-section>
-        <q-card-section v-else class="row q-px-sm q-pt-sm q-pb-none q-col-gutter-sm" style="width: 1060px">
+        <q-card-section v-else class="row q-px-sm q-pt-sm q-pb-sm q-col-gutter-sm" style="width: 1060px">
           <div v-for="item in response.data" :key="item">
             <NuxtLink :to="`/news/${item.news_url}`" :aria-label="item.news_title" style="text-decoration: none" class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" style="width:165px">
@@ -45,8 +45,8 @@
                   </div>
                 </q-card-section>
                 <q-card-section class="q-pa-sm">
-                  <div class="row items-center justify-between">
-                    <div class="row items-center justify-start">
+                  <div class="row justify-between items-center">
+                    <div class="row justify-start items-center">
                       <q-icon name="schedule" color="primary" class="q-mr-xs" left />
                       <div class="text-caption">
                         <span class=" text-capitalize text-primary">

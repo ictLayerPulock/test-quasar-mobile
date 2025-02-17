@@ -10,6 +10,7 @@
                 <q-btn to="/brand" color="primary" flat padding="sm" dense size="md" icon="more_vert" aria-label="Brands" />
             </q-card-section>
             <q-separator />
+            <!-- {{response.data}} -->
             <q-card-section class="q-px-none q-pt-xs q-pb-none" style="height:115px">
                 <div v-if="status === 'pending'">
                     <div v-if="isMobileSize <= 450" class="row justify-center items-center">
@@ -52,7 +53,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const nuxtApp = useNuxtApp();
-const show = ref(true);
+const show = ref(false);
 const $q = useQuasar();
 const isMobileSize = computed(() => $q.screen.width);
 import { Vue3Marquee } from 'vue3-marquee'
@@ -69,7 +70,7 @@ const { data: response, status }: any = useAsyncData(
         default: () => [],
         lazy: true,
         transform(responseData: any) {
-            // if (responseData.data.length  > 2) show.value = true;
+            if (responseData.data.length  > 0) show.value = true;
             return {
             ...responseData,
             fetchedAt: new Date(),
@@ -86,7 +87,7 @@ const { data: response, status }: any = useAsyncData(
             if (isExpired) {
                 return;
             }
-            if (data.data.length > 2) show.value = true;
+            if (data.data.length > 0) show.value = true;
             return data;
         },
     }
