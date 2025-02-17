@@ -1,12 +1,12 @@
 <template>
-  <section  v-show="show">
+  <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
         <NuxtLink to="/featured-products" aria-label="Featured Products" title="Featured Products"
           style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          <h1 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             Featured Products
-          </h3>
+          </h1>
         </NuxtLink>
         <q-btn to="/featured-products" color="primary" flat padding="sm" dense size="md" icon="more_vert"
           aria-label="Featured Products" />
@@ -72,11 +72,8 @@
                     </div>
                   </q-chip>
                   <div style="height: 48px">
-                    <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
-                      <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
-                        {{ item.acc_ledger_name }}
-                      </span>
+                    <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none" :title="item.acc_ledger_name">
+                      {{ item.acc_ledger_name }}
                     </p>
                   </div>
                   <div class="row justify-between items-baseline">

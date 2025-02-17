@@ -3,9 +3,9 @@
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
         <NuxtLink to="/new-arrivals" aria-label="New-Arrivals" title="New Arrivals" style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          <h1 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             New Arrivals
-          </h3>
+          </h1>
         </NuxtLink>
         <q-btn to="/new-arrivals" color="primary" flat padding="sm" dense size="md" icon="more_vert"/>
       </q-card-section>
@@ -72,10 +72,7 @@
                   </q-chip>
                   <div style="height: 48px">
                     <p class="text-subtitle2 text-left text-weight-regular ellipsis-2-lines q-pt-xs q-mx-none">
-                      <q-skeleton v-if="status === 'pending'" type="text" width="120px" />
-                      <span v-else class="text-subtitle2" :title="item.acc_ledger_name">
-                        {{ item.acc_ledger_name }}
-                      </span>
+                      {{ item.acc_ledger_name }}
                     </p>
                   </div>
                   <div class="row justify-between items-baseline">

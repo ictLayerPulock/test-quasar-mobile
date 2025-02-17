@@ -8,7 +8,7 @@
           <NuxtImg loading="lazy" @click="navigateTo('/')" format="webp" width="150" height="40" sizes="150px"
             class="cursor-pointer " src="https://placehold.co/150x40" alt="Company-Logo" title="Company-Logo" />
         </q-toolbar-title>
-        <div class="row justify-end">
+        <div class="flex justify-end">
           <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''"
             to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
             <span v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption"

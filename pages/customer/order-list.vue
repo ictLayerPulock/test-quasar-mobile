@@ -144,7 +144,7 @@ async function onLoad() {
           </div>
         </div>
       </q-card>
-      <q-card-actions v-if="showLoadMore" class="items-center justify-center row bg-grey-2">
+      <q-card-actions v-if="showLoadMore" class="row justify-center items-center bg-grey-2">
         <q-btn color="primary" class="text-primary text-weight-medium text-uppercase" style="width: 120px" @click="onLoad">
           View More
         </q-btn>

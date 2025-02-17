@@ -218,7 +218,8 @@ const styledHtmlGlance = computed(() => {
   <div>
     <q-card v-if="product.fg_id">
       <q-card-section class="q-pa-none">
-        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth" :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
+        <ProductCarousalImagesM :name="product.acc_ledger_name" :image="product.images" :customerIsAuth="customerIsAuth"
+          :showShareBtn="showShareBtn" :video="product.fg_detail_video" />
       </q-card-section>
       <q-card-section v-if="product.fg_id" class="q-pa-sm">
         <h1 class="text-h6 text-primary text-weight-medium q-ma-none text-capitalize text-center">
@@ -234,7 +235,9 @@ const styledHtmlGlance = computed(() => {
             </div>
           </div>
           <div class="row justify-start items-center">
-            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name" :aria-label="product.fg_category_name" style="text-decoration: none" class="row justify-center items-center text-secondary">
+            <NuxtLink :to="`/category/${product.fg_category_url}`" :title="product.fg_category_name"
+              :aria-label="product.fg_category_name" style="text-decoration: none"
+              class="row justify-center items-center text-secondary">
               <q-icon name="category" class="q-mr-xs" left />
               <p class="q-ma-none">
                 {{ product.fg_category_name }}
@@ -250,13 +253,15 @@ const styledHtmlGlance = computed(() => {
             {{ viewCount(product.fg_view) }}
           </div>
           <q-space />
-          <NuxtLink v-if="product.fg_rating > 0" :to="`/product/review/${product.fg_url}`" class="row items-center" title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
+          <NuxtLink v-if="product.fg_rating > 0" :to="`/product/review/${product.fg_url}`" class="row items-center"
+            title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
             <span v-if="product.fg_review_count > 0" class="text-caption text-grey-7" style="padding-top: 2px">
               ({{ product.fg_review_count }})
             </span>
             <q-rating v-model="product.fg_rating" class="q-ml-xs" size="16px" :max="5" color="primary" readonly />
           </NuxtLink>
-          <NuxtLink v-else :to="`/product/review/${product.fg_url}`" class="row items-center q-gutter-xs no-wrap" title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
+          <NuxtLink v-else :to="`/product/review/${product.fg_url}`" class="row items-center q-gutter-xs no-wrap"
+            title="Review/Rating" aria-label="Review/Rating" style="text-decoration: none">
             <q-icon v-if="product.fg_id" name="star" color="primary" style="margin-bottom: 2px" />
             <span v-if="product.fg_id" class="text-caption text-primary text-capitalize">
               Give First Rating!
@@ -301,16 +306,17 @@ const styledHtmlGlance = computed(() => {
           </div>
         </div>
       </q-card-section>
-      
+
       <q-card-section>
-        <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
+        <ProductAttributesCardOptionM v-if="product.fg_id" :fg-id="product.fg_id"
+          :fg-order-type="product.fg_order_type" />
         <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
       </q-card-section>
       <!-- Set Products -->
       <ProductSetProductCardM :fg-id="product.fg_id" />
       <!-- Related Products -->
       <ProductRelatedProductsM :url="(url as any)" />
-      
+
       <q-card-section v-if="product.fg_detail_at_a_glance" flat class="bg-grey-2 q-pa-none">
         <div class="q-px-sm">
           <div class="text-justify q-pa-xs text-body2 text-capitalize" v-html="styledHtmlGlance" />

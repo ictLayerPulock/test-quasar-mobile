@@ -1,7 +1,7 @@
 <template>
   <section v-show="show">
     <q-card flat square class="q-pa-xs gradient">
-      <q-card-section class="row justify-between gradient-h  q-py-none q-px-sm">
+      <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/#" aria-label="You May Also Like" title="You May Also Like" style="text-decoration: none">
           <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             You May Also Like
