@@ -2,19 +2,19 @@
   <q-layout view="hHh LpR lff">
     <!-- Header -->
     <q-header elevated class="gradient" height-hint="60">
-      <q-toolbar class="justify-between items-center" style="height: 60px">
+      <q-toolbar style="height: 60px">
         <q-btn id="menu" @click="leftDrawer" aria-label="Menu" flat color="primary" round icon="menu" />
-        <q-toolbar-title class="row justify-center">
+        <q-toolbar-title class="flex justify-center">
           <NuxtImg loading="lazy" @click="navigateTo('/')" format="webp" width="150" height="40" sizes="150px"
             class="cursor-pointer " src="https://placehold.co/150x40" alt="Company-Logo" title="Company-Logo" />
         </q-toolbar-title>
         <div class="flex justify-end">
           <q-btn id="checkout" color="primary" :class="router.currentRoute.value.path == '/checkout' ? 'primary' : ''"
             to="/checkout" flat round aria-label="Checkout" icon="shopping_cart">
-            <span v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption"
+            <q-badge v-show="cartCount > 0" class="absolute-top-right text-bold text-primary text-caption"
               style="padding-inline: 3px; border-radius: 25%; right: -2px" title="Checkout">
               {{ cartCount }}
-            </span>
+            </q-badge>
           </q-btn>
           <q-btn v-if="customerIsAuth" color="primary" to="/customer/accounts" flat round icon="person"
             title="My Profile" />
@@ -125,7 +125,7 @@
           </q-item>
         </q-list>
         <q-separator spaced inset />
-        <div class="q-gutter-xs row justify-center">
+        <div class="q-gutter-xs flex justify-center">
           <q-btn href="mailto:info@demo.com.bd" target="_blank" size="md" class="q-pa-sm" flat color="primary"
             icon="email" />
           <q-btn href="https://wa.me/+8801926680888" size="md" class="q-pa-sm" flat title="Whatsapp" role="button"

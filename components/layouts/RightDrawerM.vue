@@ -1,18 +1,17 @@
 <template>
   <div>
-    <div v-if="product.length > 0" class="row justify-center items-center q-gutter-sm q-pa-md bg-grey-2">
-      <q-btn outline color="primary" class=" text-weight-medium text-uppercase" style="width: 150px"
+    <div v-if="product.length > 0" class="flex justify-center items-center q-gutter-sm q-pa-md bg-grey-2">
+      <q-btn outline color="primary" class="text-weight-medium text-uppercase" style="width: 150px"
         @click="confirm_clear_all">
         Clear History
       </q-btn>
-      <q-btn outline color="grey-1" class="text-grey-9 text-weight-medium text-uppercase" style="width: 100px"
+      <q-btn outline color="grey-1" class="text-weight-medium text-uppercase" style="width: 100px"
         @click="refresh_history">
         Refresh
       </q-btn>
     </div>
     <q-card v-else square flat outline>
-      <q-card-section class="column justify-center items-center q-gutter-md text-subtitle1  text-uppercase bg-grey-2"
-        >
+      <q-card-section class="column justify-center items-center q-gutter-md text-subtitle1  text-uppercase bg-grey-2">
         <div class="col">No Recent Views</div>
         <q-btn outline color="grey-1" class="col text-grey-9 text-weight-medium text-uppercase" style="width: 100px"
           @click="refresh_history">
@@ -24,62 +23,56 @@
       <div v-for="(item, index) in product" :key="item">
         <q-card>
           <q-card-section horizontal>
-            <q-img class="col-5" spinner-color="primary" spinner-size="82px" loading="lazy"
-              style="height: 120px" :src="item.fg_image" :alt="item.fg_title" :title="item.fg_title">
-              <div class="absolute-bottom-right text-subtitle2 border-rounded">
-                <q-btn flat dense round size="sm" class="absolute bg-transparent" style="bottom: 5px; right: 4px"
-                  @click="remove_recent(item.fg_id)">
-                  <q-icon size="xs" name="delete" color="primary" />
-                </q-btn>
-              </div>
-            </q-img>
+            <NuxtImg loading="lazy" placeholder="/placeholder.gif" class="col-4" format="webp" quality="50"
+              :src="item.fg_image" :alt="item.fg_title" :title="item.fg_title" />
+
+            <q-btn flat dense round size="md" icon="delete" color="primary" class="absolute bg-transparent"
+              style="bottom: 3px; left: 70px" @click="remove_recent(item.fg_id)">
+            </q-btn>
             <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
               style="top: 5px; left: 5px" />
             <q-card-section class="q-pa-sm col">
               <NuxtLink :to="`/product/${item.fg_url}`" class="text-secondary" aria-label="product" title="product"
                 style="text-decoration: none">
-                <div class="text-body2 ellipsis-2-lines" style="height: 38px">
-                <p class="q-ma-none"> {{ item.acc_ledger_name }}</p> 
+                <div class="text-subtitle1 ellipsis-2-lines" style="height: 48px">
+                  <p class="q-ma-none"> {{ item.acc_ledger_name }}</p>
                 </div>
-                <div class="row justify-between items-center q-my-sm">
+                <div class="flex justify-between items-center q-my-sm">
                   <div class="text-caption  ellipsis">
                     <p class="q-ma-none">{{ item.fg_category_name }}</p>
                   </div>
                   <q-space />
-                  <div v-if="item.fg_view > 0" class="row justify-start items-center text-caption">
-                    <q-icon name="trending_up" left />
-                    <span>
+                  <div v-if="item.fg_view > 0" class="flex justify-start items-center text-caption">
+                    <q-icon name="trending_up" left class="q-mr-xs" />
+                    <p class="q-ma-none">
                       {{ viewCount(item.fg_view) }}
-                    </span>
+                    </p>
                   </div>
                 </div>
-                <div class="row justify-between text-capitalize">
-                  <div v-if="
-                    item.fg_discount > 0 &&
-                    inDateRange(
-                      item.fg_discount_start_date,
-                      item.fg_discount_end_date
-                    )
-                  " class="text-caption text-bold ">
-                    <span class="q-mr-sm text-uppercase">
-                      -{{ item.fg_discount }}%
-                    </span>
-                  </div>
-                  <q-space />
-                  <div class="row justify-end items-baseline text-caption text-weight-medium q-pt-sm">
-                    <span class="text-caption">
-                      {{ formatMoney(item.fg_up_final * 1.0) }}
-                      {{ config.public.currencyAfter }}
-                    </span>
-                  </div>
-                </div>
+                <div class="flex justify-between items-baseline">
+                      <div v-if="
+                        item.fg_discount > 0 &&
+                        inDateRange(
+                          item.fg_discount_start_date,
+                          item.fg_discount_end_date
+                        )
+                      " class="text-caption text-bold text-primary text-uppercase">
+                        -{{ item.fg_discount }}%
+                      </div>
+                      <q-space />
+                      <div class="text-subtitle2 text-weight-medium">
+                        {{ config.public.currencyBefore }}
+                        {{ formatMoney(item.fg_up_final * 1.0) }}
+                        {{ config.public.currencyAfter }}
+                      </div>
+                    </div>
               </NuxtLink>
             </q-card-section>
           </q-card-section>
         </q-card>
       </div>
     </div>
-    <div v-if="product.length > 5" class="row justify-center items-center q-gutter-sm q-pa-md bg-grey-2">
+    <div v-if="product.length > 5" class="flex justify-center items-center q-gutter-sm q-pa-md bg-grey-2">
       <q-btn outline color="primary" class=" text-weight-medium text-uppercase" style="width: 150px"
         @click="confirm_clear_all">
         Clear History
@@ -97,7 +90,7 @@
         </q-card-section>
         <q-separator space />
         <q-card-section>
-          <div class="row justify-between q-gutter-md">
+          <div class="flex justify-between q-gutter-md">
             <q-btn v-close-popup class="col" label="Yes" type="submit" color="primary" @click="clear_all_history()" />
             <q-btn v-close-popup class="col" outline label="No" color="primary" />
           </div>

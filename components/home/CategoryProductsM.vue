@@ -74,10 +74,8 @@ const { data: response, status }: any = useAsyncData(
                 label="Deals" />
             </q-tabs>
             <q-space />
-            <q-btn id="More" round flat outline :to="`/category/${category.fg_category_url}`" color="grey-4"
-              aria-label="More">
-              <q-icon size="sm" name="more_vert" />
-            </q-btn>
+            <q-btn icon="more_vert" round flat outline :to="`/category/${category.fg_category_url}`" color="grey-4"
+            />
           </q-toolbar>
           <q-tab-panels v-model="response.tab[index]" swipeable infinite transition-prev="fade" transition-next="fade"
             animated @touchstart.stop @mousedown.stop>

@@ -1,17 +1,17 @@
 <template>
   <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
-      <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
+      <q-card-section class="flex justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/most-popular" aria-label="Most Popular" title="Most Popular" style="text-decoration: none">
-          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          <h2 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             Most Popular
-          </h3>
+          </h2>
         </NuxtLink>
         <q-btn to="/most-popular" color="primary" flat padding="sm" dense size="md" icon="more_vert"
           aria-label="Most Popular" />
       </q-card-section>
       <q-separator />
-      <q-scroll-area style="height: 308px;" :thumb-style="{ opacity: '0' }"
+      <q-scroll-area style="height: 315px;" :thumb-style="{ opacity: '0' }"
         @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 6" :key="item" class="col-2">
@@ -24,7 +24,7 @@
                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                   <q-skeleton type="text" width="200px"></q-skeleton>
                 </div>
-                <div class="row justify-between items-baseline">
+                <div class="flex justify-between items-baseline">
                   <q-space />
                   <div class="text-subtitle2 text-weight-medium">
                     <q-skeleton type="text" width="40px"></q-skeleton>
@@ -40,7 +40,7 @@
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
               class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
-                <q-card-section class="row q-pa-none border-bottom">
+                <q-card-section class="q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif"
                     :width="config.public.imageGridMediumWidthMobile"
                     :height="config.public.imageGridMediumHeightMobile" format="webp" quality="50" :src="item.fg_image"
@@ -49,7 +49,7 @@
                 <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                   style="top: 5px; left: 5px" />
                 <div v-if="item.fg_view > 0" size="xs"
-                  class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                  class="absolute flex items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
                   <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                   <p class="text-caption q-ma-none text-primary">
@@ -64,7 +64,7 @@
                       item.fg_discount_end_date
                     )
                   " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                    class="absolute row justify-center text-weight-bold bg-white"
+                    class="absolute flex justify-center text-weight-bold bg-white"
                     style="top: 0; right: 4px; transform: translateY(-50%)">
                     <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                     <div class="text-primary text-capitalize q-pr-sm"
@@ -80,7 +80,7 @@
                       </span>
                     </p>
                   </div>
-                  <div class="row justify-between items-baseline">
+                  <div class="flex justify-between items-baseline">
                     <div v-if="
                       item.fg_discount > 0 &&
                       inDateRange(

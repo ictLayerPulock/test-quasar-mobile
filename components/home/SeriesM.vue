@@ -1,7 +1,7 @@
 <template>
   <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
-      <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
+      <q-card-section class="flex justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/series" aria-label="Series" title="Series" style="text-decoration: none">
           <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             Series
@@ -15,7 +15,7 @@
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 1080px">
           <div v-for="item in 8" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">
-              <q-card-section class="row q-pa-none border-bottom">
+              <q-card-section class="q-pa-none border-bottom">
                 <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit relative"
                   format="webp" src="/placeholder.gif" :draggable="false" />
                 <div class="absolute-bottom text-body1 text-bold text-center" style="backdrop-filter: blur(2px);">

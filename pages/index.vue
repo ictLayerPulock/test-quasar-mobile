@@ -3,12 +3,12 @@
     <Title> Home Page</Title>
   </Head>
     <div class="q-gutter-sm">
-      <!-- <HomeBannerTemplateSlideM /> -->
-      <!-- <HomeCategoryIconsM /> -->
-      <!-- <HomeNewArrivalsM /> -->
+      <!-- <HomeBannerTemplateSlideM />
+      <HomeCategoryIconsM />
+      <HomeNewArrivalsM />
       <LazyHomeFeaturedProductsM />
-      <!-- <LazyHomeMostPopularM /> -->
-      <!-- <LazyHomeFlashSaleM /> -->
+      <LazyHomeMostPopularM />
+      <LazyHomeFlashSaleM /> -->
       <!-- <LazyHomeSeriesM /> -->
       <!-- <LazyHomeTagsM /> -->
       <!-- <LazyHomeTypesM /> -->
