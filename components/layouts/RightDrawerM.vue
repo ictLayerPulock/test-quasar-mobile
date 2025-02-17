@@ -50,22 +50,22 @@
                   </div>
                 </div>
                 <div class="flex justify-between items-baseline">
-                      <div v-if="
-                        item.fg_discount > 0 &&
-                        inDateRange(
-                          item.fg_discount_start_date,
-                          item.fg_discount_end_date
-                        )
-                      " class="text-caption text-bold text-primary text-uppercase">
-                        -{{ item.fg_discount }}%
-                      </div>
-                      <q-space />
-                      <div class="text-subtitle2 text-weight-medium">
-                        {{ config.public.currencyBefore }}
-                        {{ formatMoney(item.fg_up_final * 1.0) }}
-                        {{ config.public.currencyAfter }}
-                      </div>
-                    </div>
+                  <div v-if="
+                    item.fg_discount > 0 &&
+                    inDateRange(
+                      item.fg_discount_start_date,
+                      item.fg_discount_end_date
+                    )
+                  " class="text-caption text-bold text-primary text-uppercase">
+                    -{{ item.fg_discount }}%
+                  </div>
+                  <q-space />
+                  <div class="text-subtitle2 text-weight-medium">
+                    {{ config.public.currencyBefore }}
+                    {{ formatMoney(item.fg_up_final * 1.0) }}
+                    {{ config.public.currencyAfter }}
+                  </div>
+                </div>
               </NuxtLink>
             </q-card-section>
           </q-card-section>

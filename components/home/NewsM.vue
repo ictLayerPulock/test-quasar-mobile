@@ -3,9 +3,9 @@
     <q-card v-if="status != 'pending'" flat square class="bg-grey-2">
       <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/news" aria-label="News & Updates" title="News & Updates" style="text-decoration: none">
-          <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          <h4 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             News & Updates
-          </h5>
+          </h4>
         </NuxtLink>
         <q-btn to="/news" color="primary" flat padding="sm" dense size="md" icon="more_vert"
           aria-label="News & Updates" />

@@ -3,20 +3,20 @@
     <Title> Home Page</Title>
   </Head>
     <div class="q-gutter-sm">
-      <!-- <HomeBannerTemplateSlideM />
+      <HomeBannerTemplateSlideM />
       <HomeCategoryIconsM />
       <HomeNewArrivalsM />
       <LazyHomeFeaturedProductsM />
       <LazyHomeMostPopularM />
-      <LazyHomeFlashSaleM /> -->
-      <!-- <LazyHomeSeriesM /> -->
-      <!-- <LazyHomeTagsM /> -->
-      <!-- <LazyHomeTypesM /> -->
-      <!-- <LazyHomeCategoryProductsM /> -->
-      <!-- <LazyHomeNewsM /> -->
-      <!-- <LazyHomeBlogM /> -->
-      <!-- <LazyHomeBrandsM /> -->
-      <!-- <LazySuggestedProductsM /> -->
+      <LazyHomeFlashSaleM /> 
+      <LazyHomeSeriesM />
+      <LazyHomeTagsM />
+      <LazyHomeTypesM />
+      <LazyHomeCategoryProductsM />
+      <LazyHomeNewsM />
+      <LazyHomeBlogM />
+      <LazyHomeBrandsM />
+      <LazySuggestedProductsM />
     </div>
   </template>
   

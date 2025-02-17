@@ -1,7 +1,7 @@
 <template>
     <section v-show="show">
         <q-card v-if="status != 'pending'" flat square class="bg-grey-2">
-            <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
+            <q-card-section class="flex justify-between gradient-h q-py-none q-px-sm">
                 <NuxtLink to="/blog" aria-label="Blog" title="Blog" style="text-decoration: none">
                     <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
                         Blog
@@ -24,9 +24,9 @@
                                 </div>
                             </q-card-section>
                             <q-card-section class="q-pa-sm">
-                                <div class="row justify-between items-center">
+                                <div class="flex justify-between items-center">
                                     <q-space />
-                                    <div class="row items-center text-caption text-secondary">
+                                    <div class="flex items-center">
                                         <q-skeleton type="text" width="40px" />
                                     </div>
                                 </div>
@@ -51,8 +51,8 @@
                                     </div>
                                 </q-card-section>
                                 <q-card-section class="q-pa-sm">
-                                    <div class="row justify-between items-center">
-                                        <div class="row justify-start items-center">
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex justify-start items-center">
                                             <q-icon name="schedule" class="q-mr-xs" left />
                                             <div class="text-caption">
                                                 <span class="text-primary text-capitalize">
@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                         <div v-if="blog.blog_view > 0"
-                                            class="row items-center text-primary text-caption">
+                                            class="flex items-center text-primary text-caption">
                                             <q-icon name="trending_up" color="primary" class="q-mr-xs" left />
                                             <span>
                                                 {{ blog.blog_view }}
