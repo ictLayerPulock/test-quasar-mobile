@@ -48,22 +48,22 @@ onMounted(async () => {
               </q-avatar>
             </q-card-section>
             <q-card-section class="q-pa-xs">
-              <div class="row justify-center items-center">
-                <q-btn to="/customer/accounts" flat round icon="person" color="primary" title="Name" />
+              <div class="row justify-center items-center q-col-gutter-sm">
+                <q-icon name="person" size="sm" color="primary" />
                 <p class="q-ma-none text-h6">{{ customerInfo.name }}</p>
               </div>
             </q-card-section>
             <q-card-section class="q-pt-none">
-              <div class="row justify-center items-center">
-                <q-btn to="/customer/accounts" flat size="xs" round icon="phone" title="Phone"  color="primary" />
+              <div class="row justify-center items-center q-col-gutter-sm">
+                <q-icon name="phone"  color="primary" />
                 <p class="q-ma-none text-subtitle2">{{ customerInfo.phone }}</p>
               </div>
-              <div class="row justify-center items-center">
-                <q-btn to="/customer/accounts" flat size="xs" round icon="mail" title="Email"  color="primary" />
+              <div class="row justify-center items-center q-col-gutter-sm">
+                <q-icon name="mail"  color="primary" />
                 <p class="q-ma-none text-subtitle2">{{ customerInfo.email }}</p>
               </div>
-              <div class="row justify-center items-center">
-                <q-btn to="/customer/accounts" flat size="xs" round icon="location_on" title="Address"  color="primary" />
+              <div class="row justify-center items-center q-col-gutter-sm">
+                <q-icon name="location_on"  color="primary" />
                 <p class="q-ma-none text-subtitle2">{{ customerInfo.billing_address }}</p>
               </div>
             </q-card-section>
