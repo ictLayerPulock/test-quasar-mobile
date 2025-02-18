@@ -3,11 +3,19 @@
 		<q-card>
 			<q-responsive :ratio="3 / 4" style="width: 100%;">
 				<q-carousel v-model="slide" swipeable animated thumbnails infinite autoplay>
-					<q-carousel-slide v-for="(item, index) in props.image" :key="item" :name="index + 1" style="width: 100%;" :srcset="_srcset.srcset" :height="height" :sizes="_srcset.sizes" :lazy-src="img(src, { width: '100vw' })" :img-src="img(item, { height })" :alt="props.name" :title="props.name" />
+					<q-carousel-slide v-for="(item, index) in props.image" :key="item" :name="index + 1"
+						style="width: 100%;" :srcset="_srcset.srcset" :height="height" :sizes="_srcset.sizes"
+						:lazy-src="img(src, { width: '100vw', quality: 70 })" 
+						:img-src="img(item, { height })"
+						:alt="props.name"
+						:title="props.name" />
 				</q-carousel>
 			</q-responsive>
-			<q-btn v-if="props.video != null" dense round flat size="md" class="absolute bg-grey-2" icon="play_circle" color="primary" style="top: 12px; right: 52px; z-index: 60; opacity: 75%" aria-label="Video" @click="videoModal = true" />
-			<q-btn dense round flat size="md" class="absolute bg-grey-2" icon="share" color="primary" style="top: 12px; right: 12px; z-index: 60; opacity: 75%" aria-label="Share" @click="startShare()" />
+			<q-btn v-if="props.video != null" dense round flat size="md" class="absolute bg-grey-2" icon="play_circle"
+				color="primary" style="top: 12px; right: 52px; z-index: 60; opacity: 75%" aria-label="Video"
+				@click="videoModal = true" />
+			<q-btn dense round flat size="md" class="absolute bg-grey-2" icon="share" color="primary"
+				style="top: 12px; right: 12px; z-index: 60; opacity: 75%" aria-label="Share" @click="startShare()" />
 		</q-card>
 	</section>
 	<section>

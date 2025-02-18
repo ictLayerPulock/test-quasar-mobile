@@ -3,9 +3,9 @@
     <q-card flat square class="q-pa-xs gradient">
       <q-card-section class="row justify-between gradient-h q-py-none q-px-sm">
         <NuxtLink to="/#" aria-label="You May Also Like" title="You May Also Like" style="text-decoration: none">
-          <h5 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+          <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
             You May Also Like
-          </h5>
+          </h3>
         </NuxtLink>
         <q-btn to="/#" color="primary" flat padding="sm" dense size="md" icon="more_vert"
           aria-label="You May Also Like" />

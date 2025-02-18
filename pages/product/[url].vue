@@ -204,17 +204,19 @@ const styledHtml = computed(() => {
     .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
     .replace(/<ul>/g, '<ul style="font-size: 14px; line-height: 1.5; margin: 0 0 5px 0;">')
     .replace(/<li>/g, '<li style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
-    .replace(/<img/g, '<img style="width:100%; height:400px;"')
+    .replace(/<img/g, '<img style="width:100%; height:400px;" alt="product-image"')
     .replace(/<iframe/g, '<iframe style="width:100%; height:400px;"');
 });
 const styledHtmlGlance = computed(() => {
   return rawVHtmlGlance.value
     .replace(/<p>/g, '<p style="font-size: 14px; line-height: 1.4; margin: 0 0 5px 0;">')
 });
-
-
 </script>
+
 <template>
+  <Head>
+    <Title>{{ product.fg_detail_meta_title }}</Title>
+  </Head>
   <div>
     <q-card v-if="product.fg_id">
       <q-card-section class="q-pa-none">
@@ -298,11 +300,11 @@ const styledHtmlGlance = computed(() => {
             </p>
           </div>
           <div>
-            <h5 class="text-h5 text-primary text-weight-medium q-ma-none">
+            <p class="text-h5 text-primary text-weight-medium q-ma-none">
               Price: {{ config.public.currencyBefore }}
               {{ formatMoney(product.fg_up_final * 1.0 + customPrice * 1.0) }}
               {{ config.public.currencyAfter }}
-            </h5>
+            </p>
           </div>
         </div>
       </q-card-section>
@@ -312,6 +314,7 @@ const styledHtmlGlance = computed(() => {
           :fg-order-type="product.fg_order_type" />
         <ProductAddToCartM v-if="product.fg_id" :fg-id="product.fg_id" :fg-order-type="product.fg_order_type" />
       </q-card-section>
+
       <!-- Set Products -->
       <ProductSetProductCardM :fg-id="product.fg_id" />
       <!-- Related Products -->

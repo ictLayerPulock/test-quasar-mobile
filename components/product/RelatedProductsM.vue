@@ -2,9 +2,9 @@
   <section v-show="show">
     <q-card v-if="status != 'pending'" flat square class="gradient">
       <q-card-section class="row justify-between items-center gradient-h q-py-none q-px-sm">
-        <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+        <h2 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
           Related Products
-        </h3>
+        </h2>
       </q-card-section>
       <q-separator />
       <q-scroll-area :style="`height:` + config.public.scrollAreaHeightMobile" :thumb-style="{ opacity: '0' }"
@@ -14,7 +14,7 @@
             <q-card class="shadow-5 overflow-hidden">
               <q-card-section class="q-pa-none border-bottom">
                 <NuxtImg loading="lazy" sizes="100vw sm:50vw md:170px" width="170" quality="50" class="fit" format="webp"
-                  src="/placeholder.gif" :draggable="false" />
+                  src="/placeholder.gif" alt="image" :draggable="false" />
               </q-card-section>
               <q-card-section class="q-pa-sm q-gutter-xs">
                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
