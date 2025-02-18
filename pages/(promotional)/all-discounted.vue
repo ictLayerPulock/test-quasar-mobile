@@ -4,7 +4,7 @@
     <Title> Discounts - Save Big on Quality Pieces!</Title>
   </Head>
   <div class="q-gutter-y-md" style="margin-top: 48px">
-    <div v-if="page_banner" class="row justify-around items-center bg-grey-2">
+    <div v-if="page_banner" class="flex justify-around items-center bg-grey-2">
       <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm" :title="title">
         {{ title }}
       </h1>
@@ -28,16 +28,16 @@
 
                 <q-card-section class="q-pa-sm q-gutter-xs">
                   <div class="ellipsis-2-lines" style="height: 48px">
-                    <div class="row justify-between items-baseline q-my-xs no-wrap">
+                    <div class="flex justify-between items-baseline q-my-xs no-wrap">
                       <q-skeleton type="text" width="120px" />
                     </div>
                   </div>
-                  <div class="row justify-between items-baseline">
-                    <div class="row items-baseline q-my-xs no-wrap">
+                  <div class="flex justify-between items-baseline">
+                    <div class="q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                     <q-space />
-                    <div class="row items-baseline q-my-xs no-wrap">
+                    <div class="q-my-xs no-wrap">
                       <q-skeleton type="text" width="20px" />
                     </div>
                   </div>
@@ -59,7 +59,7 @@
                   <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                     style="top: 5px; left: 5px" />
                   <div v-if="item.fg_view > 0" size="xs"
-                    class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                    class="absolute flex items-center bg-transparent text-caption text-weight-medium"
                     style="top: 5px; right: 8px">
                     <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                     <span class="text-primary text-caption">
@@ -74,7 +74,7 @@
                       item.fg_discount_end_date
                     )
                   " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                    class="absolute row justify-center text-weight-bold bg-white"
+                    class="absolute flex justify-center text-weight-bold bg-white"
                     style="top: 0; right: 4px; transform: translateY(-50%)">
                     <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                     <div class="text-primary text-capitalize q-pr-sm" :title="'Ends ' + useTimeAgo(item.fg_discount_end_date)">
@@ -88,7 +88,7 @@
                       </span>
                     </p>
                   </div>
-                    <div class="row justify-between items-baseline">
+                    <div class="flex justify-between items-baseline">
                       <div v-if="
                         item.fg_discount > 0 &&
                         inDateRange(
@@ -112,7 +112,7 @@
           </div>
         </q-card>
         <template #loading>
-          <div v-if="!no_more_data" class="row justify-center q-my-md">
+          <div v-if="!no_more_data" class="flex justify-center q-my-md">
             <q-spinner-dots color="primary" size="40px" />
           </div>
         </template>
@@ -130,7 +130,7 @@
       <q-toolbar-title>
         <q-scroll-area class="q-pt-xs" style="height: 44px" :thumb-style="{ opacity: '0' }"
           @touchstart.stop @mousedown.stop>
-          <div class="row" style="width: 490px">
+          <div class="flex" style="width: 490px">
             <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export"
               color="primary" text-color="white" @click="orderByRatingLowtoHigh">
               Rating

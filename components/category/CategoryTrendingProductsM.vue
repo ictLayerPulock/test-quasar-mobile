@@ -2,9 +2,9 @@
     <section>
         <q-card v-show="show" flat square class="gradient">
             <div class="gradient-h q-pa-sm">
-                <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-xs">
+                <h1 class="text-h5 text-primary text-capitalize text-weight-medium q-my-xs">
                     Trending Products
-                </h2>
+                </h1>
             </div>
             <q-scroll-area style="height:308px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
                 <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient"

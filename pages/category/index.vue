@@ -26,7 +26,7 @@
           </q-card>
           <div v-for="child in 1" :key="child">
             <q-card flat square class="q-mt-sm gradient">
-              <div class="row justify-start q-pt-sm q-pb-xs">
+              <div class="flex justify-start q-pt-sm q-pb-xs">
                 <div class="text-primary text-h6 text-weight-medium text-capitalize">
                   <q-skeleton type="text" width="100px"></q-skeleton>
                 </div>
@@ -42,7 +42,7 @@
                       <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                         <q-skeleton type="text" width="100px"></q-skeleton>
                       </div>
-                      <div class="row justify-between items-baseline">
+                      <div class="flex justify-between items-baseline">
                         <q-space />
                         <div class="text-subtitle1 flex flex-right text-weight-medium">
                           <q-skeleton type="text" width="60px"></q-skeleton>
@@ -73,12 +73,12 @@
           </div>
           <div v-for="child in response.categoryParent" :key="child">
             <q-card flat square class="q-mt-sm gradient">
-              <q-card-section class="row justify-between gradient-h q-py-none">
+              <q-card-section class="flex justify-between gradient-h q-py-none">
                 <NuxtLink :to="`/category/${child.fg_category_url}`" :aria-label="child.fg_category_name"
                   :title="child.fg_category_name" style="text-decoration: none">
-                  <h3 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
+                  <h2 class="text-h5 text-capitalize text-primary text-weight-medium q-my-sm">
                     {{ child.fg_category_name }}
-                  </h3>
+                  </h2>
                 </NuxtLink>
                 <q-btn :to="`/category/${child.fg_category_url}`" color="primary" flat padding="sm" dense size="md"
                   icon="more_vert" :aria-label="child.fg_category_name" />
@@ -89,7 +89,7 @@
                   .slice(0, 6)" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                   <NuxtLink :to="`/product/${item.fg_url}`" style="text-decoration: none" class="text-secondary">
                     <q-card class="shadow-5 overflow-hidden q-pb-none">
-                      <q-card-section class="row q-pa-none border-bottom">
+                      <q-card-section class="q-pa-none border-bottom">
                         <NuxtImg loading="lazy" placeholder="/placeholder.gif" class="fit" width="150" height="200"
                           :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name"
                           :draggable="false" />
@@ -97,7 +97,7 @@
                       <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                         style="top: 5px; left: 5px" />
                       <div v-if="item.fg_view > 0" size="xs"
-                        class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                        class="absolute flex items-center bg-transparent text-caption text-weight-medium"
                         style="top: 5px; right: 8px">
                         <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                         <p class=" text-caption text-primary q-ma-none">
@@ -112,7 +112,7 @@
                             item.fg_discount_end_date
                           )
                         " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                          class="absolute row justify-center text-weight-bold bg-white"
+                          class="absolute flex justify-center text-weight-bold bg-white"
                           style="top: 0; right: 4px; transform: translateY(-50%)">
                           <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                           <div class="text-primary text-capitalize q-pr-sm"
@@ -127,7 +127,7 @@
                             </span>
                           </p>
                         </div>
-                        <div class="row justify-between items-baseline">
+                        <div class="flex justify-between items-baseline">
                           <div v-if="
                             item.fg_discount > 0 &&
                             inDateRange(
