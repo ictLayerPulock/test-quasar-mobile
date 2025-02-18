@@ -1,7 +1,7 @@
 <template>
   <div v-if="!pending">
     <q-card v-if="tagList.data.length > 0" square flat class="bg-white">
-      <q-card-section class="row justify-center q-pa-sm">
+      <q-card-section class="flex justify-center q-pa-sm">
           <q-chip v-for="tag in tagList.data" :key="tag" square outline clickable color="primary" class="bg-white">
             <NuxtLink :to="`/tag/${tag.fg_tag_url}`" :title="tag.fg_tag_name" :aria-label="tag.fg_tag_name"
               class="text-primary text-capitalize text-subtitle2" style="text-decoration: none">

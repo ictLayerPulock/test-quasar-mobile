@@ -8,8 +8,8 @@
       <q-skeleton v-if="tag.fg_tag_name === 'pending'" width="320px" height="50px"
           style="margin-top: 60px" />
         <div v-else class="bg-grey-4">
-          <div v-if="!tag.fg_tag_banner" class="row justify-around items-center bg-grey-2">
-            <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm"
+          <div v-if="!tag.fg_tag_banner" class="bg-grey-3 q-pa-sm">
+            <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-none"
               :title="tag.fg_tag_name">
               {{ tag.fg_tag_name }}
             </h1>
@@ -25,7 +25,7 @@
         </div>
       <TagListTagsM />
       <LazyTagTrendingProductsM :url="url" />
-      <div v-if="show" class="q-gutter-xs q-mt-md">
+      <div v-if="show" class="q-gutter-xs">
         <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
             <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
               <div v-for="item in 3" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
@@ -36,19 +36,19 @@
                         class="fit" :draggable="false" />
                     </q-card-section>
                     <q-card-section class="col-7 q-pa-sm column q-col-gutter-sm justify-between text-primary no-wrap">
-                      <div class="row justify-between items-baseline q-my-xs no-wrap">
+                      <div class="flex justify-between items-baseline q-my-xs no-wrap">
                         <q-skeleton type="text" width="120px" />
                       </div>
-                      <div class="row justify-between items-center q-gutter-x-md q-my-xs no-wrap">
-                        <div class="items-center row text-grey-6 no-wrap ellipsis">
+                      <div class="flex justify-between items-center q-gutter-x-md q-my-xs no-wrap">
+                        <div class="items-center flex text-grey-6 no-wrap ellipsis">
                           <div class="text-caption ellipsis" style="width: 100px">
                             <q-skeleton type="text" width="120px" />
                           </div>
                         </div>
                       </div>
-                      <div class="row justify-between items-baseline">
+                      <div class="flex justify-between items-baseline">
                         <q-space />
-                        <div class="col items-baseline row text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
+                        <div class="flex items-baseline text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
                           <q-skeleton type="text" width="80px" />
                         </div>
                       </div>
@@ -61,7 +61,7 @@
               <div v-for="item in product" :key="item" class="q-px-xs" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">
                 <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name"
                   :title="item.acc_ledger_name" style="text-decoration: none" class="text-secondary">
-                  <q-card class="shadow-5 q-pa-none overflow-hidden">
+                  <q-card class="shadow-5 q-pa-none">
                     <q-card-section class="q-pa-none border-bottom">
                       <NuxtImg loading="lazy" ratio="3:4" placeholder="/placeholder.gif" class="fit" format="webp"
                         quality="50" :src="item.fg_image" :alt="item.acc_ledger_name" :title="item.acc_ledger_name" />
@@ -69,7 +69,7 @@
                     <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                       style="top: 5px; left: 5px" />
                     <div v-if="item.fg_view > 0" size="xs"
-                      class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                      class="absolute flex items-center bg-transparent text-caption text-weight-medium"
                       style="top: 5px; right: 8px">
                       <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                       <span class="text-primary text-caption">
@@ -84,7 +84,7 @@
                           item.fg_discount_end_date
                         )
                       " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                        class="absolute row justify-center text-weight-bold bg-white"
+                        class="absolute flex justify-center text-weight-bold bg-white"
                         style="top: 0; right: 4px; transform: translateY(-50%)">
                         <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                         <div class="text-primary text-capitalize q-pr-sm"
@@ -99,7 +99,7 @@
                           </span>
                         </p>
                       </div>
-                      <div class="row justify-between items-baseline">
+                      <div class="flex justify-between items-baseline">
                         <div v-if="
                           item.fg_discount > 0 &&
                           inDateRange(
@@ -122,7 +122,7 @@
               </div>
             </q-card>
             <template #loading>
-              <div v-if="!no_more_data" class="row justify-center q-my-md">
+              <div v-if="!no_more_data" class="flex justify-center q-my-md">
                 <q-spinner-dots color="primary" size="40px" />
               </div>
             </template>
@@ -139,7 +139,7 @@
           <q-toolbar-title>
             <!-- Sort Filter -->
             <q-scroll-area class="q-py-xs q-pr-xs" style="height: 44px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
-              <div class="row justify-center" style="width: 490px">
+              <div class="flex justify-center" style="width: 490px">
                 <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star" icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                   Rating
                 </q-chip>

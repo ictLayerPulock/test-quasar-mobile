@@ -28,7 +28,7 @@
         <!-- Series Trending Products -->
         <LazySeriesTrendingProductsM :url="(url as any)" />
 
-        <div v-if="show" class="q-gutter-xs q-mt-md">
+        <div v-if="show" class="q-gutter-xs">
           <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
             <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
               <div v-for="item in 3" :key="item" :class="isMobileSize <= 450 ? 'col-6' : 'col-3'">

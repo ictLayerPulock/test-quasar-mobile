@@ -5,7 +5,7 @@
   </Head>
   <div>
     <q-card>
-      <q-card-section class="q-pa-sm gradient-h">
+      <q-card-section class="q-pa-sm bg-grey-3">
         <h1 class="text-h5 text-uppercase text-primary q-ma-none text-weight-medium text-center">
           Tag
         </h1>
@@ -14,8 +14,8 @@
         <q-infinite-scroll :offset="100" @load="onLoad">
           <div v-if="status === 'pending'" flat class="row q-pa-sm q-col-gutter-sm">
             <div v-for="item in 6" :key="item" class="col-6">
-              <q-card class="shadow-5 shadow-on-hover overflow-hidden">
-                <q-card-section class="q-pa-none border-bottom row">
+              <q-card class="shadow-5 shadow-on-hover">
+                <q-card-section class="q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif" width="120" height="100" format="webp"
                       quality="50" class="fit"  />
                 </q-card-section>
@@ -39,16 +39,16 @@
             </div>
           </div>
           <template #loading>
-            <div v-if="!no_more_data" class="row justify-center q-my-md">
+            <div v-if="!no_more_data" class="flex justify-center q-my-md">
               <q-spinner-dots color="primary" size="40px" />
             </div>
           </template>
         </q-infinite-scroll>
       </q-card-section>
     </q-card>
-
   </div>
 </template>
+
 <script setup lang="ts">
 const img = useImage();
 const $q = useQuasar();
