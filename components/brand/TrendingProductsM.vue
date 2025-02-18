@@ -2,7 +2,7 @@
   <section>
     <q-card v-show="show" flat square class="gradient">
       <div class="gradient-h q-pa-sm">
-        <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-xs">
+        <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-none">
           Trending Products
         </h2>
       </div>
@@ -18,7 +18,7 @@
                 <div class="text-body2 text-weight-regular ellipsis-2-lines" style="height: 44px">
                   <q-skeleton type="text" width="200px"></q-skeleton>
                 </div>
-                <div class="row justify-between items-baseline">
+                <div class="flex justify-between items-baseline">
                   <q-space />
                   <div class="text-subtitle2 text-weight-medium">
                     <q-skeleton type="text" width="40px"></q-skeleton>
@@ -30,7 +30,7 @@
         </q-card-section>
         <q-card-section v-else class="row q-pa-sm"
           :style="{ width: `${response.data.length * parseInt(config.public.scrollAreaWidthMobile)}px` }">
-          <div v-for="(item, index) in response.data" :key="index" class="col-2" :class="{
+          <div v-for="(item, index) in response.data" :key="index" :class="{
             'col-6': response.data.length === 2,
             'col-4': response.data.length === 3,
             'col-3': response.data.length === 4,
@@ -39,7 +39,7 @@
             <NuxtLink :to="`/product/${item.fg_url}`" :aria-label="item.acc_ledger_name" style="text-decoration: none"
               class="text-secondary">
               <q-card class="shadow-5 overflow-hidden" :style="`width: ${config.public.imageGridMediumWidthMobile}`">
-                <q-card-section class="row q-pa-none border-bottom">
+                <q-card-section class="q-pa-none border-bottom">
                   <NuxtImg loading="lazy" placeholder="/placeholder.gif"
                     :width="config.public.imageGridMediumWidthMobile"
                     :height="config.public.imageGridMediumHeightMobile" format="webp" quality="50" :src="item.fg_image"
@@ -48,7 +48,7 @@
                 <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                   style="top: 5px; left: 5px" />
                 <div v-if="item.fg_view > 0" size="xs"
-                  class="absolute row justify-center items-center bg-transparent text-caption text-weight-medium"
+                  class="absolute flex justify-center items-center bg-transparent text-caption text-weight-medium"
                   style="top: 5px; right: 8px">
                   <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                   <p class=" text-caption text-primary q-ma-none">
@@ -63,7 +63,7 @@
                       item.fg_discount_end_date
                     )
                   " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                    class="absolute row justify-center text-weight-bold bg-white"
+                    class="absolute flex justify-center text-weight-bold bg-white"
                     style="top: 0; right: 4px; transform: translateY(-50%)">
                     <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                     <div class="text-primary text-capitalize q-pr-sm"
@@ -78,7 +78,7 @@
                       </span>
                     </p>
                   </div>
-                  <div class="row justify-between items-baseline">
+                  <div class="flex justify-between items-baseline">
                     <div v-if="
                       item.fg_discount > 0 &&
                       inDateRange(
