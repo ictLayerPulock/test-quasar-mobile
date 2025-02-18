@@ -49,7 +49,7 @@ const { data: response, status }: any = useAsyncData(
     default: () => [],
     lazy: true,
     transform(responseData: any) {
-      if (responseData.data.length > 3) show.value = true;
+      if (responseData.data.length > 0) show.value = true;
       return {
         ...responseData,
         fetchedAt: new Date(),
@@ -62,7 +62,7 @@ const { data: response, status }: any = useAsyncData(
       }
       const expDate = new Date(data.fetchedAt);
       expDate.setTime(expDate.getTime() + config.public.cacheMinAge);
-      if (data.data.length > 3) show.value = true
+      if (data.data.length > 0) show.value = true
       const isExpired = expDate.getTime() < Date.now();
       if (isExpired) {
         return;
