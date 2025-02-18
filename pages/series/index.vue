@@ -5,13 +5,13 @@
   </Head>
   <div>
     <q-card>
-      <q-card-section class="q-pa-sm gradient-h">
+      <q-card-section class="q-pa-sm bg-grey-3">
         <h1 class="text-h5 text-uppercase text-primary q-ma-none text-weight-medium text-center">
           Series
         </h1>
       </q-card-section>
-      <q-card-section class="q-pa-none">
-        <p class="text-subtitle1 q-ma-none text-center text-weight-light q-px-sm q-pt-md">
+      <q-card-section class="q-pa-xs">
+        <p class="text-subtitle1 q-ma-none text-center text-weight-light">
           Welcomes you to our unique Series collection, perfect for your lifestyle.
         </p>
       </q-card-section>

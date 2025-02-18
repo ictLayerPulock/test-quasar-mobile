@@ -6,7 +6,7 @@
           Trending Products
         </h2>
       </div>
-      <q-scroll-area style="height:308px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
+      <q-scroll-area style="height:312px" :thumb-style="{ opacity: '0' }" @touchstart.stop @mousedown.stop>
         <q-card-section v-if="status === 'pending'" class="row q-pa-sm q-col-gutter-sm gradient" style="width: 10650px">
           <div v-for="item in 6" :key="item" class="col-2">
             <q-card class="shadow-5 overflow-hidden">

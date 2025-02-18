@@ -2,7 +2,7 @@
   <section v-show="show">
     <q-card flat square class="gradient">
       <div class="gradient-h q-pa-sm">
-        <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-xs">
+        <h2 class="text-h5 text-primary text-capitalize text-weight-medium q-my-none">
           Trending Products
         </h2>
       </div>

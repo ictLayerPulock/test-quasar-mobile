@@ -10,7 +10,7 @@
         <q-skeleton v-if="series_info.fg_series_name === 'pending'" width="320px" height="50px"
           style="margin-top: 60px" />
         <div v-else class="bg-grey-4">
-          <div v-if="!series_info.fg_series_banner" class="row justify-around items-center bg-grey-2">
+          <div v-if="!series_info.fg_series_banner" class="bg-grey-2">
             <h1 class="text-h5 text-uppercase text-primary text-weight-medium text-center q-ma-sm"
               :title="series_info.fg_series_name">
               {{ series_info.fg_series_name }}
@@ -25,8 +25,9 @@
             </h1>
           </q-card>
         </div>
-
+        <!-- Series Trending Products -->
         <LazySeriesTrendingProductsM :url="(url as any)" />
+
         <div v-if="show" class="q-gutter-xs q-mt-md">
           <q-infinite-scroll :offset="100" @load="onLoad" class="q-pa-none">
             <q-card v-if="status === 'pending'" flat square class="row q-pa-sm q-gutter-y-sm gradient">
@@ -38,19 +39,19 @@
                         class="fit" :draggable="false" />
                     </q-card-section>
                     <q-card-section class="col-7 q-pa-sm column q-col-gutter-sm justify-between text-primary no-wrap">
-                      <div class="row justify-between items-baseline q-my-xs no-wrap">
+                      <div class="flex items-baseline q-my-xs no-wrap">
                         <q-skeleton type="text" width="120px" />
                       </div>
-                      <div class="row justify-between items-center q-gutter-x-md q-my-xs no-wrap">
-                        <div class="row items-center text-grey-6 no-wrap ellipsis">
+                      <div class="flex justify-between items-center q-gutter-x-md q-my-xs no-wrap">
+                        <div class="flex items-center text-grey-6 no-wrap ellipsis">
                           <div class="text-caption ellipsis" style="width: 100px">
                             <q-skeleton type="text" width="120px" />
                           </div>
                         </div>
                       </div>
-                      <div class="row justify-between items-baseline">
+                      <div class="flex justify-between items-baseline">
                         <q-space />
-                        <div class="col items-baseline row text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
+                        <div class="flex items-baseline text-subtitle2 text-weight-medium justify-end q-gutter-x-xs">
                           <q-skeleton type="text" width="80px" />
                         </div>
                       </div>
@@ -71,7 +72,7 @@
                     <q-icon v-if="item.fg_featured > 0" name="bookmark" color="primary" size="xs" class="absolute"
                       style="top: 5px; left: 5px" />
                     <div v-if="item.fg_view > 0" size="xs"
-                      class="absolute row items-center bg-transparent text-caption text-weight-medium"
+                      class="absolute flex items-center bg-transparent text-caption text-weight-medium"
                       style="top: 5px; right: 8px">
                       <q-icon size="xs" name="trending_up" color="primary" class="q-mr-xs" />
                       <span class="text-primary text-caption">
@@ -86,7 +87,7 @@
                           item.fg_discount_end_date
                         )
                       " rounded outline no-caps size="sm" color="grey-5 q-px-none q-mx-none"
-                        class="absolute row justify-center text-weight-bold bg-white"
+                        class="absolute flex justify-center text-weight-bold bg-white"
                         style="top: 0; right: 4px; transform: translateY(-50%)">
                         <q-icon right size="13px" class="q-pr-xs q-ml-sm" name="schedule" color="primary" />
                         <div class="text-primary text-capitalize q-pr-sm"
@@ -101,7 +102,7 @@
                           </span>
                         </p>
                       </div>
-                      <div class="row justify-between items-baseline">
+                      <div class="flex justify-between items-baseline">
                         <div v-if="
                           item.fg_discount > 0 &&
                           inDateRange(
@@ -143,7 +144,7 @@
             <!-- Sort Filter -->
             <q-scroll-area class="q-py-xs q-pr-xs flex flex-center" style="height: 44px" :thumb-style="{ opacity: '0' }"
               @touchstart.stop @mousedown.stop>
-              <div class="row" style="width: 490px">
+              <div class="flex" style="width: 490px">
                 <q-chip v-if="!ratingHigh" square clickable outline class="bg-white" icon="star"
                   icon-right="import_export" color="primary" text-color="white" @click="orderByRatingLowtoHigh">
                   Rating
